@@ -8,12 +8,11 @@ import { deleteBut, detailsViewBut, editIcon, flex } from "css/styles";
 import { Close, EditOutlined } from "@mui/icons-material";
 import { garbageValues } from "@component/utils/form/initial-values";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { garbageColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getGarbage } from "@api/get-api-queries";
 
 export default function useGarbage() {
-	const { garbageColums } = useConstant();
 	const coloums = garbageColums;
 	const [menu, setMenu] = useState(false);
 	const [fetchagain, setFetchAgain] = useState(false);

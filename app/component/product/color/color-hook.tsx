@@ -5,13 +5,11 @@ import { useState } from "react";
 import { productColorValues } from "@component/utils/form/initial-values";
 import axios from "axios";
 import { useMutation } from "react-query";
-import { Close, Delete, Edit } from "@mui/icons-material";
-import { editIcon, flex, deleteBut, companyChip, subCompanyDiv, menuItmeStyle } from "css/styles";
+import { Delete, Edit } from "@mui/icons-material";
+import { editIcon, flex, deleteBut, subCompanyDiv, menuItmeStyle } from "css/styles";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getColor } from "@api/get-api-queries";
-import { Chip } from "@mui/material";
 
 export default function useColor() {
 	const [loader, setLoader] = useState(false);
@@ -19,9 +17,7 @@ export default function useColor() {
 	const { colors } = getColor();
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [menu, setMenu] = useState(false);
-	const { colorColumns } = useConstant();
 	const [colorValue, setColorValue] = useState(productColorValues);
-	const columns = colorColumns;
 	const [tableData, setTableData] = useState([]);
 
 	const mutation = useMutation(
@@ -169,7 +165,6 @@ export default function useColor() {
 		tableData,
 		getAllColorList,
 		colorValue,
-		columns,
 		onClick,
 		loader,
 		colorList

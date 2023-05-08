@@ -13,7 +13,7 @@ import {
 	DispatchReadyList,
 	DispatchedList
 } from "@component/utils/routes";
-import useConstant from "@component/utils/form/constant";
+import { PoEntriesViewColums } from "@component/utils/form/constant";
 import TableDetailsComponent from "@common/tables/details-table";
 
 export default function PoEntriesDetails() {
@@ -21,7 +21,6 @@ export default function PoEntriesDetails() {
 	const router = useRouter();
 	const { query, pathname, push } = router;
 	const [poEntriesObj, setpoEntriesObj] = useState([]);
-	const { PoEntriesViewColums } = useConstant();
 
 	useEffect(() => {
 		router.prefetch(pathname);

@@ -52,8 +52,8 @@ import { ProductTabs } from "./product-tabs";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { IconButton, MenuItem, Menu, Fade } from "@mui/material";
-import useConstant from "@component/utils/form/constant";
-
+import { adminRoles } from "@component/utils/form/constant";
+import { adminModules, superAdminModules } from "@component/utils/form/constant";
 export default function SideNavBar(props: any) {
 	const { sideMenu, handleMenu, handleClose } = props;
 	const { push, pathname } = useRouter();
@@ -62,8 +62,6 @@ export default function SideNavBar(props: any) {
 	const [moduleAccess, setModulesAccess] = useState([]);
 	const [mouseOver, setMouseOver] = useState(false);
 	const [userRole, setUserRole] = useState("");
-	const { adminRoles } = useConstant();
-	const { adminModules, superAdminModules } = useConstant();
 
 	const handleChange = (panel: string) => (event: any, isExpanded: any) => {
 		setExpanded(isExpanded ? panel : false);

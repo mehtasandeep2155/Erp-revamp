@@ -34,11 +34,73 @@ const userNavObject: any = {
 	}
 };
 
+const loginFormikFieldsData = [
+	{ placeholder: "Email", name: "email" },
+	{ placeholder: "Password", name: "password", icon: "true" }
+];
+
+const colorFormikFieldsData = [{ placeholder: "Enter Color Name", name: "color", label: "Color Name" }];
+const typeFormikFieldsData = [
+	{ placeholder: "Enter Coating Name", name: "type", label: "Color Name", InputComponent: "input" },
+	{ placeholder: "Select Colors", name: "colors", label: "Colors Name", InputComponent: "select" }
+];
+const productFormikFieldsData1 = [
+	{
+		placeholder: "Enter Product Name",
+		name: "name",
+		label: "Color Name",
+		InputComponent: "select",
+		flex: true
+	},
+	{
+		placeholder: "Enter Product Height",
+		name: "height",
+		label: "Height",
+		InputComponent: "input",
+		flex: false,
+		uomType: "mm"
+	},
+	{
+		placeholder: "Enter Product Width",
+		name: "width",
+		label: "Width",
+		InputComponent: "input",
+		flex: false,
+		uomType: "mm"
+	}
+];
+const productFormikFieldsData = [
+	{
+		placeholder: "Enter Product Thickness",
+		name: "thickness",
+		label: "Thickness",
+		InputComponent: "input",
+		flex: true,
+		uomType: "mm"
+	},
+	{
+		placeholder: "Enter Product Length",
+		name: "length",
+		label: "Length",
+		InputComponent: "input",
+		flex: false,
+		uomType: "ft"
+	}
+];
 const getVisibilityIconProps = (setShowPassword: Dispatch<SetStateAction<boolean>>, showPassword: boolean) => {
 	return {
 		className: showPassErr,
 		onClick: () => setShowPassword(!showPassword)
 	};
 };
-
-export { signUpFormikFieldsData, isMenuItemSelected, userNavObject, getVisibilityIconProps };
+export {
+	signUpFormikFieldsData,
+	userNavObject,
+	isMenuItemSelected,
+	loginFormikFieldsData,
+	colorFormikFieldsData,
+	typeFormikFieldsData,
+	productFormikFieldsData1,
+	productFormikFieldsData,
+	getVisibilityIconProps
+};

@@ -1,11 +1,10 @@
 import { header, tableTitle } from "@css/styles";
 import TableComponent from "common/tables/custom-table";
 import { memo } from "react";
-import useConstant from "@component/utils/form/constant";
+import { verifyColumns } from "@component/utils/form/constant";
 
 const Dashboard = (props: any) => {
 	const { tableData, onDelete, loading } = props;
-	const { verifyColumns } = useConstant();
 
 	return (
 		<>

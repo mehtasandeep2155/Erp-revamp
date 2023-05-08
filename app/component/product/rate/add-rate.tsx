@@ -2,10 +2,20 @@ import { Form, Formik } from "formik";
 import { memo, useEffect } from "react";
 import { Input, AutoCompleteSeacrhSelect, MultiSelectInput } from "@component/utils/form-fields";
 import { ProductRateProps } from "@component/utils/type/interfaces";
-import { verifyForm, btnDiv, flexCol2input, formDiv, flex } from "@css/styles";
+import {
+	verifyForm,
+	btnDiv,
+	flexCol2input,
+	formDiv,
+	flex,
+	formGroupProduct,
+	inputError,
+	formControlProduct,
+	flexCol2Autoinput
+} from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import useRate from "./rate-hook";
-import useConstant from "@component/utils/form/constant";
+import { variantViewColums } from "@component/utils/form/constant";
 import { getColor } from "@api/get-api-queries";
 import VariantCard from "./variant-details";
 import { useValidation } from "@component/utils/form/validation";
@@ -18,7 +28,6 @@ const AddProductRate = (data: ProductRateProps) => {
 	const { rateValue, onClickByAdmin, tableDataSelect, handleOnClick } = data;
 	const { getAllList, productVariantlist, productTypelist } = useRate();
 	const { colors } = getColor();
-	const { variantViewColums } = useConstant();
 	const { ProductRateSchema } = useValidation(rateValue);
 
 	const handleRateSubmit = (values: any) => {
@@ -38,7 +47,7 @@ const AddProductRate = (data: ProductRateProps) => {
 					<Form>
 						<div className={flex}>
 							<div className={formDiv}>
-								<div className={flexCol2input}>
+								<div className={flexCol2Autoinput}>
 									<MultiSelectInput
 										onChange={handleChange}
 										productRateDetails={{}}
@@ -54,6 +63,12 @@ const AddProductRate = (data: ProductRateProps) => {
 										handleOnClick={handleOnClick}
 										columdata={tableDataSelect}
 										colums={variantViewColums}
+										formGroupStyle={formGroupProduct}
+										inputStyle={
+											props.touched["productId"] && props.errors["productId"]
+												? inputError
+												: formControlProduct
+										}
 									/>
 									<AutoCompleteSeacrhSelect
 										onChange={handleChange}
@@ -65,6 +80,12 @@ const AddProductRate = (data: ProductRateProps) => {
 										placeholder={"Select Coating Type"}
 										value={props.values.typeId}
 										require={true}
+										formGroupStyle={formGroupProduct}
+										inputStyle={
+											props.touched["productId"] && props.errors["productId"]
+												? inputError
+												: formControlProduct
+										}
 									/>
 								</div>
 								<div className={flexCol2input}>
@@ -78,6 +99,12 @@ const AddProductRate = (data: ProductRateProps) => {
 										error={"rate"}
 										value={props.values.rate}
 										require={true}
+										formGroupStyle={formGroupProduct}
+										inputStyle={
+											props.touched["productId"] && props.errors["productId"]
+												? inputError
+												: formControlProduct
+										}
 									/>
 								</div>
 							</div>

@@ -1,8 +1,7 @@
 import TableDetailsComponent from "@common/tables/details-table";
-import useConstant from "@component/utils/form/constant";
+import { poColumsSelect } from "@component/utils/form/constant";
 
 export default function PurchaseOrderDetails({ poDetailsobj }: any) {
-	const { poColumsSelect } = useConstant();
 	return (
 		<TableDetailsComponent
 			title="Purchase Order Details"

@@ -6,13 +6,13 @@ import {
 	MenuItem,
 	Chip,
 	Select,
-	FormControlLabel,
-	Checkbox
+	Checkbox,
+	ListItemText,
+	InputAdornment,
+	ListSubheader
 } from "@mui/material";
 import { ErrorMessage } from "formik";
 import {
-	formGroup,
-	formControl,
 	errText,
 	loginBtn,
 	labelStyles,
@@ -26,16 +26,15 @@ import {
 	optionProduct,
 	menuItmeStyle,
 	varianthead,
-	formColorControl,
 	variantDetailsProduct,
 	checkSearchDiv,
-	inputError
+	formSearch
 } from "@css/styles";
 import { btnDiv } from "@component/auth/login/styles";
 import { Add, Cancel, ExpandMore, Search } from "@mui/icons-material";
 import TableDetailsComponent from "@common/tables/details-table";
 import { useState } from "react";
-import useConstant from "./form/constant";
+import { productViewColums } from "./form/constant";
 import { IconButtons } from "@common/buttons";
 import { doneBtnStyles } from "@css/mui-styles";
 import { lightGrey, pelorous } from "@css/color-palette";
@@ -53,12 +52,14 @@ export const Input = ({
 	uid,
 	id,
 	type,
+	inputStyle,
 	icon,
+	formGroupStyle,
 	uom
 }: any) => {
 	return (
 		<>
-			<div className={formGroup}>
+			<div className={formGroupStyle}>
 				{label && (
 					<InputLabel className={`${labelStyles}`}>
 						{label}
@@ -66,13 +67,7 @@ export const Input = ({
 					</InputLabel>
 				)}
 				<input
-					className={
-						valueProps.touched[name] && valueProps.errors[name]
-							? inputError
-							: name !== "color"
-							? formControl
-							: formColorControl
-					}
+					className={inputStyle}
 					disabled={disabled}
 					value={value}
 					placeholder={placeholder}
@@ -101,17 +96,26 @@ export const Button = (props: any) => {
 };
 
 export const MultiCompanySelectInput = (props: any) => {
-	const { onChange, options, label, valueProps, error, name, itemName, uid, require, placeholder, id, handleDelete } =
-		props;
+	const {
+		onChange,
+		options,
+		label,
+		valueProps,
+		error,
+		name,
+		formGroupStyle,
+		itemName,
+		uid,
+		require,
+		placeholder,
+		id,
+		handleDelete
+	} = props;
 	const [isOpen, setIsOpen] = useState(false);
 	const [searchvalue, setSearchvalue] = useState("");
 
-	const getSelected = (array1: any, array2: any) => {
-		return JSON.stringify(array2) === JSON.stringify(array1);
-	};
-
 	return (
-		<div className={`${formGroup}`}>
+		<div className={formGroupStyle}>
 			<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 				{label}
 				{require && <span className={requireStyle}>*</span>}
@@ -119,7 +123,7 @@ export const MultiCompanySelectInput = (props: any) => {
 			<Select
 				size="small"
 				fullWidth
-				id="demo-multiple-chip"
+				id="demo-checkbox"
 				name={name}
 				sx={{ color: itemName?.length == 0 && lightGrey }}
 				value={itemName}
@@ -130,14 +134,17 @@ export const MultiCompanySelectInput = (props: any) => {
 						onClick={() => setIsOpen(!isOpen)}
 					/>
 				)}
+				MenuProps={{ autoFocus: false }}
+				onChange={(e) => onChange(e, valueProps, id, uid)}
 				displayEmpty
+				labelId="demo-checkbox-label"
 				renderValue={
 					itemName?.length == 0
 						? () => placeholder
 						: !isOpen
-						? () => (
+						? (option) => (
 								<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-									{itemName?.map((value: any) => (
+									{option?.map((value: any) => (
 										<Chip
 											key={value}
 											label={value.name ? value.name : value.color}
@@ -157,94 +164,59 @@ export const MultiCompanySelectInput = (props: any) => {
 						: () => placeholder
 				}
 			>
-				<MenuItem key={name}>
-					<input
-						value={searchvalue}
-						className={formColorControl}
-						placeholder={"Search"}
-						onChange={(event) => setSearchvalue(event.target.value)}
-					/>
-					<div className={checkSearchDiv}>
-						<Search />
-					</div>
-				</MenuItem>
-				{options.map((item: any) => {
-					// if (item.name.toLowerCase().includes(searchvalue.toLowerCase())) {
-					return (
-						<MenuItem key={name}>
-							<FormControlLabel
-								onChange={(e) =>
-									onChange(
-										{
-											target: {
-												name: name,
-												value: item ? options.map((item: any) => item) : "",
-												checked: e.target.checked
-											}
-										},
-										valueProps,
-										id,
-										uid
-									)
-								}
-								name={name}
-								control={
-									<Checkbox
-										sx={{
-											color: pelorous,
-											"&.Mui-checked": {
-												color: pelorous
-											}
-										}}
-									/>
-								}
-								sx={{ fontSize: "5px" }}
-								label={item.name ? item.name : item}
-								checked={itemName.map((item1: any) => item1.name).includes(item.name)}
-							/>
-						</MenuItem>
-					);
-				})}
-				<MenuItem key={name}>
-					<FormControlLabel
-						name={name}
-						onChange={(e) =>
-							onChange(
-								{
-									target: {
-										name: name,
-										value: e.target.checked ? options.map((item: any) => item) : "",
-										checked: e.target.checked
-									}
-								},
-								valueProps,
-								id,
-								uid
+				<ListSubheader>
+					<TextField
+						size="small"
+						autoFocus
+						placeholder="Type to search..."
+						InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									<div className={checkSearchDiv}>
+										<Search />
+									</div>
+								</InputAdornment>
 							)
-						}
-						control={
-							<Checkbox
-								sx={{
-									color: pelorous,
-									"&.Mui-checked": {
-										color: pelorous
-									}
-								}}
-							/>
-						}
-						sx={{ fontSize: "5px" }}
-						checked={getSelected(
-							itemName.map((item1: any) => item1.name),
-							options.map((item1: any) => item1.name)
-						)}
-						label="Select All"
+						}}
+						onChange={(e) => setSearchvalue(e.target.value)}
+						onKeyDown={(e) => {
+							if (e.key !== "Escape") {
+								e.stopPropagation();
+							}
+						}}
 					/>
+				</ListSubheader>
+				{options
+					.filter((item1: any) => item1.name.toLowerCase().includes(searchvalue.toLowerCase()))
+					.map((name: any) => (
+						<MenuItem sx={{ padding: "0px" }} key={name.name ? name.name : name} value={name}>
+							<Checkbox checked={itemName.indexOf(name) > -1} />
+							<ListItemText primary={name.name ? name.name : name} />
+						</MenuItem>
+					))}
+				<MenuItem
+					sx={{ padding: "0px" }}
+					key={options}
+					value={options
+						.filter((item1: any) => item1.name.toLowerCase().includes(searchvalue.toLowerCase()))
+						.map((item: any) => item)}
+				>
+					<Checkbox
+						checked={
+							itemName.length ===
+							options
+								.filter((item1: any) => item1.name.toLowerCase().includes(searchvalue.toLowerCase()))
+								.map((item: any) => item).length
+						}
+					/>
+					<ListItemText primary={"Select All"} />
 				</MenuItem>
-				<MenuItem key={name}>
+				<MenuItem key={name} value={""}>
 					<IconButtons
 						styles={doneBtnStyles}
 						clickEvent={() => {
 							setIsOpen(!isOpen);
+							setSearchvalue("");
 						}}
 						lebel={<h6>Done</h6>}
 					/>
@@ -266,6 +238,7 @@ export const MultiStockInput = (props: any) => {
 		itemName,
 		uid,
 		placeholder,
+		formGroupStyle,
 		require,
 		id,
 		handleDelete,
@@ -273,7 +246,7 @@ export const MultiStockInput = (props: any) => {
 	} = props;
 
 	return (
-		<div className={`${formGroup}`}>
+		<div className={formGroupStyle}>
 			<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 				{label}
 				{require && <span className={requireStyle}>*</span>}
@@ -321,10 +294,10 @@ export const MultiStockInput = (props: any) => {
 };
 
 export const ProductMultiSelectInput = (props: any) => {
-	const { label, placeholder, button, error, productDetailsList, productClick, tableDataSelect } = props;
-	const { productViewColums } = useConstant();
+	const { label, placeholder, formGroupStyle, button, error, productDetailsList, productClick, tableDataSelect } =
+		props;
 	return (
-		<div className={`${formGroup}`}>
+		<div className={formGroupStyle}>
 			<b className={varianthead}>{label}:-</b>
 			<div className={variantDetailsProduct}>
 				{productDetailsList?.length > 0 && tableDataSelect?.length > 0 ? (
@@ -364,6 +337,7 @@ export const MultiSelectInput = (props: any) => {
 		colums,
 		valueProps,
 		disabled,
+		formGroupStyle,
 		handleOnClick
 	} = props;
 
@@ -371,7 +345,7 @@ export const MultiSelectInput = (props: any) => {
 	const [showOption, setShowOption] = useState(false);
 
 	return (
-		<div className={`${formGroup}`}>
+		<div className={formGroupStyle}>
 			<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 				{label}
 				{require && <span className={requireStyle}>*</span>}
@@ -437,9 +411,9 @@ export const MultiSelectInput = (props: any) => {
 };
 
 export const AutocompleteInput = (props: any) => {
-	const { options, onChange, error, valueProps, value, name, label, placeholder, require } = props;
+	const { options, formGroupStyle, onChange, error, valueProps, value, name, label, placeholder, require } = props;
 	return (
-		<div className={`${formGroup}`}>
+		<div className={formGroupStyle}>
 			<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 				{label}
 			</InputLabel>
@@ -472,10 +446,11 @@ export const AutocompleteInput = (props: any) => {
 };
 
 export const SelectInput = (props: any) => {
-	const { options, onChange, error, valueProps, value, name, label, placeholder, button, require } = props;
+	const { options, formGroupStyle, onChange, error, valueProps, value, name, label, placeholder, button, require } =
+		props;
 
 	return (
-		<div className={`${formGroup}`}>
+		<div className={formGroupStyle}>
 			<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 				{label}
 				{require && <span className={requireStyle}>*</span>}
@@ -520,11 +495,12 @@ export const AutoCompleteSelect = (props: any) => {
 		button,
 		require,
 		disabled,
-		optionLebel
+		optionLebel,
+		formGroupStyle
 	} = props;
 
 	return (
-		<div className={`${formGroup}`}>
+		<div className={formGroupStyle}>
 			<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 				{label}
 				{require && <span className={requireStyle}>*</span>}
@@ -561,10 +537,23 @@ export const AutoCompleteSelect = (props: any) => {
 };
 
 export const AutoCompleteSeacrhSelect = (props: any) => {
-	const { options, onChange, error, disabled, valueProps, value, name, label, placeholder, button, require } = props;
+	const {
+		options,
+		formGroupStyle,
+		onChange,
+		error,
+		disabled,
+		valueProps,
+		value,
+		name,
+		label,
+		placeholder,
+		button,
+		require
+	} = props;
 
 	return (
-		<div className={`${formGroup}`}>
+		<div className={formGroupStyle}>
 			<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 				{label}
 				{require && <span className={requireStyle}>*</span>}

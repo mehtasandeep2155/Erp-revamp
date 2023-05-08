@@ -1,7 +1,16 @@
 import { Form, Formik } from "formik";
 import { Input, MultiCompanySelectInput } from "@component/utils/form-fields";
 import { ProductTypeProps, productTypeValuesType } from "@component/utils/type/interfaces";
-import { verifyForm, submitBtn, btnDiv, flexCol2input, formDiv } from "@css/styles";
+import {
+	verifyForm,
+	formGroupMultiSelect,
+	btnDiv,
+	flexCol2Autoinput,
+	formDiv,
+	formControlProduct,
+	inputError,
+	formGroupProduct
+} from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo, useEffect } from "react";
 import { getColor } from "@api/get-api-queries";
@@ -10,6 +19,7 @@ import useColor from "../color/color-hook";
 import { AddHeader } from "@component/commoncomponent/add-header";
 import { IconButtons } from "@common/buttons";
 import { cancleButton, submitButton } from "@css/mui-styles";
+import { typeFormikFieldsData } from "@component/utils/helper";
 
 const AddProductType = (data: ProductTypeProps) => {
 	const { typeValue, onClickByAdmin } = data;
@@ -33,29 +43,51 @@ const AddProductType = (data: ProductTypeProps) => {
 				{(props) => (
 					<Form>
 						<div className={formDiv}>
-							<div className={flexCol2input}>
-								<Input
-									onChange={handleChange}
-									error="type"
-									name="type"
-									valueProps={props}
-									value={props.values.type}
-									label={"Product Coating"}
-									placeholder={"Enter Product Coating"}
-									require={true}
-								/>
-								<MultiCompanySelectInput
-									onChange={handleChange}
-									itemName={companyName}
-									options={colorList}
-									error="colors"
-									name="colors"
-									valueProps={props}
-									label={"Coating Colors"}
-									placeholder={"Select Coating Color"}
-									handleDelete={handleDelete}
-									require={true}
-								/>
+							<div className={flexCol2Autoinput}>
+								{typeFormikFieldsData.map(({ placeholder, name, label, InputComponent }: any) => (
+									<>
+										{InputComponent === "input" ? (
+											<Input
+												onChange={handleChange}
+												error={name}
+												name={name}
+												valueProps={props}
+												value={props.values[name]}
+												label={label}
+												placeholder={placeholder}
+												require={true}
+												itemName={companyName}
+												options={colorList}
+												handleDelete={handleDelete}
+												formGroupStyle={formGroupProduct}
+												inputStyle={
+													props.touched[name] && props.errors[name]
+														? inputError
+														: formControlProduct
+												}
+											/>
+										) : (
+											<MultiCompanySelectInput
+												onChange={handleChange}
+												itemName={companyName}
+												options={colorList}
+												error={name}
+												name={name}
+												valueProps={props}
+												label={label}
+												placeholder={placeholder}
+												handleDelete={handleDelete}
+												require={true}
+												formGroupStyle={formGroupMultiSelect}
+												inputStyle={
+													props.touched[name] && props.errors[name]
+														? inputError
+														: formControlProduct
+												}
+											/>
+										)}
+									</>
+								))}
 							</div>
 						</div>
 						<div className={btnDiv}>

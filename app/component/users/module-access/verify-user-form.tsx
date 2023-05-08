@@ -2,8 +2,9 @@ import { useState, memo } from "react";
 import VerifyUserForm from "@component/users/module-access-ui/verify-user-form";
 import { VerifyUserWebProps } from "@component/utils/type/interfaces";
 import useHandleChange from "@component/utils/form/handle-change";
-import useConstant from "@component/utils/form/constant";
+import { members, moduleAccess } from "@component/utils/form/constant";
 import { useValidation } from "@component/utils/form/validation";
+import { companyNames } from "@component/utils/form/constant";
 
 const VerifyUserFormWeb = (props: VerifyUserWebProps) => {
 	const { onClick } = props;
@@ -12,7 +13,6 @@ const VerifyUserFormWeb = (props: VerifyUserWebProps) => {
 	const [companyList, setCompanyList] = useState(props.userdetails.sub_companies);
 	const [ModuleName, setModuleName] = useState<any>([]);
 	const { handleChange } = useHandleChange(moduleList, setModuleList);
-	const { companyNames, members, module } = useConstant();
 	const { VerifySchema } = useValidation(userdetails);
 
 	const handleSubmitVerify = (values: any) => {
@@ -45,7 +45,7 @@ const VerifyUserFormWeb = (props: VerifyUserWebProps) => {
 			handleDelete={handleDelete}
 			userdetails={userdetails}
 			companyList={companyList}
-			modules={module}
+			modules={moduleAccess}
 			companyNames={companyNames}
 			Members={members}
 			onClose={onClick}

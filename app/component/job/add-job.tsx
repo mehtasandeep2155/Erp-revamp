@@ -17,7 +17,7 @@ import {
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo, useEffect } from "react";
 import { useValidation } from "@component/utils/form/validation";
-import useConstant from "@component/utils/form/constant";
+import { userViewColumns } from "@component/utils/form/constant";
 import ProductCardComponent from "@common/card-component";
 import { GppBadOutlined, GppGoodOutlined } from "@mui/icons-material";
 import useVerification from "@component/users/module-access-ui/verify-user-hook";
@@ -28,7 +28,6 @@ const AddJob = (data: JobProps) => {
 	const { jobValue, onClickByAdmin } = data;
 	const { JobSchema } = useValidation(jobValue);
 	const { users } = getUsers();
-	const { userViewColumns } = useConstant();
 
 	const handleCompanySubmit = (values: any) => {
 		const castValues = JobSchema.cast(values);

@@ -16,7 +16,7 @@ import useHandleChange from "@component/utils/form/handle-change";
 import { useEffect, memo } from "react";
 import usePoEntries from "./po-entries-hook";
 import useRate from "../../product/rate/rate-hook";
-import useConstant from "@component/utils/form/constant";
+import { rateColumsSelect, PoViewColums } from "@component/utils/form/constant";
 import ProductCardComponent from "@common/card-component";
 import { getColor, getPurchaseOrders, getRate } from "@api/get-api-queries";
 import usePurchaseOrder from "@component/purchase-orders/purchase-order-hook";
@@ -39,7 +39,6 @@ const AddPoEntries = (data: ProductProps) => {
 	const { getAllPurchaseList, tableDataSelectPurcahse } = usePurchaseOrder(0);
 	const { rates } = getRate();
 	const { purchaseOrderds } = getPurchaseOrders();
-	const { rateColumsSelect, PoViewColums } = useConstant();
 
 	const handlePoSubmit = (values: any) => {
 		const castValues = validation.cast(values);

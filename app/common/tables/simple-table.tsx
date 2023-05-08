@@ -1,4 +1,4 @@
-import useConstant from "@component/utils/form/constant";
+import { array } from "@component/utils/form/constant";
 import useHandleChange from "@component/utils/form/handle-change";
 import { pelorous } from "@css/color-palette";
 import { table, smTablediv, tableHeadTr, tableTr } from "@css/styles";
@@ -6,7 +6,6 @@ import { Checkbox, FormControlLabel } from "@mui/material";
 
 export default function SimpleTable({ modules, valueProps }: any) {
 	const { handleChange } = useHandleChange("", "");
-	const { array } = useConstant();
 
 	return (
 		<div className={table}>

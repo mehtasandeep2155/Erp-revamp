@@ -8,7 +8,7 @@ import { Close, Delete, DeleteOutline, DoneOutline, Edit } from "@mui/icons-mate
 import { detailsViewBut, editBut, editIcon, countLine, flex, deleteBut } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { ledgerColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import usePurchaseOrder from "@component/purchase-orders/purchase-order-hook";
 import { getLedger } from "@api/get-api-queries";
@@ -18,7 +18,6 @@ export default function useLedger() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [ledgerValue, setLedgerValue] = useState(LedgerValues);
-	const { ledgerColums } = useConstant();
 	const { isOpenCustomer, handleCustomerView, customerObj } = usePurchaseOrder(0);
 	const columns = ledgerColums;
 	const [IsOpenPo, setIsOpenPo] = useState(false);

@@ -8,7 +8,7 @@ import { Close, Delete, Edit } from "@mui/icons-material";
 import { detailsViewBut, editIcon, countLine, flex, deleteBut } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { InVoiceColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import usePurchaseOrder from "@component/purchase-orders/purchase-order-hook";
 import { getInvoice } from "@api/get-api-queries";
@@ -18,7 +18,6 @@ export default function useInVoice() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [InvoiceValue, setInvoiceValue] = useState<any>(InvoiceValues);
-	const { InVoiceColums } = useConstant();
 	const { isOpenCustomer, handleCustomerView, customerObj } = usePurchaseOrder(0);
 	const columns = InVoiceColums;
 	const [IsOpenPo, setIsOpenPo] = useState(false);

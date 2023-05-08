@@ -50,10 +50,9 @@ import {
 	getJob,
 	getBranch
 } from "@api/get-api-queries";
-import useConstant from "@component/utils/form/constant";
+import { adminRoles } from "@component/utils/form/constant";
 
 export default function AuthContext({ Component, pageProps }: any) {
-	const { adminRoles } = useConstant();
 	const { push, pathname } = useRouter();
 	const { colors } = getColor();
 	const { rates } = getRate();

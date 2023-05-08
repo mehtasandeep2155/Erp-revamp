@@ -7,7 +7,7 @@ import VerifyPurchaseOrder from "../verify-purchase-order";
 import CustomerCard from "../customer-view";
 import ProductView from "../po-entries/po-entries-view";
 import { getPurchaseOrders } from "@api/get-api-queries";
-import useConstant from "@component/utils/form/constant";
+import { CoatingDoneColums } from "@component/utils/form/constant";
 import { useValidation } from "@component/utils/form/validation";
 
 const InTransit = () => {
@@ -29,7 +29,6 @@ const InTransit = () => {
 		IsDetails
 	} = usePurchaseOrder(0);
 	const { purchaseOrderds } = getPurchaseOrders();
-	const { CoatingDoneColums } = useConstant();
 	useEffect(() => {
 		getAllPurchaseList();
 	}, [purchaseOrderds.isLoading, fetchagain, purchaseOrderds.isRefetching]);

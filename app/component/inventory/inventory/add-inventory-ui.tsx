@@ -8,13 +8,12 @@ import { memo, useEffect } from "react";
 import { getProduct } from "@api/get-api-queries";
 import useRate from "@component/product/rate/rate-hook";
 import VariantCard from "@component/product/rate/variant-details";
-import useConstant from "@component/utils/form/constant";
+import { variantViewColums } from "@component/utils/form/constant";
 
 const AddInventoryView = (data: InventoryProps) => {
 	const { handleChange } = useHandleChange("", "");
 	const { inventoryvalue, onClickByAdmin, tableDataSelect } = data;
 	const { InventorySchema } = useValidation(inventoryvalue);
-	const { variantViewColums } = useConstant();
 
 	const handleProductVariantSubmit = (values: inventoryViewValuesType) => {
 		const castValues: any = InventorySchema.cast(values);

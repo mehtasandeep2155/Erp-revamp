@@ -8,13 +8,12 @@ import { deleteBut, detailsViewBut, editIcon, flex } from "css/styles";
 import { Close, Delete, Edit } from "@mui/icons-material";
 import { inventoryMasterValues } from "@component/utils/form/initial-values";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { inventoryViewColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getInventoryMaster } from "@api/get-api-queries";
 import { useValidation } from "@component/utils/form/validation";
 
 export default function useInventoryView() {
-	const { inventoryViewColums } = useConstant();
 	const coloums = inventoryViewColums;
 	const [menu, setMenu] = useState(false);
 	const [TableData, setTableData] = useState([]);

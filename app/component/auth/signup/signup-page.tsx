@@ -1,6 +1,6 @@
-import { CheckCircle, VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
+import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
 import { Form, Formik } from "formik";
-import { Input, Button } from "@component/utils/form-fields";
+import { Input } from "@component/utils/form-fields";
 import { SignUpProps } from "@component/utils/type/interfaces";
 import BottomLoginDiv from "@common/bottom-login";
 import { useState, memo } from "react";
@@ -11,6 +11,7 @@ import { authButton, checkDiv } from "../login/styles";
 import Layout from "../layout";
 import { signUpFormik } from "../login/styles";
 import { signUpFormikFieldsData } from "@component/utils/helper";
+import { formControl, formGroup, inputError } from "@css/styles";
 import { usePasswordVisibility } from "../password-visibility-hook";
 
 const SignUpPage = (data: SignUpProps) => {
@@ -23,25 +24,25 @@ const SignUpPage = (data: SignUpProps) => {
 			<Formik initialValues={values} validationSchema={SignUpSchema} onSubmit={submit}>
 				{(props) => (
 					<Form className={signUpFormik}>
-						{signUpFormikFieldsData.map(({ placeholder, name, error, icon, type }: any) => (
+						{signUpFormikFieldsData.map(({ placeholder, name, icon }: any) => (
 							<Input
 								key={name}
 								placeholder={placeholder}
 								name={name}
 								onChange={handleChange}
-								error={error}
+								error={name}
 								valueProps={props}
-								type={type !== "password" ? "text" : showPassword ? "text" : "password"}
+								type={name !== name ? "text" : showPassword ? "text" : name}
+								formGroupStyle={formGroup}
+								inputStyle={props.touched[name] && props.errors[name] ? inputError : formControl}
 								icon={
-									icon ? (
-										<div className={checkDiv}>
-											{showPassword ? (
-												<VisibilityOutlined {...visibilityIconProps} />
-											) : (
-												<VisibilityOffOutlined {...visibilityIconProps} />
-											)}
-										</div>
-									) : null
+									<div className={checkDiv}>
+										{showPassword ? (
+											<VisibilityOffOutlined {...visibilityIconProps} />
+										) : (
+											<VisibilityOutlined {...visibilityIconProps} />
+										)}
+									</div>
 								}
 							/>
 						))}

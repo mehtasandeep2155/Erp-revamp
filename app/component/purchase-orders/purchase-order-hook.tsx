@@ -22,7 +22,7 @@ import {
 import { useState } from "react";
 import { FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { getRecentPoDetails } from "@api/get-api";
-import useConstant from "@component/utils/form/constant";
+import { CoatingColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getProduct, getPurchaseOrders, getRate } from "@api/get-api-queries";
 import { useRouter } from "next/router";
@@ -41,7 +41,6 @@ export default function usePurchaseOrder(setStep: any) {
 	const [verifyValue, setVerifyValue] = useState(verifyPoValues);
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [perChasevalue, setPurchaseValue] = useState<any>(purchaseOrderValues);
-	const { CoatingColums } = useConstant();
 	const [productmenu, setProductmenu] = useState(false);
 	const columns = CoatingColums;
 	const [tableData, setTableData] = useState();

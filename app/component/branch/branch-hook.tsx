@@ -8,7 +8,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { deleteBut, editIcon, flex } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { branchColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getBranch } from "@api/get-api-queries";
 
@@ -18,7 +18,6 @@ export default function useBranch() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [branchValue, setBranchValue] = useState(branchValues);
-	const { branchColums } = useConstant();
 	const [customerList, setCustomerList] = useState([]);
 	const columns = branchColums;
 	const [tableData, setTableData] = useState([]);

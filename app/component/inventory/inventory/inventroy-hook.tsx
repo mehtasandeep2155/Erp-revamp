@@ -8,12 +8,11 @@ import { deleteBut, detailsViewBut, editIcon, flex, menuItmeStyle } from "css/st
 import { Close, Edit } from "@mui/icons-material";
 import { inventoryValues } from "@component/utils/form/initial-values";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { inventoryColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getInventory } from "@api/get-api-queries";
 
 export default function useInventory() {
-	const { inventoryColums } = useConstant();
 	const coloums = inventoryColums;
 	const [menu, setMenu] = useState(false);
 	const [fetchagain, setFetchAgain] = useState(false);

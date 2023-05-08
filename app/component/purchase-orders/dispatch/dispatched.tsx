@@ -6,7 +6,7 @@ import usePurchaseOrder from "../purchase-order-hook";
 import CustomerCard from "../customer-view";
 import ProductView from "../po-entries/po-entries-view";
 import { getPurchaseOrders } from "@api/get-api-queries";
-import useConstant from "@component/utils/form/constant";
+import { purchaseOrderFincishColums } from "@component/utils/form/constant";
 import AddInvoice from "@component/purchase-orders/invoice/add-invoice";
 
 const Dispatched = () => {
@@ -27,7 +27,6 @@ const Dispatched = () => {
 		menuCustomer
 	} = usePurchaseOrder(0);
 	const { purchaseOrderds } = getPurchaseOrders();
-	const { purchaseOrderFincishColums } = useConstant();
 	useEffect(() => {
 		getAllPurchaseList();
 	}, [purchaseOrderds.isLoading, fetchagain, purchaseOrderds.isRefetching]);

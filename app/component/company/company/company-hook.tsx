@@ -8,7 +8,7 @@ import { Close, Delete, Edit } from "@mui/icons-material";
 import { companyChip, deleteBut, editIcon, flex, menuItmeStyle, subCompanyDiv } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { companyColums } from "@component/utils/form/constant";
 import { Chip } from "@mui/material";
 import Swal from "sweetalert2";
 import { getCompany } from "@api/get-api-queries";
@@ -18,7 +18,6 @@ export default function useCompany() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [companyValue, setCompanyValue] = useState(CompanyValues);
-	const { companyColums } = useConstant();
 	const { companies } = getCompany();
 	const [allComapnyList, setAllCompanyList] = useState(companies.data);
 	const columns = companyColums;

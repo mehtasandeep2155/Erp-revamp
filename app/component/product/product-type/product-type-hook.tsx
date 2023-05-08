@@ -8,10 +8,9 @@ import { Circle, Delete, Edit } from "@mui/icons-material";
 import { companyChip, deleteBut, editIcon, flex, menuItmeStyle, subCompanyDiv } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { productTypeColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getType } from "@api/get-api-queries";
-import { Chip } from "@mui/material";
 
 export default function useProductType() {
 	const [menu, setMenu] = useState(false);
@@ -20,8 +19,8 @@ export default function useProductType() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [typeValue, setTypeValue] = useState(productTypeValues);
 	const [tableData, setTableData] = useState([]);
-	const { productTypeColums } = useConstant();
 	const { types } = getType();
+
 	const columns = productTypeColums;
 	const mutation = useMutation(
 		(createPorductType: productTypeValuesType) => {

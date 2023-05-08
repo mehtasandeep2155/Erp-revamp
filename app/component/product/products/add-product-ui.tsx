@@ -1,7 +1,17 @@
 import { Form, Formik } from "formik";
 import { Input, AutoCompleteSelect } from "@component/utils/form-fields";
 import { ProductVariantProps, productValuesType } from "@component/utils/type/interfaces";
-import { verifyForm, btnDiv, flexInput, formDivProduct, uomDiv } from "@css/styles";
+import {
+	verifyForm,
+	btnDiv,
+	flexInput,
+	formDivProduct,
+	uomDiv,
+	formGroupProduct,
+	inputError,
+	formControlProduct,
+	flexCol2input
+} from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { useValidation } from "@component/utils/form/validation";
 import { memo, useEffect } from "react";
@@ -10,6 +20,7 @@ import { getProduct } from "@api/get-api-queries";
 import { IconButtons } from "@common/buttons";
 import { cancleButton, submitButton } from "@css/mui-styles";
 import { AddHeader } from "@component/commoncomponent/add-header";
+import { productFormikFieldsData, productFormikFieldsData1 } from "@component/utils/helper";
 
 const AddProductVariant = (data: ProductVariantProps) => {
 	const { variantvalues, onClickByAdmin } = data;
@@ -42,77 +53,76 @@ const AddProductVariant = (data: ProductVariantProps) => {
 					<Form>
 						<div className={formDivProduct}>
 							<div className={flexInput}>
-								<AutoCompleteSelect
-									disabled={true}
-									options={varinatSectionNameList}
-									placeholder={"Enter Product Name"}
-									name={"name"}
-									onChange={handleChange}
-									label={"Product Name"}
-									valueProps={props}
-									optionLebel="name"
-									error={"name"}
-									value={props.values.name}
-									require={true}
-								/>
-								<Input
-									disabled={false}
-									placeholder={"Enter Product height"}
-									name={"height"}
-									onChange={handleChange}
-									label={"Height"}
-									valueProps={props}
-									error={"height"}
-									value={props.values.height}
-									uom={<span className={uomDiv}>mm</span>}
-								/>
-								<Input
-									disabled={false}
-									placeholder={"Enter a width"}
-									name={"width"}
-									onChange={handleChange}
-									label={"Width"}
-									valueProps={props}
-									error={"width"}
-									value={props.values.width}
-									uom={<span className={uomDiv}>mm</span>}
-								/>
+								{productFormikFieldsData1.map(
+									({ placeholder, name, label, InputComponent, uomType }: any) => (
+										<>
+											{InputComponent !== "input" ? (
+												<AutoCompleteSelect
+													disabled={true}
+													options={varinatSectionNameList}
+													placeholder={placeholder}
+													name={name}
+													onChange={handleChange}
+													label={label}
+													valueProps={props}
+													optionLebel={name}
+													error={name}
+													value={props.values[name]}
+													require={true}
+													formGroupStyle={formGroupProduct}
+													inputStyle={
+														props.touched[name] && props.errors[name]
+															? inputError
+															: formControlProduct
+													}
+												/>
+											) : (
+												<>
+													<Input
+														disabled={false}
+														placeholder={placeholder}
+														name={name}
+														onChange={handleChange}
+														label={label}
+														valueProps={props}
+														error={name}
+														value={props.values[name]}
+														uom={uomType && <span className={uomDiv}>{uomType}</span>}
+														formGroupStyle={formGroupProduct}
+														inputStyle={
+															props.touched[name] && props.errors[name]
+																? inputError
+																: formControlProduct
+														}
+													/>
+												</>
+											)}
+										</>
+									)
+								)}
 							</div>
-							<div className={flexInput}>
-								<Input
-									disabled={false}
-									placeholder={"Enter Product Thickness"}
-									name={"thickness"}
-									onChange={handleChange}
-									label={"Thickness"}
-									valueProps={props}
-									error={"thickness"}
-									value={props.values.thickness}
-									uom={<span className={uomDiv}>mm</span>}
-								/>
-								<Input
-									disabled={false}
-									placeholder={"Enter a Length"}
-									name={"length"}
-									onChange={handleChange}
-									label={"Length"}
-									valueProps={props}
-									error={"length"}
-									value={props.values.length}
-									uom={<span className={uomDiv}>ft</span>}
-								/>
-								<Input
-									disabled={false}
-									placeholder={"Enter a weight"}
-									name={"weight"}
-									onChange={handleChange}
-									label={"Weight"}
-									valueProps={props}
-									error={"weight"}
-									value={props.values.weight}
-									require={true}
-									uom={<span className={uomDiv}>kg</span>}
-								/>
+							<div className={flexCol2input}>
+								{productFormikFieldsData.map(
+									({ placeholder, name, label, InputComponent, uomType }: any) => (
+										<Input
+											disabled={false}
+											placeholder={placeholder}
+											name={name}
+											onChange={handleChange}
+											label={label}
+											valueProps={props}
+											error={name}
+											value={props.values[name]}
+											uom={uomType && <span className={uomDiv}>{uomType}</span>}
+											formGroupStyle={formGroupProduct}
+											inputStyle={
+												props.touched[name] && props.errors[name]
+													? inputError
+													: formControlProduct
+											}
+										/>
+									)
+								)}
 							</div>
 						</div>
 						<div className={btnDiv}>

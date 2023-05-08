@@ -7,6 +7,7 @@ import { CustomToolbar } from "./custom-toolbar";
 import { TableCell, TableRow } from "@mui/material";
 import { useState } from "react";
 import TablePaginationComponent from "./pagination";
+import { footerPage } from "@css/styles";
 import { secondary100, white } from "@css/color-palette";
 
 export default function TableComponent(props: any) {
@@ -27,12 +28,12 @@ export default function TableComponent(props: any) {
 		filterType: "radio",
 		fixedSelectColumn: false,
 		customRow: true,
-		customRowRender: (data: any, index: any) => {
+		customRowRender: (tableData: any, index: any) => {
 			return (
 				<>
 					{index < rowsPerPage && (
 						<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
-							{data.map((item: any) => (
+							{tableData.map((item: any) => (
 								<TableCell>{item}</TableCell>
 							))}
 						</TableRow>
@@ -60,13 +61,21 @@ export default function TableComponent(props: any) {
 		pagination: false,
 		customFooter: () => {
 			return (
-				<TablePaginationComponent
-					dataCount={tableData?.length}
-					page={page}
-					rowsPerPage={rowsPerPage}
-					handleChangeRowsPerPage={handleChangeRowsPerPage}
-					handleChangePage={handleChangePage}
-				/>
+				<>
+					{tableData?.length > rowsPerPage ? (
+						<TablePaginationComponent
+							dataCount={tableData?.length}
+							page={page}
+							rowsPerPage={rowsPerPage}
+							handleChangeRowsPerPage={handleChangeRowsPerPage}
+							handleChangePage={handleChangePage}
+						/>
+					) : (
+						<>
+							<div className={footerPage}></div>
+						</>
+					)}
+				</>
 			);
 		},
 		rowsPerPageOptions: [5, 10, 15, 100],

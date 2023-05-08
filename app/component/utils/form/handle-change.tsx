@@ -17,12 +17,12 @@ export default function useHandleChange(moduleList: any, setModuleList: any) {
 			});
 			setcompanyId(list);
 		} else if (moduleList.colors) {
-			setcompanyName(moduleList.colors);
 			let list: any = [];
 			moduleList.colors.map((item: any) => {
 				list.push(item.id);
+				companyName.push(item);
+				companyID.push(item.id);
 			});
-			setcompanyId(list);
 		}
 	}, []);
 
@@ -94,13 +94,23 @@ export default function useHandleChange(moduleList: any, setModuleList: any) {
 					event.target.value.map((item: any) => {
 						if (!companyID.includes(item.id)) {
 							companyName.push(item);
-							setcompanyId([...companyID, item.id]);
+							companyID.push(item.id);
+						} else {
+							const index = companyName.indexOf(item);
+							const index1 = companyID.indexOf(item.id);
+							companyName.splice(index, 1);
+							companyID.splice(index1, 1);
 						}
 					});
 				} else {
 					if (!companyID.includes(event.target.value.id)) {
 						companyName.push(event.target.value);
-						setcompanyId([...companyID, event.target.value.id]);
+						companyID.push(event.target.value.id);
+					} else {
+						const index = companyName.indexOf(event.target.value);
+						const index1 = companyID.indexOf(event.target.value.id);
+						companyName.splice(index, 1);
+						companyID.splice(index1, 1);
 					}
 				}
 				setFieldValue(event.target.name, companyName);

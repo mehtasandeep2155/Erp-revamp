@@ -7,7 +7,7 @@ import { useValidation } from "@component/utils/form/validation";
 import { memo, useEffect } from "react";
 import { getProduct } from "@api/get-api-queries";
 import useRate from "@component/product/rate/rate-hook";
-import useConstant from "@component/utils/form/constant";
+import { variantViewColums } from "@component/utils/form/constant";
 import VariantCard from "@component/product/rate/variant-details";
 
 const AddGarbage = (data: GarbageTypeProps) => {
@@ -18,7 +18,6 @@ const AddGarbage = (data: GarbageTypeProps) => {
 		const castValues: any = GarbageSchema.cast(values);
 		onClickByAdmin(castValues, "close", garbageValues.id);
 	};
-	const { variantViewColums } = useConstant();
 	const { products } = getProduct();
 	const { getAllList, productVariantlist, handleOnClick } = useRate();
 

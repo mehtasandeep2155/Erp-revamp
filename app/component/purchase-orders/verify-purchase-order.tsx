@@ -3,13 +3,12 @@ import { memo } from "react";
 import { Form, Formik } from "formik";
 import useHandleChange from "@component/utils/form/handle-change";
 import { AutoCompleteSeacrhSelect, Input } from "@component/utils/form-fields";
-import useConstant from "@component/utils/form/constant";
+import { statusList } from "@component/utils/form/constant";
 import { VerifyPoProps } from "@component/utils/type/interfaces";
 
 const VerifyPurchaseOrder = (data: VerifyPoProps) => {
 	const { handleProductApprove, status, verifyValue, disabled, validation } = data;
 	const { handleChange } = useHandleChange(verifyValue, "");
-	const { statusList } = useConstant();
 	const handleSubmit = (values: any) => {
 		const castValues = validation.cast(values);
 		handleProductApprove(castValues);

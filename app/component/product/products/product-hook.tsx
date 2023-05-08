@@ -8,7 +8,7 @@ import { deleteBut, editIcon, flex } from "css/styles";
 import { Delete, Edit, FileCopy } from "@mui/icons-material";
 import { productValues } from "@component/utils/form/initial-values";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { variantColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getProduct } from "@api/get-api-queries";
 
@@ -17,7 +17,6 @@ export default function useProduct() {
 	const [varinatList, setvariantList] = useState([]);
 	const [varinatSectionNameList, setvariantSetionNameList] = useState([]);
 	const [fetchagain, setFetchAgain] = useState(false);
-	const { variantColums } = useConstant();
 	const { products } = getProduct();
 	const coloums = variantColums;
 	const [menu, setMenu] = useState(false);

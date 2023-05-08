@@ -1,11 +1,12 @@
 import { Form, Formik } from "formik";
 import { Input } from "@component/utils/form-fields";
 import { ProductColorProps, productColorValuesEditType } from "@component//utils/type/interfaces";
-import { verifyModelForm, dialogBtnDiv, flexInput } from "@css/styles";
+import { verifyModelForm, dialogBtnDiv, flexInput, formColorControl, formGroupProduct, inputError } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo } from "react";
 import { IconButtons } from "@common/buttons";
 import { submitButton } from "@css/mui-styles";
+import { colorFormikFieldsData } from "@component/utils/helper";
 
 const AddProductColor = (data: ProductColorProps) => {
 	const { handleChange } = useHandleChange("", "");
@@ -22,17 +23,23 @@ const AddProductColor = (data: ProductColorProps) => {
 				{(props) => (
 					<Form>
 						<div className={flexInput}>
-							<Input
-								disabled={false}
-								placeholder={"Enter Color Name"}
-								name={"color"}
-								onChange={handleChange}
-								label={"Color Name"}
-								valueProps={props}
-								error={"color"}
-								value={props.values.color}
-								require={true}
-							/>
+							{colorFormikFieldsData.map(({ placeholder, name, label }: any) => (
+								<Input
+									disabled={false}
+									placeholder={placeholder}
+									name={name}
+									onChange={handleChange}
+									label={label}
+									valueProps={props}
+									error={name}
+									value={props.values[name]}
+									require={true}
+									formGroupStyle={formGroupProduct}
+									inputStyle={
+										props.touched[name] && props.errors[name] ? inputError : formColorControl
+									}
+								/>
+							))}
 						</div>
 						<div className={dialogBtnDiv}>
 							<IconButtons

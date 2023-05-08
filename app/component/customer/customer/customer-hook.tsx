@@ -8,7 +8,7 @@ import { Close, Delete, Edit } from "@mui/icons-material";
 import { deleteBut, editIcon, flex } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import {customerColums} from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getCustomer } from "@api/get-api-queries";
 
@@ -17,7 +17,6 @@ export default function useCustomer() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [customerValue, setCustomerValue] = useState(CustomerValues);
-	const { customerColums } = useConstant();
 	const [customerList, setCustomerList] = useState([]);
 	const columns = customerColums;
 	const { customerlists } = getCustomer();

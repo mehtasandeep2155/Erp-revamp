@@ -5,7 +5,7 @@ import useHandleChange from "@component/utils/form/handle-change";
 import { useValidation } from "@component/utils/form/validation";
 import { memo, useEffect } from "react";
 import VariantCard from "@component/product/rate/variant-details";
-import useConstant from "@component/utils/form/constant";
+import { variantViewColums } from "@component/utils/form/constant";
 import useRate from "@component/product/rate/rate-hook";
 import { getProduct } from "@api/get-api-queries";
 import useInventoryView from "./inventroy-view-hook";
@@ -17,7 +17,6 @@ const AddInventoryView = (data: any) => {
 	const { handleChange } = useHandleChange("", "");
 	const { InventoryMasterSchema } = useValidation(invevtoryViewvalue);
 	const { dataList, handleSubmit, handleDelete, handleMore, handleReset } = useInventoryView();
-	const { variantViewColums } = useConstant();
 	const { products } = getProduct();
 	const { getAllList, productVariantlist, handleOnClick } = useRate();
 

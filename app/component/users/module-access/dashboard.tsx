@@ -7,7 +7,7 @@ import { drawerDiv } from "@css/styles";
 import { getUsers } from "@api/get-api-queries";
 
 function DashboardWeb() {
-	const { userDetails, getAllUser, onClick, tableData, columns, fetchagain, menu, loader } = useVerification();
+	const { userDetails, getAllUser, onClick, tableData, fetchagain, menu, loader } = useVerification();
 	const { users } = getUsers();
 
 	useEffect(() => {
@@ -16,7 +16,7 @@ function DashboardWeb() {
 
 	return (
 		<>
-			<Dashboard columns={columns} tableData={tableData} onClickByAdmin={onClick} loading={loader} />
+			<Dashboard tableData={tableData} onClickByAdmin={onClick} loading={loader} />
 			<SwipeableTemporaryDrawer
 				isOpen={menu}
 				handleClose={onClick}

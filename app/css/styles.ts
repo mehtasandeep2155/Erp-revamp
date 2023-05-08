@@ -78,7 +78,8 @@ export const checkSearchDiv = css`
 	svg {
 		color: ${fadeGrey} !important;
 	}
-	right: 22px;
+	right: 2px;
+	top: 6px;
 `;
 export const flexTitleToolbar = css`
 	${flexToolbar}
@@ -238,6 +239,11 @@ export const formColorControl = css`
 	${formControl}
 	width: 378px;
 `;
+export const formSearch = css`
+	${formControl}
+	width: 178px;
+	margin-left: 10px;
+`;
 
 export const formControlSearch = css`
 	${formControl};
@@ -264,6 +270,34 @@ export const formControlSearchContainer = css`
 	width: 40%;
 `;
 
+export const formControlProduct = css`
+	${block}
+	width: 100%;
+	padding: 0.375rem 0.75rem;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.5;
+	background-clip: padding-box;
+	border-radius: 6px;
+	box-shadow: none;
+	transition: none;
+	border: 1px solid ${lightMode.navBorder};
+	height: 25px;
+	:focus {
+		box-shadow: none !important;
+		outline-width: 0;
+		border: 1px solid ${lightMode.navBorder};
+	}
+	::placeholder {
+		opacity: 1;
+		font-weight: 300;
+	}
+	${Mobile} {
+		::placeholder {
+			font-size: 12px !important;
+		}
+	}
+`;
 export const requireStyle = css`
 	font-size: 20px;
 	color: ${requireColor} !important;
@@ -326,7 +360,14 @@ export const formGroup = css`
 	display:flex;
 	position: relative;
 `;
-
+export const formGroupProduct = css`
+	${margin10}
+	position: relative;
+`;
+export const formGroupMultiSelect = css`
+	${formGroupProduct}
+	width:50%;
+`;
 export const loginBtn = css`
 	cursor: pointer;
 	border-radius: 5px;
@@ -566,7 +607,7 @@ export const dialogBtnDiv = css`
 export const formDiv = css`
 	padding: 20px;
 	height: 345px;
-	width: 53%;
+	width: 55%;
 `;
 export const formDivProduct = css`
 	${formDiv}
@@ -776,25 +817,33 @@ export const downLoad = css`
 
 export const flexInput = css`
 	${flex}
-	justify-content:space-arround;
+	justify-content:space-between;
 	${Mobile} {
 		gap: 19px;
 	}
-	width: 100%;
+	width: 75%;
 `;
 export const flexCol2input = css`
 	${flexInput}
+	width:44%;
+`;
+export const footerPage = css`
+	padding-bottom: 40px;
+`;
+export const flexCol2Autoinput = css`
+	${flexInput}
+	width:68%;
 `;
 export const uomDiv = css`
 	width: 28px;
-	height: 36px;
-	right: 16px;
+	height: 37px;
+	right: -24px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
 	float: right;
-	bottom: 37px;
+	bottom: 38px;
 	position: relative;
 	background: ${mediumGrey};
 	border-radius: 0px 2px 2px 0px;
@@ -1492,7 +1541,6 @@ export const addProductCardIcon = css`
 
 export const prodcutViewCard = css`
 	${productCardRate}
-	margin-bottom: -30px !important;
 	background: ${lightMode.tableColor} !important;
 	min-width: 174px !important;
 `;
@@ -1500,8 +1548,6 @@ export const prodcutViewCard = css`
 export const prodcutCard = css`
 	${productCardRate}
 	min-width: 174px !important;
-	margin-bottom: -30px !important;
-	${margin10}
 `;
 
 export const addProductCardDiv = css`

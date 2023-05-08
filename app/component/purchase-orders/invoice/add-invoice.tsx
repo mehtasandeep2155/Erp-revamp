@@ -16,7 +16,7 @@ import { memo, useEffect } from "react";
 import { useValidation } from "@component/utils/form/validation";
 import useCustomer from "@component/customer/customer/customer-hook";
 import ProductCardComponent from "@common/card-component";
-import useConstant from "@component/utils/form/constant";
+import { PoViewColums } from "@component/utils/form/constant";
 import { getCustomer, getPurchaseOrders } from "@api/get-api-queries";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { pelorous } from "@css/color-palette";
@@ -32,7 +32,6 @@ const AddInVoice = (data: InvoiceProps) => {
 		const castValues = InvoiceSchema.cast(values);
 		onClickByAdmin(castValues, "close", InvoiceValue.id);
 	};
-	const { PoViewColums } = useConstant();
 
 	useEffect(() => {
 		getAllCompanyList();

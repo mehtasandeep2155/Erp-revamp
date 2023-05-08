@@ -7,7 +7,7 @@ import useColor from "./color-hook";
 import { getColor } from "@api/get-api-queries";
 
 function ProductColorList() {
-	const { menu, fetchagain, tableData, getAllColorList, colorValue, columns, onClick, loader } = useColor();
+	const { menu, fetchagain, tableData, getAllColorList, colorValue, onClick, loader } = useColor();
 	const { colors } = getColor();
 	useEffect(() => {
 		getAllColorList();
@@ -20,7 +20,6 @@ function ProductColorList() {
 		<>
 			<ProductColorListWeb
 				tableData={tableData}
-				columns={columns}
 				onClickByAdmin={onClick}
 				onDelete={handleDelete}
 				loading={loader}

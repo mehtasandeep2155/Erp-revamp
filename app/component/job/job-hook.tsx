@@ -8,7 +8,7 @@ import { Close, Delete, Edit } from "@mui/icons-material";
 import { deleteBut, editIcon, flex } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { monthNames } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 
 export default function useJob(jobs: any) {
@@ -16,9 +16,7 @@ export default function useJob(jobs: any) {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [jobValue, setJobValue] = useState(jobValues);
-	const { jobColums, monthNames } = useConstant();
 	const [customerList, setCustomerList] = useState([]);
-	const columns = jobColums;
 	const [tableData, setTableData] = useState([]);
 	const mutation = useMutation(
 		(createCompany: CompanyValuesType) => {
@@ -201,7 +199,7 @@ export default function useJob(jobs: any) {
 		onClick,
 		menu,
 		jobValue,
-		columns,
+		// columns,
 		fetchagain,
 		getAllCompanyList,
 		tableData,

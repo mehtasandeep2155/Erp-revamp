@@ -1,8 +1,9 @@
 import TableComponent from "@common/tables/custom-table";
 import { memo } from "react";
 import { HeaderPage } from "@component/commoncomponent/common-components";
+import { colorColumns } from "@component/utils/form/constant";
 const ProductColorListWeb = (props: any) => {
-	const { columns, tableData, onClickByAdmin, onDelete, loading, colorValue } = props;
+	const { tableData, onClickByAdmin, onDelete, loading, colorValue } = props;
 
 	return (
 		<>
@@ -10,7 +11,7 @@ const ProductColorListWeb = (props: any) => {
 			<TableComponent
 				title="Product Color List"
 				tableData={tableData}
-				columns={columns}
+				columns={colorColumns}
 				onDelete={onDelete}
 				loading={loading}
 				buttonTitle={colorValue.id ? "Edit Color" : "Add Color"}

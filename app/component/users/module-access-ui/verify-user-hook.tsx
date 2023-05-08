@@ -7,7 +7,7 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import { Edit, ExpandMore } from "@mui/icons-material";
 import { FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { array } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getCompany, getUsers } from "@api/get-api-queries";
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
@@ -21,9 +21,7 @@ export default function useVerification() {
 	const [userDetails, setuserDetails] = useState<any>(VerifyValues);
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [tableData, setTableData] = useState();
-	const { verifyColumns, array } = useConstant();
 	const [userList, setUserlist] = useState([]);
-	const columns = verifyColumns;
 	const [tableDataSelect, setTableDataSelect] = useState([]);
 	const [expanded, setExpanded] = useState(false);
 
@@ -241,7 +239,7 @@ export default function useVerification() {
 		getAllUser,
 		onClick,
 		tableData,
-		columns,
+		// columns,
 		fetchagain,
 		menu,
 		loader,

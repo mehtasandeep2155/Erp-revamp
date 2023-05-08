@@ -12,6 +12,8 @@ import { useValidation } from "@component/utils/form/validation";
 import { IconButtons } from "@common/buttons";
 import Layout from "../layout";
 import { signUpFormik } from "../login/styles";
+import { formControl, formGroup, inputError } from "@css/styles";
+import { loginFormikFieldsData } from "@component/utils/helper";
 import { usePasswordVisibility } from "../password-visibility-hook";
 
 const LoginPage = (data: LoginProps) => {
@@ -26,44 +28,35 @@ const LoginPage = (data: LoginProps) => {
 			<Formik initialValues={values} validationSchema={LoginSchema} onSubmit={submit}>
 				{(props) => (
 					<Form className={signUpFormik}>
-						<Input
-							disabled={false}
-							placeholder={"Email"}
-							name={"email"}
-							onChange={handleChange}
-							valueProps={props}
-							error={"email"}
-							value={props.values.email}
-						/>
-
-						{props.values.email && !props.errors.email && (
-							<div className={checkDiv}>
-								<CheckCircle className={check} />
-							</div>
-						)}
-						<Input
-							placeholder={"Password"}
-							name={"password"}
-							onChange={handleChange}
-							error="password"
-							valueProps={props}
-							type={!showPassword ? "text" : "password"}
-							value={props.values.password}
-							icon={
-								<div className={checkDiv}>
-									{showPassword ? (
-										<VisibilityOffOutlined {...visibilityIconProps} />
-									) : (
-										<VisibilityOutlined {...visibilityIconProps} />
-									)}
-								</div>
-							}
-						/>
-						{props.values.password && !props.errors.email && (
-							<div className={checkDiv}>
-								<CheckCircle className={check} />
-							</div>
-						)}
+						{loginFormikFieldsData.map(({ placeholder, name, icon }: any) => (
+							<>
+								<Input
+									disabled={false}
+									placeholder={placeholder}
+									name={name}
+									onChange={handleChange}
+									valueProps={props}
+									error={name}
+									value={props.values[name]}
+									formGroupStyle={formGroup}
+									inputStyle={props.touched[name] && props.errors[name] ? inputError : formControl}
+									icon={
+										<div className={checkDiv}>
+											{showPassword ? (
+												<VisibilityOffOutlined {...visibilityIconProps} />
+											) : (
+												<VisibilityOutlined {...visibilityIconProps} />
+											)}
+										</div>
+									}
+								/>
+								{props.values[name] && !props.errors[name] && (
+									<div className={checkDiv}>
+										<CheckCircle className={check} />
+									</div>
+								)}
+							</>
+						))}
 						<p
 							className={forgett}
 							onClick={() => {

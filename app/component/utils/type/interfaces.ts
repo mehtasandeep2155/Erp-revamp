@@ -2,14 +2,14 @@ import { MenuItemProps, MenuProps } from "@mui/material";
 import { ObjectSchema } from "yup";
 
 export interface LoginProps {
-	values: { email: string; password: string };
-	submit: (values: { email: string; password: string }) => void;
+	values: any;
+	submit: (values: any) => void;
 	loader: boolean;
 }
 
 export interface SignUpProps {
-	values: { email: string; password: any };
-	submit: (values: { email: string; password: string; confirmPassword: string }) => void;
+	values: any;
+	submit: any;
 	handleChange: (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: any, id: any, uid: any) => void;
 	loader: any;
 }

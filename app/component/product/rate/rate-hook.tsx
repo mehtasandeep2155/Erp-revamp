@@ -7,7 +7,7 @@ import { productRate } from "@api/network";
 import { baseUrlProduct } from "@api/base-url";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { rateColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getRate, getType, getProduct } from "@api/get-api-queries";
 import { useRouter } from "next/router";
@@ -37,7 +37,6 @@ export default function useRate() {
 		push(path);
 	};
 
-	const { rateColums } = useConstant();
 	const columns = rateColums;
 	const [tableData, setTableData] = useState();
 	const [tableDataSelect, setTableSelectData] = useState();

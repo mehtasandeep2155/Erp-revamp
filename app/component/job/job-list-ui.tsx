@@ -1,9 +1,10 @@
 import TableComponent from "@common/tables/custom-table";
 import { memo } from "react";
 import { header, tableTitle } from "@css/styles";
+import { jobColums } from "@component/utils/form/constant";
 
 const JobListWeb = (props: any) => {
-	const { columns, tableData, onClickByAdmin, onDelete, loading } = props;
+	const { tableData, onDelete, loading } = props;
 
 	return (
 		<>
@@ -13,7 +14,7 @@ const JobListWeb = (props: any) => {
 			<TableComponent
 				title="Job Details List"
 				tableData={tableData}
-				columns={columns}
+				columns={jobColums}
 				onDelete={onDelete}
 				loading={loading}
 				buttonTitle="Add Job Details"

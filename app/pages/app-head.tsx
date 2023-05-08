@@ -139,7 +139,7 @@ export default function AppHead({ colorTheme }: any) {
                     }
                     .MuiOutlinedInput-notchedOutline{
                         display: block;
-                        width: 241px;
+                        width: 195px;
                         padding: 0.375rem 0.75rem;
                         font-size: 13px;
                         font-weight: 400;
@@ -178,7 +178,7 @@ export default function AppHead({ colorTheme }: any) {
                         width:100%;
                     }
                     .MuiTablePagination-displayedRows {
-                        margin-left: 673px;
+                        margin-left: 607px;
                         min-width: 11%;
                     }
                     
@@ -214,9 +214,8 @@ export default function AppHead({ colorTheme }: any) {
                     .MuiTablePagination-root{
                         overflow:hidden;
                     }
-                    .MuiMenuItem-root .MuiFormControlLabel-root .MuiCheckbox-root{
-                        padding:0px !important;
-                    }
+                   
+
                     .MuiDialog-paperWidthXs{
                         margin-top:calc(25% - 228px/2) !important;
                     }

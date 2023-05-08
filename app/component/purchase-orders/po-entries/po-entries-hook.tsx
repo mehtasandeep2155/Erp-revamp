@@ -8,7 +8,7 @@ import { deleteBut, detailsViewBut, editIcon, flex } from "css/styles";
 import { useState } from "react";
 import { variantDetails } from "@component/utils/routes";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import useConstant from "@component/utils/form/constant";
+import { productColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getRate, getPoentries, getPurchaseOrders } from "@api/get-api-queries";
 import { useRouter } from "next/router";
@@ -25,7 +25,6 @@ export default function usePoEntries() {
 	const [productList, setProductList] = useState([]);
 	const [productUserlist, setUserlist] = useState([]);
 	const [loader, setLoader] = useState(false);
-	const { productColums } = useConstant();
 	const columns = productColums;
 	const [tableData, setTableData] = useState([]);
 	const { push } = useRouter();

@@ -1,8 +1,7 @@
 import TableDetailsComponent from "@common/tables/details-table";
-import useConstant from "@component/utils/form/constant";
+import { productViewColums } from "@component/utils/form/constant";
 
 export default function ProductCard({ productDetailsList }: any) {
-	const { productViewColums } = useConstant();
 	return (
 		<>
 			{productDetailsList && (
