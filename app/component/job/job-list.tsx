@@ -8,7 +8,7 @@ import { getJob } from "@api/get-api-queries";
 
 function JobList() {
 	const { jobs } = getJob();
-	const { menu, onClick, jobValue, columns, getAllCompanyList, tableData, loader } = useJob(jobs);
+	const { menu, onClick, jobValue, getAllCompanyList, tableData, loader } = useJob(jobs);
 	const { CompanySchema } = useValidation(jobValue);
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ function JobList() {
 		<>
 			<JobListWeb
 				tableData={tableData}
-				columns={columns}
+				// columns={columns}
 				onClickByAdmin={onClick}
 				onDelete={handleDelete}
 				loading={loader}

@@ -1,37 +1,35 @@
 {
-  "compilerOptions": {
-      "jsx": "react-jsx"
-  },
-  "paths": {
-    "@pages/*":["./pages/*"],
-    "@typings/*":["typings/*"],
-    "@store/*":["Component/store/*"],
-    "@modules/*":["./modules/*"],
-    "@hooks/*":["./hooks/*"],
-    "@constants/*":["./constants/*"],
-    "@services/*":["./services/*"],
-    "@component/*": [
-      "./component/*"
-    ],
-    "@utils/*": [
-      "./utils/*"
-    ],
-    "@api/*": [
-      "./api/*"
-    ],
+	"compilerOptions": {
+		"jsx": "react-jsx"
+	},
+	"paths": {
+		"@pages/*": ["./pages/*"],
+		"@typings/*": ["typings/*"],
+		"@store/*": ["Component/store/*"],
+		"@modules/*": ["./modules/*"],
+		"@hooks/*": ["./hooks/*"],
+		"@constants/*": ["./constants/*"],
+		"@services/*": ["./services/*"],
+		"@component/*": ["./component/*"],
+		"@utils/*": ["./utils/*"],
+		"@api/*": ["./api/*"]
+	},
 
-  
-  },
- 
-  "include": ["next-env.d.ts", "**/*.ts",
-   "**/*.tsx", "@component/Component/login-signup/login-page.tsx", 
-   "@component/Component/login-signup/signup-page.tsx", 
-   "@component/utils/helper.tsx", 
-   "@component/utils/form/validation",
-   "@component/Component/module-access-/user-page.tsx", 
-   "@component/Component/module-access-/verify-user-form.tsx", 
-   "@component/auth/module-access-ui/module-access/dashboard", "../component/utils/auth-provider.tsx", "../component/navbar/side-navbar-drawer.tsx"],
-  
-  
-  "exclude": ["node_modules"]
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"@component/Component/login-signup/login-page.tsx",
+		"@component/Component/login-signup/signup-page.tsx",
+		"@component/utils/helper.tsx",
+		"@component/utils/form/validation",
+		"@component/Component/module-access-/user-page.tsx",
+		"@component/Component/module-access-/verify-user-form.tsx",
+		"@component/auth/module-access-ui/module-access/dashboard",
+		"../component/utils/auth-provider.tsx",
+		"../component/navbar/side-navbar-drawer.tsx",
+		"../component/app-head.tsx"
+	],
+
+	"exclude": ["node_modules"]
 }

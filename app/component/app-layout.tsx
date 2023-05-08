@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ContainerFooter } from "../component/commoncomponent/common-components";
-import SideNavBarDrawer from "../component/navbar/side-navbar-drawer";
-import TopNavbar from "../component/navbar/top-navbar";
+import { ContainerFooter } from "./commoncomponent/common-components";
+import SideNavBarDrawer from "./navbar/side-navbar-drawer";
+import TopNavbar from "./navbar/top-navbar";
 import {
 	DesktopMenu,
 	appLayout,

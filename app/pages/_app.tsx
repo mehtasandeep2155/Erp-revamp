@@ -5,8 +5,8 @@ import { useState } from "react";
 import { CacheProvider } from "@emotion/react";
 import { emotionCache } from "../css/emotion";
 import { lightMode } from "../css/css-var";
-import AppHead from "./app-head";
-import AppLayout from "./app-layout";
+import AppHead from "../component/app-head";
+import AppLayout from "../component/app-layout";
 import AuthContext from "../component/utils/auth-provider";
 
 function MyApp({ Component, pageProps }: AppProps) {
