@@ -1,0 +1,83 @@
+import CustomizedDialogs from "@common/dailog/dailog-model";
+import { HeaderPage } from "@component/commoncomponent/common-components";
+import TableComponent from "common/tables/custom-table";
+import { memo, useEffect } from "react";
+import usePurchaseOrder from "../purchase-order-hook";
+import VerifyPurchaseOrder from "../verify-purchase-order";
+import CustomerCard from "../customer-view";
+import ProductView from "../po-entries/po-entries-view";
+import { getPurchaseOrders } from "@api/get-api-queries";
+import useConstant from "@component/utils/form/constant";
+import { useValidation } from "@component/utils/form/validation";
+
+const CoatingDone = () => {
+	const {
+		perChasevalue,
+		getAllPurchaseList,
+		fetchagain,
+		loader,
+		CoatingInDoneTableData,
+		handleProductApprove,
+		handleView,
+		isOpenCustomer,
+		handleCustomerView,
+		customerObj,
+		isOpenProduct,
+		handleProductView,
+		productObjList,
+		verifyValue,
+		IsDetails
+	} = usePurchaseOrder(0);
+	const { purchaseOrderds } = getPurchaseOrders();
+	const { CoatingDoneColums } = useConstant();
+	const { varifyPoStatusSchema } = useValidation(verifyValue);
+
+	useEffect(() => {
+		getAllPurchaseList();
+	}, [purchaseOrderds.isLoading, fetchagain, purchaseOrderds.isRefetching]);
+
+	return (
+		<>
+			<TableComponent
+				title="Coating Finished List"
+				columns={CoatingDoneColums}
+				tableData={CoatingInDoneTableData}
+				onDelete={""}
+				loading={loader}
+			/>
+			<CustomizedDialogs
+				title="Customer Info"
+				isOpen={isOpenCustomer}
+				handleClose={handleCustomerView}
+				width="sm"
+				content={<CustomerCard customerObj={customerObj} />}
+			/>
+			<CustomizedDialogs
+				title="Product Info"
+				isOpen={isOpenProduct}
+				handleClose={handleProductView}
+				width="md"
+				content={<ProductView products={productObjList} />}
+			/>
+			<CustomizedDialogs
+				title="Purchase Order Details"
+				isOpen={IsDetails}
+				width="sm"
+				handleClose={handleView}
+				content={
+					<VerifyPurchaseOrder
+						verifyValue={verifyValue}
+						validation={varifyPoStatusSchema}
+						perChasevalue={perChasevalue}
+						handleProductApprove={handleProductApprove}
+						status="coating_finished"
+						disabled={false}
+						productObjList={productObjList}
+					/>
+				}
+			/>
+		</>
+	);
+};
+
+export default memo(CoatingDone);
