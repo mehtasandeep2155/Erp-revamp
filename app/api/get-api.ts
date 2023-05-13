@@ -27,7 +27,9 @@ import {
 	purchaseOrder,
 	recentPo,
 	garbage,
-	subCompany
+	subCompany,
+	productWithRate,
+	productGetRate
 } from "@api/network";
 import axios from "axios";
 
@@ -42,6 +44,11 @@ export const getProductDetails = async () => {
 	return data;
 };
 
+export const getProductRateDetails = async () => {
+	const { data } = await axios.get(baseUrlProduct + productRate);
+	return data;
+};
+
 export const getRecentPoDetails = async (id: any) => {
 	const { data } = await axios.post(baseUrlPurchaseOrder + recentPo + `/${id}`);
 	return data;
@@ -53,6 +60,11 @@ export const getDeminsionDetails = async () => {
 
 export const getTypeDetails = async () => {
 	const { data } = await axios.get(baseUrlProduct + productType);
+	return data;
+};
+
+export const getProductWithRateDetails = async () => {
+	const data = await axios.get(baseUrlProduct + productWithRate);
 	return data;
 };
 
@@ -93,7 +105,7 @@ export const getApprovedPurchaserderlist = async () => {
 	return data;
 };
 export const getRateDetails = async () => {
-	const { data } = await axios.get(baseUrlProduct + productRate);
+	const { data } = await axios.get(baseUrlProduct + productGetRate);
 	return data;
 };
 

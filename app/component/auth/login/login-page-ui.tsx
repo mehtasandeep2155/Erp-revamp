@@ -12,7 +12,7 @@ import { useValidation } from "@component/utils/form/validation";
 import { IconButtons } from "@common/buttons";
 import Layout from "../layout";
 import { signUpFormik } from "../login/styles";
-import { formControl, formGroup, inputError } from "@css/styles";
+import { formControl, formControlAuth, formGroup, inputError } from "@css/styles";
 import { loginFormikFieldsData } from "@component/utils/helper";
 import { usePasswordVisibility } from "../password-visibility-hook";
 
@@ -39,22 +39,22 @@ const LoginPage = (data: LoginProps) => {
 									error={name}
 									value={props.values[name]}
 									formGroupStyle={formGroup}
-									inputStyle={props.touched[name] && props.errors[name] ? inputError : formControl}
+									type={name !== name ? "text" : showPassword ? "text" : name}
+									inputStyle={
+										props.touched[name] && props.errors[name] ? inputError : formControlAuth
+									}
 									icon={
-										<div className={checkDiv}>
-											{showPassword ? (
-												<VisibilityOffOutlined {...visibilityIconProps} />
-											) : (
-												<VisibilityOutlined {...visibilityIconProps} />
-											)}
-										</div>
+										icon ? (
+											<div className={checkDiv}>
+												{showPassword ? (
+													<VisibilityOffOutlined {...visibilityIconProps} />
+												) : (
+													<VisibilityOutlined {...visibilityIconProps} />
+												)}
+											</div>
+										) : null
 									}
 								/>
-								{props.values[name] && !props.errors[name] && (
-									<div className={checkDiv}>
-										<CheckCircle className={check} />
-									</div>
-								)}
 							</>
 						))}
 						<p

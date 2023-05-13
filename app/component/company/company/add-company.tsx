@@ -13,7 +13,7 @@ const AddCompany = (props: CompanyProps) => {
 		const castValues = validation.cast(values);
 		onClickByAdmin(castValues, "close", comapnyValue.id);
 	};
-	const { handleChange, companyName, handleDelete } = useHandleChange(comapnyValue, "");
+	const { handleChange, handleDelete } = useHandleChange(comapnyValue, "");
 	const { subCompanyList, getSubCompanyList } = useSubCompany();
 	const { subcompanies } = getSubCompany();
 
@@ -39,7 +39,6 @@ const AddCompany = (props: CompanyProps) => {
 						/>
 						<MultiCompanySelectInput
 							onChange={handleChange}
-							itemName={companyName}
 							options={subCompanyList}
 							error="subCompanyId"
 							name="subCompanyId"

@@ -3,12 +3,12 @@ import TableDetailsComponent from "@common/tables/details-table";
 import { rateColumsView } from "@component/utils/form/constant";
 import { productText, productCardDiv } from "@css/styles";
 import { memo, useState } from "react";
-function ProductView({ products }: any) {
+function ProductView({ data }: any) {
 	return (
 		<TableDetailsComponent
 			title="Product Rate List"
 			columns={rateColumsView}
-			tableData={products}
+			tableData={["rate", "data"]}
 			loading={false}
 			pagination={false}
 		/>

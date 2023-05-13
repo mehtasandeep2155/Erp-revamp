@@ -4,13 +4,15 @@ import { baseUrlProduct } from "@api/base-url";
 import { productTypeValuesType } from "@component/utils/type/interfaces";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { Circle, Delete, Edit } from "@mui/icons-material";
-import { companyChip, deleteBut, editIcon, flex, menuItmeStyle, subCompanyDiv } from "css/styles";
+import { Delete, Edit } from "@mui/icons-material";
+import { deleteBut, editIcon, flex, flexWrap } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { productTypeColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getType } from "@api/get-api-queries";
+import AccordionRowComponent from "@common/accordinon/accordion-row";
+import { Typography } from "@mui/material";
 
 export default function useProductType() {
 	const [menu, setMenu] = useState(false);
@@ -83,7 +85,7 @@ export default function useProductType() {
 			}
 		}
 	);
-	const onClick = async (values: productTypeValuesType, type: string, id: string) => {
+	const onClick = async (values: productTypeValuesType, type: string, id: any) => {
 		if (type == "close") {
 			if (!id) {
 				let companies: any = [];
@@ -144,13 +146,30 @@ export default function useProductType() {
 					index + 1,
 					`${item.type.charAt(0).toUpperCase() + item.type.slice(1)}`,
 					item.colors && (
-						<span className={subCompanyDiv}>
-							{item.colors.map((item1: any, index1: number) => (
-								<span key={index1}>
-									<span className={menuItmeStyle}>{item1.color} </span>
-								</span>
-							))}
-						</span>
+						<AccordionRowComponent
+							title={item.colors?.map(
+								(item1: any, index: number) =>
+									index < 3 &&
+									`${item1.color.charAt(0).toUpperCase() + item1.color.slice(1)}${
+										index < item.colors.length - 1 ? "," : ""
+									}`
+							)}
+							index={item.colors?.length}
+							maxIndex={3}
+							summary={
+								<div className={flexWrap}>
+									{item.colors.map((item1: any, index1: any) => {
+										if (index1 > 3) {
+											return (
+												<Typography key={index1} sx={{ fontSize: "13px" }}>
+													{item1.color}
+												</Typography>
+											);
+										}
+									})}
+								</div>
+							}
+						/>
 					),
 					<div className={flex}>
 						{objModulesData.controls.includes("Edit") && (

@@ -18,7 +18,7 @@ export default function useLedger() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [ledgerValue, setLedgerValue] = useState(LedgerValues);
-	const { isOpenCustomer, handleCustomerView, customerObj } = usePurchaseOrder(0);
+	const { isOpenCustomer, handleCustomerView, customerObj } = usePurchaseOrder();
 	const columns = ledgerColums;
 	const [IsOpenPo, setIsOpenPo] = useState(false);
 	const [PoDetails, setPoDetails] = useState([]);

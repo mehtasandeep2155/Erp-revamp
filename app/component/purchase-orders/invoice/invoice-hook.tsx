@@ -18,7 +18,7 @@ export default function useInVoice() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [InvoiceValue, setInvoiceValue] = useState<any>(InvoiceValues);
-	const { isOpenCustomer, handleCustomerView, customerObj } = usePurchaseOrder(0);
+	const { isOpenCustomer, handleCustomerView, customerObj } = usePurchaseOrder();
 	const columns = InVoiceColums;
 	const [IsOpenPo, setIsOpenPo] = useState(false);
 	const [PoDetails, setPoDetails] = useState([]);
@@ -61,10 +61,10 @@ export default function useInVoice() {
 			onSuccess: (temp) => {
 				Swal.close();
 				SuccessAlert("Invoice Added SuccessFully");
+				window.open(temp.data.link);
 				invoices.refetch();
 				setFetchAgain(true);
 				setMenuCustomer(!menuCustomer);
-				window.open(temp.data.link);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -123,7 +123,7 @@ export default function useInVoice() {
 			if (type == "close") {
 				if (!id) {
 					let details: any = {
-						associated_poId: values.associated_poId.id,
+						associated_poId: values.associated_poId,
 						cost_per_kg: values.cost_per_kg,
 						coating_discount: values.coating_discount,
 						tax: values.tax
@@ -132,7 +132,7 @@ export default function useInVoice() {
 				} else {
 					let data: any = {
 						name: {
-							associated_poId: values.associated_poId.id,
+							associated_poId: values.associated_poId,
 							cost_per_kg: values.cost_per_kg,
 							coating_discount: values.coating_discount,
 							tax: values.tax
@@ -179,7 +179,7 @@ export default function useInVoice() {
 			}
 			inVoiceDetails?.forEach((item: any, index: number) => {
 				let objData = [
-					index+1,
+					index + 1,
 					<span className={detailsViewBut} onClick={() => handlePoView(item.associated_po, "view")}>
 						P.O Info
 					</span>,

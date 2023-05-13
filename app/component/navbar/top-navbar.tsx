@@ -68,7 +68,9 @@ export default function TopNavbar({ handleToggle, toggleMode, handleOpen, isOpen
 							/>
 							<div className={flexWrap}>
 								<span>{details?.role}</span>
-								<div className={profileImg} onClick={handleOpen}></div>
+								<div className={profileImg} onClick={handleOpen}>
+									{details?.role?.slice(0, 1).toUpperCase()}
+								</div>
 							</div>
 							{isOpen && (
 								<div className={cursorHover}>

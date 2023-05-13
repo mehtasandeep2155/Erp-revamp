@@ -23,7 +23,7 @@ function InVoiceList() {
 		loader
 	} = useInVoice();
 	const { getAllPurchaseList, tableDataSelectPurcahse, handleOnInvoceClick, productPoList } =
-		usePurchaseOrder(0);
+		usePurchaseOrder();
 	const { purchaseOrderds } = getPurchaseOrders();
 
 	useEffect(() => {

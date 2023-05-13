@@ -24,8 +24,8 @@ export function LoadingAlert() {
 
 export function DeleteAlert(mutationDelete: any, id: any) {
 	Swal.fire({
-		title: "Are you sure?",
-		text: "You won't be able to revert this!",
+		title: `Delete?`,
+		text: `Are you sure you want to delete the Date`,
 		icon: "warning",
 		showCancelButton: true,
 		confirmButtonColor: toastifyConfirm,

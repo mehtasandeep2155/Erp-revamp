@@ -8,7 +8,7 @@ import { approvePurchaseOredr, entry, invoice, purchaseOrder } from "@api/networ
 import { baseUrlPurchaseOrder } from "@api/base-url";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { AddOutlined, DeleteOutline, DoneOutline, DownloadOutlined, Edit, InfoOutlined } from "@mui/icons-material";
+import { AddOutlined, DeleteOutline, DoneOutline, DownloadOutlined } from "@mui/icons-material";
 import {
 	detailsViewBut,
 	editBut,
@@ -17,23 +17,37 @@ import {
 	flexIcon,
 	editFinishBut,
 	editInvoiceBut,
-	countLine
+	countLine,
+	detailsPointViewBut,
+	detailsStatusBut,
+	customerViewBut,
+	newDiv,
+	originDiv,
+	deliveryDiv
 } from "css/styles";
 import { useState } from "react";
 import { FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { getRecentPoDetails } from "@api/get-api";
-import { CoatingColums } from "@component/utils/form/constant";
+import {
+	CoatingColums,
+	branchViewColums,
+	customerViewColums,
+	generateInvoiceColumns,
+	productViewColums,
+	statusTabs
+} from "@component/utils/form/constant";
 import Swal from "sweetalert2";
-import { getProduct, getPurchaseOrders, getRate } from "@api/get-api-queries";
+import { getProduct, getProductRate, getProductWithRate, getPurchaseOrders, getRate } from "@api/get-api-queries";
 import { useRouter } from "next/router";
-import { poEntriesDetails } from "@component/utils/routes";
+import { poEntriesDetails, purchaseOrderList } from "@component/utils/routes";
+import PurcharseOrderTableAction from "./purchase-order-table-action";
 
-export default function usePurchaseOrder(setStep: any) {
+export default function usePurchaseOrder() {
 	const [IsOpen, setIsOpen] = useState(false);
 	const [IsDetails, setIsDetails] = useState(false);
 	const { products } = getProduct();
 	const { purchaseOrderds } = getPurchaseOrders();
-	const { rates } = getRate();
+	const { productsRate } = getProductRate();
 	const [loader, setLoader] = useState(false);
 	const [productslist, setProductsList] = useState([]);
 	const [Selectedproductslist, setSelectedproductslist] = useState([]);
@@ -46,7 +60,7 @@ export default function usePurchaseOrder(setStep: any) {
 	const [tableData, setTableData] = useState();
 	const [readyForCoatingTableData, setReadyForCoatingTableData] = useState([]);
 	const [CoatingInProgressTableData, setCoatingInProgressTableData] = useState([]);
-	const [CoatingInDoneTableData, setCoatingInDoneTableData] = useState([]);
+	const [allTableData, seAllTableData] = useState([]);
 	const [InTransitTableData, setInTransitTableData] = useState([]);
 	const [DispatchReadyTableData, setDispatchReadyTableData] = useState([]);
 	const [finishTableData, setFinishTableData] = useState([]);
@@ -63,7 +77,120 @@ export default function usePurchaseOrder(setStep: any) {
 	const [productPurchaseOrderlist, setProductPurchaseOrderlist] = useState([]);
 	const [productPoList, setProductPoList] = useState([]);
 	const [productPODetails, setProductPODetails] = useState({});
+	const [poDetails, setPoDetails] = useState([]);
 	const { push } = useRouter();
+	const [headTitle, setHeadTitle] = useState("");
+	const { productsWithRate } = getProductWithRate();
+	const [productWithRateData, setProductWithRateData] = useState<any>([]);
+	const [openGenerateInvoice, setOpenGenerateInvoice] = useState<boolean>(false);
+	const [invoiceDetails, setInvoiceDetails] = useState<any>([]);
+	const [allRateList, setAllRateList] = useState([]);
+	var poEntries: any = [];
+
+	const handleDetailsView = (item: any) => {
+		setPoDetails([]);
+		if (item !== "close") {
+			let branchData: any = [];
+			setHeadTitle(item.customer_info?.name);
+			let customerdata: any = [[item.customer_info?.name, item.customer_info?.email, item.customer_info?.phone]];
+			let productData: any = [];
+			item.po_entries?.map((item1: any) => {
+				productData.push([
+					item1.rate?.product?.name,
+					item1.color?.color,
+					item1.rate?.product.height,
+					item1.rate?.rate,
+					item1.rate?.product.width,
+					item1.rate?.product.length,
+					item1.rate?.product.weight,
+					item1.quantity
+				]);
+			});
+			branchData?.push([
+				<span className={deliveryDiv}>Delivery</span>,
+				item.delivery_point?.contact_name ? item.delivery_point?.contact_name : "_",
+				item.delivery_point?.type ? item.delivery_point?.type : "_",
+				item.delivery_point?.phone ? item.delivery_point?.phone : "_",
+				item.delivery_point?.contact_phone ? item.delivery_point?.contact_phone : "_",
+				item.delivery_point?.address ? item.delivery_point?.address : "_"
+			]);
+			branchData?.push([
+				<span className={originDiv}>Origin</span>,
+				item.origin_point?.contact_name ? item.origin_point?.contact_name : "_",
+				item.origin_point?.type ? item.origin_point?.type : "_",
+				item.origin_point?.phone ? item.origin_point?.phone : "_",
+				item.origin_point?.contact_phone ? item.origin_point?.contact_phone : "_",
+				item.origin_point?.address ? item.origin_point?.address : "_"
+			]);
+			setPoDetails([
+				...poDetails,
+				{ title: "Customer Details", columns: customerViewColums, data: customerdata },
+				{ title: "Products", columns: productViewColums, data: productData },
+				{ title: "Branch", columns: branchViewColums, data: branchData }
+			]);
+		}
+		setIsOpenCustomer(!isOpenCustomer);
+	};
+
+	const getPoEntiryDetails = (data: any) => {
+		localStorage.setItem("poEntries", JSON.stringify(data));
+	};
+
+	const handleDispatch = (item: any) => {
+		setInvoiceValue({ ...InvoiceValue, associated_poId: item?.id });
+		if (item !== "close") {
+			let invoiceData: any = [
+				[
+					item?.order_number,
+					item.customer_info?.name ? (
+						<span className={customerViewBut}>
+							<span>{item.customer_info?.name}</span>
+						</span>
+					) : (
+						"_"
+					),
+					item.po_entries ? (
+						<b className={detailsViewBut}>
+							View <span>{item.po_entries?.length}</span>
+						</b>
+					) : (
+						"_"
+					),
+					item.issued_date
+						? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
+								new Date(item.issued_date)
+						  ).slice(10, 16)}`
+						: "_",
+					item.has_raw_material ? "Yes" : "No",
+					item?.net_weight ? item?.net_weight : "_",
+					statusTabs.map((filterValue: any) => {
+						if (filterValue.status === item.status) {
+							return (
+								<b
+									className={detailsStatusBut}
+									style={{
+										background:
+											item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4",
+										borderColor:
+											item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4"
+									}}
+								>
+									{filterValue.label}
+								</b>
+							);
+						}
+					})
+				]
+			];
+			setInvoiceDetails({
+				title: "Generate Invoice",
+				columns: generateInvoiceColumns,
+				data: invoiceData,
+				id: item?.id
+			});
+		}
+		setOpenGenerateInvoice(!openGenerateInvoice);
+	};
 
 	const handlePoEnteryView = (item: any, subPath: any) => {
 		let path: any = {
@@ -265,13 +392,16 @@ export default function usePurchaseOrder(setStep: any) {
 	};
 
 	const getAllList = async () => {
-		if (!rates.isLoading) {
+		if (!productsRate.isLoading) {
 			let ratelist: any = [];
-			let datarate: any = await rates.data;
+			let list: any = [];
+			let datarate: any = await productsRate.data;
 			datarate?.forEach((item: any) => {
 				let obj = { name: item, id: item.id };
 				ratelist.push(obj);
+				list.push(item);
 			});
+			setAllRateList(list);
 			setProductRatelist(ratelist);
 		}
 		if (!purchaseOrderds.isLoading) {
@@ -282,6 +412,12 @@ export default function usePurchaseOrder(setStep: any) {
 				purchaselist.push(obj);
 			});
 			setProductPurchaseOrderlist(purchaselist);
+		}
+	};
+
+	const getAllProductsWithRate = async () => {
+		if (!productsWithRate.isLoading) {
+			setProductWithRateData(productsWithRate?.data?.data);
 		}
 	};
 
@@ -319,7 +455,7 @@ export default function usePurchaseOrder(setStep: any) {
 			} else if (values.status.id === "coating_initiated") {
 				status = "coating_processing";
 			} else if (values.status.id === "coating_processing") {
-				status = "coating_finished";
+				status = "ready_for_dispatch";
 			} else {
 				status = values.status.id;
 			}
@@ -374,7 +510,8 @@ export default function usePurchaseOrder(setStep: any) {
 				purchaseOrderds.refetch();
 				setFetchAgain(true);
 				setSelectedproductslist([]);
-				setIsOpen(!IsOpen);
+				setIsOpenCustomer(false);
+				setIsOpen(false);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -401,7 +538,7 @@ export default function usePurchaseOrder(setStep: any) {
 				purchaseOrderds.refetch();
 				setSelectedproductslist([]);
 				setFetchAgain(true);
-				setIsOpen(!IsOpen);
+				// setIsOpen(!IsOpen);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -413,45 +550,17 @@ export default function usePurchaseOrder(setStep: any) {
 	);
 
 	const onClick = async (values: any, type: string, id: string) => {
+		setIsOpen(!IsOpen);
 		if (type === "model") {
-			setIsOpen(!IsOpen);
-			setStep(0);
 		}
 		if (type === "close") {
-			let list: any = [];
-			if (values.products.length > 0) {
-				values.products.map((item: any) => {
-					list.push(item.id);
-				});
-			}
-			let formDetails: any;
-			if (values.customer_id.id) {
-				formDetails = {
-					["po_entries"]: list,
-					["has_raw_material"]: values.has_raw_material === "Yes" ? true : false,
-					["customer_id"]: values.customer_id.id,
-					["delivery_pointId"]: values.delivery_pointId?.id,
-					["origin_pointId"]: values.origin_pointId?.id
-				};
-			} else {
-				formDetails = {
-					["po_entries"]: list,
-					["has_raw_material"]: values.has_raw_material === "Yes" ? true : false,
-					["customer_name"]: values.customer_id.name,
-					["customer_phone"]: values.customer_id.phone,
-					["credit_status"]: values.customer_id.credit_status,
-					["customer_email"]: values.customer_id.email,
-					["delivery_pointId"]: values.delivery_pointId?.id,
-					["origin_pointId"]: values.origin_pointId?.id
-				};
-			}
 			if (!id) {
 				setLoader(true);
-				mutation.mutate(formDetails);
+				mutation.mutate(values);
 			} else {
 				setLoader(true);
-				let valuedata: any = { name: { ...formDetails, ["status"]: values.status.id }, id: id };
-				mutationEdit.mutate(valuedata);
+				// let valuedata: any = { name: { ...formDetails, ["status"]: values.status.id }, id: id };
+				// mutationEdit.mutate(valuedata);
 			}
 		} else {
 			if (id) {
@@ -469,7 +578,7 @@ export default function usePurchaseOrder(setStep: any) {
 			} else {
 				setPurchaseValue(purchaseOrderValues);
 			}
-			setIsOpen(!IsOpen);
+			// setIsOpen(!IsOpen);
 		}
 	};
 
@@ -485,17 +594,17 @@ export default function usePurchaseOrder(setStep: any) {
 			let list: any = [];
 			let coatingReady: any = [];
 			let coatingInprogress: any = [];
-			let coatingDone: any = [];
+			let allData: any = [];
 			let transits: any = [];
 			let finsihList: any = [];
 			let readyDispatch: any = [];
 			let index1 = 0;
 			let index2 = 0;
 			let index3 = 0;
-			let index4 = 0;
 			let index5 = 0;
 			let index6 = 0;
 			let index7 = 0;
+			let product = [];
 			let selectList: any = [];
 			let polist: any = [];
 			let dataorder: any = await purchaseOrderds.data;
@@ -516,173 +625,192 @@ export default function usePurchaseOrder(setStep: any) {
 				let obj = { name: item, id: item.id };
 				polist.push(obj);
 				setProductPoList(polist);
+				item.po_entries.map((itemPo: any) => {
+					product.push(item.rate?.product);
+				});
+				if (item.status !== "in_transit" && item.status !== "dispatched") {
+					let data4 = [
+						index + 1,
+						"Customer",
+						<b className={detailsViewBut}>
+							View <span>{item?.po_entries?.length}</span>
+						</b>,
+						<b className={detailsPointViewBut}>View</b>,
+						<b className={detailsPointViewBut}>View</b>,
+						item.gross_weight ? item.gross_weight : "_",
+						item.net_weight ? item.net_weight : "_",
+						item.order_number,
+						item.issued_date ? (
+							<span>{`${String(new Date(item.issued_date)).slice(3, 10)},${String(
+								new Date(item.issued_date)
+							).slice(10, 16)}`}</span>
+						) : (
+							"_"
+						),
+						statusTabs.map((filterValue: any) => {
+							if (filterValue.status === item.status) {
+								return (
+									<b
+										className={detailsStatusBut}
+										style={{
+											background:
+												item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4",
+											borderColor:
+												item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4"
+										}}
+									>
+										{filterValue.label}
+									</b>
+								);
+							}
+						}),
+						<PurcharseOrderTableAction
+							handleView={handleView}
+							item={item}
+							handleDetailsView={handleDetailsView}
+						/>
+					];
+					allData.push(data4);
+				}
 				if (item.status === "initiated") {
 					index1 = index1 + 1;
 					let data1 = [
 						index1,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.customer_info)}>
-							{item.customer_info.name}
+						"Customer",
+						<b className={detailsViewBut}>
+							View <span>{item?.po_entries?.length}</span>
 						</b>,
-						<b className={detailsViewBut} onClick={() => handlePoEnteryView(item, "initiated")}>
-							Po Entries
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Delivery Points
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Origin Points
-						</b>,
+						<b className={detailsPointViewBut}>View</b>,
+						<b className={detailsPointViewBut}>View</b>,
 						item.gross_weight ? item.gross_weight : "_",
-						<div className={flexIcon}>
-							<span className={editBut} onClick={() => handleView(item)}>
-								Move <InfoOutlined className={editIcon} />
-							</span>
-							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
-						</div>
+						item.net_weight ? item.net_weight : "_",
+						item.order_number,
+						item.issued_date
+							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
+									new Date(item.issued_date)
+							  ).slice(10, 16)}`
+							: "_",
+						<PurcharseOrderTableAction
+							handleView={handleView}
+							item={item}
+							handleDetailsView={handleDetailsView}
+						/>
 					];
 					list.push(data1);
 				} else if (item.status === "coating_initiated") {
 					index2 = index2 + 1;
 					let data2 = [
 						index2,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.customer_info)}>
-							{item.customer_info.name}
+						"Customer",
+						<b className={detailsViewBut}>
+							View <span>{item?.po_entries?.length}</span>
 						</b>,
-						<b className={detailsViewBut} onClick={() => handlePoEnteryView(item, "coating-initiated")}>
-							Po Entries
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Delivery Points
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Origin Points
-						</b>,
+						<b className={detailsPointViewBut}>View</b>,
+						<b className={detailsPointViewBut}>View</b>,
 						item.gross_weight ? item.gross_weight : "_",
-						<div className={flexIcon}>
-							<span className={editBut} onClick={() => handleView(item)}>
-								Move <InfoOutlined className={editIcon} />
-							</span>
-						</div>
+						item.net_weight ? item.net_weight : "_",
+						item.order_number,
+						item.issued_date
+							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
+									new Date(item.issued_date)
+							  ).slice(10, 16)}`
+							: "_",
+						<PurcharseOrderTableAction
+							handleView={handleView}
+							item={item}
+							handleDetailsView={handleDetailsView}
+						/>
 					];
 					coatingReady.push(data2);
 				} else if (item.status === "coating_processing") {
 					index3 = index3 + 1;
 					let data3 = [
 						index3,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.customer_info)}>
-							{item.customer_info.name}
+						"Customer",
+						<b className={detailsViewBut}>
+							View <span>{item?.po_entries?.length}</span>
 						</b>,
-						<b className={detailsViewBut} onClick={() => handlePoEnteryView(item, "coating-processing")}>
-							Po Entries
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Delivery Points
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Origin Points
-						</b>,
+						<b className={detailsPointViewBut}>View</b>,
+						<b className={detailsPointViewBut}>View</b>,
 						item.gross_weight ? item.gross_weight : "_",
 						item.net_weight ? item.net_weight : "_",
-						<div className={flexIcon}>
-							<span className={editBut} onClick={() => handleView(item)}>
-								Move <InfoOutlined className={editIcon} />
-							</span>
-						</div>
+						item.order_number,
+						item.issued_date
+							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
+									new Date(item.issued_date)
+							  ).slice(10, 16)}`
+							: "_",
+						<PurcharseOrderTableAction
+							handleView={handleView}
+							item={item}
+							handleDetailsView={handleDetailsView}
+						/>
 					];
 					coatingInprogress.push(data3);
-				} else if (item.status === "coating_finished") {
-					index4 = index4 + 1;
-					let data4 = [
-						index4,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.customer_info)}>
-							{item.customer_info.name}
-						</b>,
-						<b className={detailsViewBut} onClick={() => handlePoEnteryView(item, "coating-finished")}>
-							Po Entries
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Delivery Points
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Origin Points
-						</b>,
-						item.gross_weight ? item.gross_weight : "_",
-						item.net_weight ? item.net_weight : "_",
-						<div className={flexIcon}>
-							<span className={editBut} onClick={() => handleView(item)}>
-								Move <InfoOutlined className={editIcon} />
-							</span>
-						</div>
-					];
-					coatingDone.push(data4);
 				} else if (item.status === "in_transit") {
 					index5 = index5 + 1;
 					let data5 = [
 						index5,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.customer_info)}>
-							{item.customer_info.name}
+						"Customer",
+						<b className={detailsViewBut}>
+							View <span>{item?.po_entries?.length}</span>
 						</b>,
-						<b className={detailsViewBut} onClick={() => handlePoEnteryView(item, "in-transit")}>
-							Po Entries
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Delivery Points
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Origin Points
-						</b>,
+						<b className={detailsPointViewBut}>View</b>,
+						<b className={detailsPointViewBut}>View</b>,
 						item.gross_weight ? item.gross_weight : "_",
 						item.net_weight ? item.net_weight : "_",
-						<div className={flexIcon}>
-							<span className={editBut} onClick={() => handleView(item)}>
-								Move <InfoOutlined className={editIcon} />
-							</span>
-						</div>
+						item.order_number,
+						item.issued_date
+							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
+									new Date(item.issued_date)
+							  ).slice(10, 16)}`
+							: "_",
+						<PurcharseOrderTableAction
+							handleView={handleView}
+							item={item}
+							handleDetailsView={handleDetailsView}
+						/>
 					];
 					transits.push(data5);
 				} else if (item.status === "ready_for_dispatch") {
 					index6 = index6 + 1;
 					let data6 = [
 						index6,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.customer_info)}>
-							{item.customer_info.name}
+						"Customer",
+						<b className={detailsViewBut}>
+							View <span>{item?.po_entries?.length}</span>
 						</b>,
-						<b className={detailsViewBut} onClick={() => handlePoEnteryView(item, "ready-for-dispatch")}>
-							Po Entries
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Delivery Points
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Origin Points
-						</b>,
+						<b className={detailsPointViewBut}>View</b>,
+						<b className={detailsPointViewBut}>View</b>,
 						item.gross_weight ? item.gross_weight : "_",
 						item.net_weight ? item.net_weight : "_",
-						<div className={flexIcon}>
-							<span className={editBut} onClick={() => handleView(item)}>
-								Move <InfoOutlined className={editIcon} />
-							</span>
-						</div>
+						item.order_number,
+						item.issued_date
+							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
+									new Date(item.issued_date)
+							  ).slice(10, 16)}`
+							: "_",
+						<PurcharseOrderTableAction item={item} handleDispatch={handleDispatch} />
 					];
 					readyDispatch.push(data6);
 				} else {
 					index7 = index7 + 1;
 					let data7 = [
 						index7,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.customer_info)}>
-							{item.customer_info.name}
+						"Customer",
+						<b className={detailsViewBut}>
+							View <span>{item?.po_entries?.length}</span>
 						</b>,
-						<b className={detailsViewBut} onClick={() => handlePoEnteryView(item, "finished")}>
-							Po Entries
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Delivery Points
-						</b>,
-						<b className={detailsViewBut} onClick={() => handleCustomerView(item.po_entries)}>
-							Origin Points
-						</b>,
+						<b className={detailsPointViewBut}>View</b>,
+						<b className={detailsPointViewBut}>View</b>,
 						item.gross_weight ? item.gross_weight : "_",
 						item.net_weight ? item.net_weight : "_",
+						item.order_number,
+						item.issued_date
+							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
+									new Date(item.issued_date)
+							  ).slice(10, 16)}`
+							: "_",
 						<div className={flexInovioceIcon}>
 							<span className={editInvoiceBut}>
 								<AddOutlined className={editIcon} onClick={() => handleDownload(item, "open")} />
@@ -726,7 +854,7 @@ export default function usePurchaseOrder(setStep: any) {
 			setTableData(list);
 			setInTransitTableData(transits);
 			setFinishTableData(finsihList);
-			setCoatingInDoneTableData(coatingDone);
+			seAllTableData(allData);
 			setDispatchReadyTableData(readyDispatch);
 			setReadyForCoatingTableData(coatingReady);
 			setCoatingInProgressTableData(coatingInprogress);
@@ -778,8 +906,9 @@ export default function usePurchaseOrder(setStep: any) {
 		productmenu,
 		productPurchaseOrderlist,
 		isOpenCustomer,
+		openGenerateInvoice,
 		handleCustomerView,
-		CoatingInDoneTableData,
+		allTableData,
 		customerObj,
 		isOpenProduct,
 		handleProductView,
@@ -794,6 +923,7 @@ export default function usePurchaseOrder(setStep: any) {
 		ProductClick,
 		handleOnClick,
 		productRatelist,
+		getPoEntiryDetails,
 		getAllList,
 		productPoList,
 		handleOnClickPurchase,
@@ -801,7 +931,16 @@ export default function usePurchaseOrder(setStep: any) {
 		InTransitTableData,
 		CoatingInProgressTableData,
 		DispatchReadyTableData,
+		productWithRateData,
+		getAllProductsWithRate,
 		productPODetails,
-		verifyValue
+		poDetails,
+		verifyValue,
+		headTitle,
+		allRateList,
+		handleDetailsView,
+		poEntries,
+		handleDispatch,
+		invoiceDetails
 	};
 }

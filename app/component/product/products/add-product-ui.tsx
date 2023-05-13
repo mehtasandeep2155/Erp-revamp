@@ -8,9 +8,8 @@ import {
 	formDivProduct,
 	uomDiv,
 	formGroupProduct,
-	inputError,
-	formControlProduct,
-	flexCol2input
+	inputErrorProduct,
+	formControlProduct
 } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { useValidation } from "@component/utils/form/validation";
@@ -18,7 +17,7 @@ import { memo, useEffect } from "react";
 import useProduct from "./product-hook";
 import { getProduct } from "@api/get-api-queries";
 import { IconButtons } from "@common/buttons";
-import { cancleButton, submitButton } from "@css/mui-styles";
+import { cancleButton, style, submitButton } from "@css/mui-styles";
 import { AddHeader } from "@component/commoncomponent/add-header";
 import { productFormikFieldsData, productFormikFieldsData1 } from "@component/utils/helper";
 
@@ -69,12 +68,7 @@ const AddProductVariant = (data: ProductVariantProps) => {
 													error={name}
 													value={props.values[name]}
 													require={true}
-													formGroupStyle={formGroupProduct}
-													inputStyle={
-														props.touched[name] && props.errors[name]
-															? inputError
-															: formControlProduct
-													}
+													style={style}
 												/>
 											) : (
 												<>
@@ -88,10 +82,9 @@ const AddProductVariant = (data: ProductVariantProps) => {
 														error={name}
 														value={props.values[name]}
 														uom={uomType && <span className={uomDiv}>{uomType}</span>}
-														formGroupStyle={formGroupProduct}
 														inputStyle={
 															props.touched[name] && props.errors[name]
-																? inputError
+																? inputErrorProduct
 																: formControlProduct
 														}
 													/>
@@ -101,28 +94,26 @@ const AddProductVariant = (data: ProductVariantProps) => {
 									)
 								)}
 							</div>
-							<div className={flexCol2input}>
-								{productFormikFieldsData.map(
-									({ placeholder, name, label, InputComponent, uomType }: any) => (
-										<Input
-											disabled={false}
-											placeholder={placeholder}
-											name={name}
-											onChange={handleChange}
-											label={label}
-											valueProps={props}
-											error={name}
-											value={props.values[name]}
-											uom={uomType && <span className={uomDiv}>{uomType}</span>}
-											formGroupStyle={formGroupProduct}
-											inputStyle={
-												props.touched[name] && props.errors[name]
-													? inputError
-													: formControlProduct
-											}
-										/>
-									)
-								)}
+							<div className={flexInput}>
+								{productFormikFieldsData.map(({ placeholder, name, label, uomType }: any) => (
+									<Input
+										disabled={false}
+										placeholder={placeholder}
+										name={name}
+										onChange={handleChange}
+										label={label}
+										valueProps={props}
+										error={name}
+										value={props.values[name]}
+										uom={uomType && <span className={uomDiv}>{uomType}</span>}
+										formGroupStyle={formGroupProduct}
+										inputStyle={
+											props.touched[name] && props.errors[name]
+												? inputErrorProduct
+												: formControlProduct
+										}
+									/>
+								))}
 							</div>
 						</div>
 						<div className={btnDiv}>

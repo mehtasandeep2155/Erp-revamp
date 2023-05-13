@@ -41,14 +41,14 @@ const loginFormikFieldsData = [
 
 const colorFormikFieldsData = [{ placeholder: "Enter Color Name", name: "color", label: "Color Name" }];
 const typeFormikFieldsData = [
-	{ placeholder: "Enter Coating Name", name: "type", label: "Color Name", InputComponent: "input" },
-	{ placeholder: "Select Colors", name: "colors", label: "Colors Name", InputComponent: "select" }
+	{ placeholder: "Enter Coating Name", name: "type", label: "Coating Name", InputComponent: "input" },
+	{ placeholder: "Search...", name: "colors", label: "Colors Name", InputComponent: "select" }
 ];
 const productFormikFieldsData1 = [
 	{
 		placeholder: "Enter Product Name",
 		name: "name",
-		label: "Color Name",
+		label: "Product Name",
 		InputComponent: "select",
 		flex: true
 	},
@@ -85,6 +85,14 @@ const productFormikFieldsData = [
 		InputComponent: "input",
 		flex: false,
 		uomType: "ft"
+	},
+	{
+		placeholder: "Enter Product Weight",
+		name: "weight",
+		label: "Weight",
+		InputComponent: "input",
+		flex: false,
+		uomType: "kg"
 	}
 ];
 const getVisibilityIconProps = (setShowPassword: Dispatch<SetStateAction<boolean>>, showPassword: boolean) => {
@@ -93,6 +101,17 @@ const getVisibilityIconProps = (setShowPassword: Dispatch<SetStateAction<boolean
 		onClick: () => setShowPassword(!showPassword)
 	};
 };
+
+const returnNextStatus = (status: string) => {
+	const nextStatus: any = {
+		Initiated: "Coating Initiated",
+		"Coating Initiated": "Coating Processing",
+		"Coating Processing": "Ready for Dispatch",
+		"Ready for Dispatch": "Intransit"
+	};
+	return nextStatus[status];
+};
+
 export {
 	signUpFormikFieldsData,
 	userNavObject,
@@ -102,5 +121,6 @@ export {
 	typeFormikFieldsData,
 	productFormikFieldsData1,
 	productFormikFieldsData,
-	getVisibilityIconProps
+	getVisibilityIconProps,
+	returnNextStatus
 };

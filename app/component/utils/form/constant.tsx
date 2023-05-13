@@ -48,7 +48,7 @@ const colorColumns = [
 		}
 	},
 	"Color",
-	"Coating Type",
+	"Color Code",
 	{
 		label: "Action",
 		options: {
@@ -105,7 +105,7 @@ const productColums = [
 	}
 ];
 
-const productViewColums = ["Product", "Coating", "Rate", "Length", "Quantity", "Color", "Weight", "Action"];
+const productViewColums = ["Product Name", "Color", "Height", "Rate", "Width", "Length", "Weight", "Quantity"];
 const PoEntriesViewColums = ["Product", "Coating", "Rate", "Length", "Quantity", "Color", "Weight"];
 const dimensionColums = [
 	{
@@ -223,9 +223,14 @@ const purchaseOrderColums = [
 		}
 	},
 	"Customer",
-	"Po Entries",
+	"Product",
 	"Delivery Points",
 	"Origin Points",
+	"Gross Weight",
+	"Net Weight",
+	"Order Number",
+	"Issue Date",
+	"Status",
 	{
 		label: "Action",
 		options: {
@@ -241,10 +246,13 @@ const CoatingColums = [
 		}
 	},
 	"Customer",
-	"Po Entries",
+	"Product",
 	"Delivery Points",
 	"Origin Points",
 	"Gross Weight",
+	"Net Weight",
+	"Order Number",
+	"Issue Date",
 	{
 		label: "Action",
 		options: {
@@ -290,9 +298,9 @@ const subCompanyColums = [
 ];
 
 const statusList = [
-	{ name: "InTransit", id: "in_transit" },
-	{ name: "Ready For Dispatch", id: "ready_for_dispatch" },
-	{ name: "Dispatched", id: "dispatched" }
+	{ name: "Coating Initiated", id: "coating_initiated" },
+	{ name: "Coating Processing", id: "coating_processing" },
+	{ name: "Ready for Dispatch", id: "ready_for_dispatch" }
 ];
 const purchaseOrderFincishColums = [
 	{
@@ -388,7 +396,7 @@ const companyColums = [
 		}
 	}
 ];
-const customerViewColums = ["Customer Name", "Customer Email", "Customer Phone", "Credit Status"];
+const customerViewColums = ["Customer Name", "Customer Email", "Customer Phone"];
 const customerColums = [
 	{
 		label: "#",
@@ -406,6 +414,16 @@ const customerColums = [
 			filter: false
 		}
 	}
+];
+
+const generateInvoiceColumns = [
+	"Order Number",
+	"Customer",
+	"Product",
+	"Issue Date",
+	"Raw Material",
+	"Net Weight",
+	"Status"
 ];
 const branchColums = [
 	{
@@ -427,6 +445,8 @@ const branchColums = [
 		}
 	}
 ];
+
+const branchViewColums = ["Point", "Name", "Type", "Phone", "Contact Phone", "Address"];
 
 const PoViewColums = ["Order Number", "Raw Material Included", "Issue Date", "Status", "Po Entries"];
 
@@ -450,8 +470,67 @@ const ledgerColums = [
 	}
 ];
 
+const purchaseOrderTabsData = [
+	{
+		label: "All",
+		component: <>1</>,
+		route: "purchase-order"
+	},
+	{
+		label: "Initiated",
+		component: <>2</>,
+		route: "ready-for-coating"
+	},
+	{
+		label: "Coating Initiated",
+		component: <>3</>,
+		route: "coating-in-progress"
+	},
+	{
+		label: "Processing",
+		component: <>4</>,
+		route: "purchase-order"
+	},
+	{
+		label: "Ready for Dispatch",
+		component: <>6</>,
+		route: "purchase-order"
+	}
+];
+
+const statusTabs = [
+	{
+		label: "Initiated",
+		status: "initiated"
+	},
+	{
+		label: "Coating Initiated",
+		status: "coating_initiated"
+	},
+	{
+		label: "Coating Processing",
+		status: "coating_processing"
+	},
+	{
+		label: "In Transit",
+		status: "in_transit"
+	},
+	{
+		label: "Ready For Dispatch",
+		status: "ready_for_dispatch"
+	},
+	{
+		label: "Dispatched",
+		status: "dispatched"
+	}
+];
+
+const yourPurchaseOrderHead = ["#", "Product", "Coating", "Rate", "Length", "Quantity", "Color", "Action"];
+const yourPurchaseOrderInnerHead = ["Product Name", "Height", "Width", "Weight", "Thickness", "Length"];
+
 export {
 	colorColumns,
+	statusTabs,
 	userViewColumns,
 	verifyColumns,
 	companyNames,
@@ -489,5 +568,10 @@ export {
 	statusList,
 	productTypeColums,
 	dimensionColums,
-	PoEntriesViewColums
+	PoEntriesViewColums,
+	branchViewColums,
+	purchaseOrderTabsData,
+	generateInvoiceColumns,
+	yourPurchaseOrderHead,
+	yourPurchaseOrderInnerHead
 };

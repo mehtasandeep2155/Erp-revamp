@@ -13,6 +13,7 @@ import { authButton } from "../login/styles";
 import BottomLoginDiv from "@common/bottom-login";
 import { signUpFormik } from "../login/styles";
 import { login } from "@component/utils/routes";
+import { formControlAuth, formGroup, inputError } from "@css/styles";
 
 const ForgettPassword = (data: ForgetPaasWordPassword) => {
 	const { values } = data;
@@ -36,6 +37,8 @@ const ForgettPassword = (data: ForgetPaasWordPassword) => {
 							onChange={handleChange}
 							valueProps={props}
 							error={"email"}
+							formGroupStyle={formGroup}
+							inputStyle={props.touched["email"] && props.errors["email"] ? inputError : formControlAuth}
 						/>
 						{props.values.email && !props.errors.email && (
 							<div className={checkDiv}>

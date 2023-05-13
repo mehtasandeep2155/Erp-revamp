@@ -27,7 +27,7 @@ const ReadyForCoatingList = () => {
 		productObjList,
 		verifyValue,
 		IsDetails
-	} = usePurchaseOrder(0);
+	} = usePurchaseOrder();
 	const { varifyPoSchema } = useValidation(verifyValue);
 	const { purchaseOrderds } = getPurchaseOrders();
 
@@ -58,23 +58,6 @@ const ReadyForCoatingList = () => {
 				handleClose={handleProductView}
 				width="md"
 				content={<ProductView products={productObjList} />}
-			/>
-			<CustomizedDialogs
-				title="Purchase Order Details"
-				isOpen={IsDetails}
-				width="sm"
-				handleClose={handleView}
-				content={
-					<VerifyPurchaseOrder
-						validation={varifyPoSchema}
-						disabled={true}
-						verifyValue={verifyValue}
-						perChasevalue={perChasevalue}
-						handleProductApprove={handleProductApprove}
-						status="coating_processing"
-						productObjList={productObjList}
-					/>
-				}
 			/>
 		</>
 	);

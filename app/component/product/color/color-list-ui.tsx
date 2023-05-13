@@ -14,7 +14,7 @@ const ProductColorListWeb = (props: any) => {
 				columns={colorColumns}
 				onDelete={onDelete}
 				loading={loading}
-				buttonTitle={colorValue.id ? "Edit Color" : "Add Color"}
+				buttonTitle={"Add Color"}
 				clickAction={onClickByAdmin}
 			/>
 		</>

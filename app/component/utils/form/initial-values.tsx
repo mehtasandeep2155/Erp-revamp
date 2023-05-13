@@ -39,9 +39,9 @@ const subCompanyValues = {
 	name: ""
 };
 
-const productTypeValues = {
+const productTypeValues: any = {
 	type: "",
-	colors: ""
+	colors: []
 };
 
 const productUomValues = {
@@ -102,20 +102,20 @@ const verifyPoValues = {
 	gross_weight: "",
 	net_weight: ""
 };
-const poEntriesValues = {
+const poEntriesValues: any = {
 	id: "",
 	rateId: "",
-	poId: "",
+	typeId: "",
 	length: "",
 	quantity: "",
 	colorId: "",
-	weight: "",
-	weightUomId: ""
+	productId: []
 };
 const purchaseOrderValues: any = {
 	customer_id: "",
 	has_raw_material: "",
-	products: []
+	delivery_pointId: "",
+	origin_pointId: ""
 };
 const CustomerValues = {
 	name: "",
@@ -146,9 +146,9 @@ const LedgerValues = {
 	amount: "",
 	transaction_status: ""
 };
-const InvoiceValues = {
+const InvoiceValues: any = {
 	associated_poId: "",
-	cost_per_kg: "",
+	cost_per_kg: null,
 	mailToCustomer: false
 };
 export {

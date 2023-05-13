@@ -4,11 +4,13 @@ import { lightMode } from "./css-var";
 import {
 	chipColor,
 	darkBlue,
+	deliveryPointColor,
 	fadeGrey,
 	gpBadColor,
 	gpGoodColor,
 	layoutBackground,
 	mediumGrey,
+	originPointColor,
 	pdfBorder,
 	primary,
 	productCardBorder,
@@ -19,6 +21,11 @@ import {
 
 export const flex = css`
 	display: flex;
+`;
+
+export const flexCol = css`
+	${flex};
+	flex-direction: column;
 `;
 
 export const block = css`
@@ -38,12 +45,23 @@ export const newDiv = css`
 	gap: 10px;
 	font-size: 12px;
 	width: 33px;
-	height: 11px;
+	height: 23px;
 	position: relative;
 	left: 7px;
 	bottom: 4px;
 	background: ${chipColor};
 	border-radius: 21px;
+`;
+
+export const originDiv = css`
+	${newDiv}
+	width: 44px;
+	height: 15px;
+	background: ${originPointColor};
+`;
+export const deliveryDiv = css`
+	${originDiv}
+	background: ${deliveryPointColor};
 `;
 
 export const flexUser = css`
@@ -60,18 +78,26 @@ export const flexWrap = css`
 	${flexUser}
 	justify-content: center;
 `;
-
+export const navSummary = css`
+	${flexWrap}
+	color:white;s
+`;
 export const flexToolbar = css`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	float: right;
-	min-width: 630px;
+	min-width: 651px;
 `;
 export const checkDiv = css`
 	display: flex;
 	justify-content: end;
 	margin-bottom: -25px;
+`;
+export const flexEnd = css`
+	display: flex;
+	justify-content: end;
+	width: 100%;
 `;
 export const checkSearchDiv = css`
 	position: absolute;
@@ -83,7 +109,7 @@ export const checkSearchDiv = css`
 `;
 export const flexTitleToolbar = css`
 	${flexToolbar}
-	min-width: 754px;
+	min-width: 780px;
 `;
 
 export const layoutBackgroundColor = css`
@@ -91,7 +117,7 @@ export const layoutBackgroundColor = css`
 `;
 
 export const authWrapper = css`
-	padding: 0 60px 0 30px;
+	padding: 10px 60px 30px 30px;
 	${Mobile} {
 		padding: 20px 25px 0 25px;
 	}
@@ -202,7 +228,7 @@ export const left = css`
 
 export const formControl = css`
 	${block};
-	width: 100%;
+	width: 241px;
 	padding: 0.375rem 0.75rem;
 	font-size: 13px;
 	font-weight: 400;
@@ -230,15 +256,48 @@ export const formControl = css`
 	}
 `;
 
-export const inputError = css`
+export const formControlAuth = css`
 	${formControl};
-	border: 1px solid red;
+	width: 100%;
 `;
 
+export const formControlInvoice = css`
+	${formControl};
+	width: 281px;
+`;
+
+export const formControlMove = css`
+	${formControl};
+	width: 100%;
+`;
+
+export const formControlProductInfo = css`
+	${formControl};
+	width: 195px;
+	margin-top: 1px;
+	height: 39px;
+	padding: 0 0.75rem;
+`;
+
+export const inputError = css`
+	${formControlAuth};
+	${formControl};
+	width: 281px;
+	border: 1px solid red;
+`;
 export const formColorControl = css`
 	${formControl}
 	width: 378px;
 `;
+export const inputErrorColor = css`
+	${formColorControl};
+	border: 1px solid red;
+`;
+export const inputErrorProduct = css`
+	${formControl};
+	border: 1px solid red;
+`;
+
 export const formSearch = css`
 	${formControl}
 	width: 178px;
@@ -272,7 +331,7 @@ export const formControlSearchContainer = css`
 
 export const formControlProduct = css`
 	${block}
-	width: 100%;
+	width: 241px;
 	padding: 0.375rem 0.75rem;
 	font-size: 13px;
 	font-weight: 400;
@@ -354,15 +413,29 @@ export const labelStyles = css`
 		font-size: 12px;
 	}
 `;
+export const labelStylesMarginTop = css`
+	${labelStyles};
+	margin-top: 7px;
+`;
 
 export const formGroup = css`
 	${margin10}
 	display:flex;
 	position: relative;
 `;
-export const formGroupProduct = css`
-	${margin10}
+
+export const formGroupCol = css`
+	${flexCol};
 	position: relative;
+`;
+
+export const formGroupWithLabel = css`
+	width: 93%;
+`;
+
+export const formGroupProduct = css`
+	position: relative;
+	margin-top: 20px;
 `;
 export const formGroupMultiSelect = css`
 	${formGroupProduct}
@@ -429,7 +502,7 @@ export const bold = css`
 
 export const editBut = css`
 	font-size: 13px;
-	cursor: pointer;
+	// cursor: pointer;
 	background: rgba(0, 0, 0, 0.075);
 	padding: 4px;
 	border-radius: 5px;
@@ -463,14 +536,39 @@ export const editFinishBut = css`
 export const detailsViewBut = css`
 	${editBut}
 	z-index:99999;
-	width: 89px;
-	background: #209fb3c7;
+	width: 68px;
+	background: #edc5c5;
 	font-size: 11px;
-	color: white !important;
+	color: black !important;
 	padding: 4px;
+	span {
+		color: #9d0000;
+		margin-left: 5px;
+	}
 	${flexWrap}
-	border-radius: 10px;
-	border: 1px solid ${lightMode.themeColor};
+	border-radius: 20px;
+	border-color: #edc5c5 !important;
+`;
+
+export const customerViewBut = css`
+	background: #2196f326 !important;
+	padding: 7px 20px;
+	border-radius: 20px;
+`;
+
+export const detailsPointViewBut = css`
+	${detailsViewBut}
+	background:  rgba(33, 150, 243, 0.15);
+	border-color: rgba(33, 150, 243, 0.15) !important;
+`;
+export const detailsStatusBut = css`
+	${detailsViewBut}
+	width: auto;
+	min-width: 90px !important;
+	cursor: auto;
+	border-radius: 4px;
+	background: rgba(33, 150, 243, 0.15);
+	border-color: rgba(33, 150, 243, 0.15) !important;
 `;
 
 export const editIcon = css`
@@ -501,36 +599,72 @@ export const header = css`
 	${flex}
 	justify-content: space-between;
 	width: 100%;
+	margin: 20px 0 10px 0;
 `;
 
 export const verifyForm = css`
-	overflow: scroll;
-	::-webkit-scrollbar {
-		width: 1px;
-	}
-	::-webkit-scrollbar-thumb {
-		border-radius: 5px;
-		background-color: ${lightMode.textColor};
-	}
-	width: 1095px;
-	background: ${white};
-	position: relative;
-	height: 497px;
-	left: 0px;
-	top: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	padding: 10px;
+	background: white;
+	gap: 30px;
+	margin-top: 20px;
 `;
 
+export const moveForm = css`
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	padding: 10px;
+	gap: 30px;
+	margin: 60px 40px 0 40px;
+`;
+
+export const detailsPageView = css`
+	${verifyForm}
+	padding:10px;
+	height: 100vh;
+	width: 100%;
+	overflow: scroll;
+	margin-bottom: 30px;
+	margin-top: 40px;
+`;
+
+export const pageView = css`
+	${verifyForm}
+	padding:10px;
+	height: 100vh;
+	overflow: scroll;
+	margin-bottom: 30px;
+	margin-top: 40px;
+`;
+
+export const invoicePageView = css`
+	${detailsPageView};
+	height: max-content;
+	padding-bottom: 20px;
+	margin-bottom: -20px;
+	gap: 10px;
+`;
+
+export const tablePoActionMoveForm = css`
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+`;
 export const verifyModelForm = css``;
 
 export const headerAdd = css`
-	height: 32px;
 	border-bottom: 0.5px solid ${fadeGrey};
 	h4 {
 		margin-left: 10px;
 		font-size: 16px;
 	}
 `;
-
+export const tableView = css`
+	margin-bottom: -20px;
+`;
 export const logOutBtn = css`
 	margin-left: 4px;
 	margin-right: 4px;
@@ -605,7 +739,7 @@ export const dialogBtnDiv = css`
 	margin-top: 10px;
 `;
 export const formDiv = css`
-	padding: 20px;
+	padding: 0px 10px 10px 10px;
 	height: 345px;
 	width: 55%;
 `;
@@ -696,7 +830,7 @@ export const footerStyles = css`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 60px;
+	min-height: 60px;
 	font-size: 14px;
 	color: gray;
 `;
@@ -821,23 +955,23 @@ export const flexInput = css`
 	${Mobile} {
 		gap: 19px;
 	}
-	width: 75%;
+	width: 91%;
 `;
 export const flexCol2input = css`
 	${flexInput}
-	width:44%;
+	width:85%;
 `;
 export const footerPage = css`
 	padding-bottom: 40px;
 `;
 export const flexCol2Autoinput = css`
 	${flexInput}
-	width:68%;
+	width:96%;
 `;
 export const uomDiv = css`
 	width: 28px;
-	height: 37px;
-	right: -24px;
+	height: 38px;
+	right: 1px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -1469,6 +1603,7 @@ export const subMenuCompany = css`
 
 export const subMenuSpan = css`
 	padding: 4px;
+	margin-top: 50px;
 	border-radius: 5px;
 `;
 
@@ -1600,16 +1735,46 @@ export const verifyDetails = css`
 `;
 export const detailsPage = css`
 	display: flex;
-	margin-top: 106px;
+	margin-top: 10px;
 	height: 80%;
-	background: white;
+	width: 100%;
 	border-radius: 12px;
+	> svg {
+		position: relative;
+		left: 30px;
+	}
 `;
+export const formControlVerify = css`
+	${formControl}
+	width:95%;
+`;
+
+export const innerContainerPoAddForm = css`
+	${flex};
+	gap: 18px;
+	margin-left: 20px;
+`;
+
+export const innerContainerPoAddFormCol = css`
+	${flexCol};
+	gap: 18px;
+	margin-left: 20px;
+`;
+
 export const flexWrapPgae = css`
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	width: 100%;
 `;
+
+export const flexWrapPage = css`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+`;
+
 export const countLine = css`
 	height: 16px;
 	border-right: 2px solid ${lightMode.tableColor};
@@ -1628,12 +1793,18 @@ export const variantDetailsProduct = css`
 `;
 export const productLisSelecttDiv = css`
 	${variantDetails}
-	width: 96%;
+	width: 100%;
 `;
 
 export const productTitle = css`
 	font-size: 13px;
-	margin-left: 20px;
+	margin-left: 10px;
+`;
+
+export const productTitleRadio = css`
+	${productTitle};
+	margin-left: 0;
+	margin-bottom: 3x;
 `;
 
 export const flexBoxVariant = css`
@@ -1744,4 +1915,77 @@ export const nestedMenuItem = css`
 		background: none;
 		font-weight: 700;
 	}
+`;
+
+export const justifyBetween = css`
+	display: flex;
+	justify-content: space-between;
+`;
+
+export const drawerTitle = css`
+	font-size: 20px;
+	leading: 24px;
+	font-weight: 700;
+	color: ${primary};
+`;
+
+export const addPurchaseOrderForm = css`
+	${flexCol},
+	> div {
+		margin-bottom: 20px;
+	}
+`;
+
+export const innerContainerPoForm = css`
+	${flexCol};
+	margin-left: 20px;
+`;
+
+export const productInfo = css`
+	${flex};
+	margin-top: 40px;
+	gap: 30px;
+`;
+
+export const buttonMarginPoAddForm = css`
+	margin: 40px 20px 0 auto;
+	${flex};
+	gap: 10px;
+`;
+
+export const invoiceSubmit = css`
+	margin-left: auto;
+	display: flex;
+	margin-top: 50px;
+	gap: 20px;
+`;
+
+export const radioContainer = css`
+	${flexCol}
+	margin-right: 130px;
+`;
+
+export const invoiceForm = css`
+	${flexCol};
+	padding: 20px 40px;
+`;
+
+export const invoiceInnerInputContainer = css`
+	${flex};
+	justify-content: space-between;
+`;
+
+export const withoutCost = css`
+	${flex};
+	gap: 30px;
+`;
+
+export const invoiceCheckbox = css`
+	margin-top: 30px;
+`;
+
+export const purchaseOrderSubmit = css`
+	${flexCol};
+	padding-left: 30px;
+	background: ${white};
 `;

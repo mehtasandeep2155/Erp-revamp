@@ -20,13 +20,15 @@ export default function useRate() {
 	const [productTypelist, setTypelist] = useState([]);
 	const [loader, setLoader] = useState(false);
 	const [allRateList, setAllRateList] = useState([]);
+	const [productCoatingTypeList, setproductCoatingTypeList] = useState([]);
+	const [coatingColorList, setCoatingColorList] = useState([]);
 	const { products } = getProduct();
 	const { rates } = getRate();
 	const { types } = getType();
 	const { push } = useRouter();
 
 	const handleOnClick = (currentRowsSelected: any, allRowsSelected: any, setFieldValue: any) => {
-		setFieldValue(["productId"], productVariantlist[allRowsSelected.rowIndex].name);
+		setFieldValue(["productId"], productVariantlist[allRowsSelected].name);
 	};
 
 	const handleView = (item: any) => {
@@ -53,7 +55,6 @@ export default function useRate() {
 				SuccessAlert("Rate Added SuccessFully!");
 				rates.refetch();
 				setFetchAgain(true);
-				setMenu(!menu);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -75,7 +76,6 @@ export default function useRate() {
 				SuccessAlert("Saved Changes SuccessFully!");
 				rates.refetch();
 				setFetchAgain(true);
-				setMenu(!menu);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -86,7 +86,7 @@ export default function useRate() {
 		}
 	);
 
-	const onClick = async (values: any, type: string, id: string) => {
+	const onClick = async (values: any, type: string, id: any) => {
 		if (type == "close") {
 			if (!id) {
 				let formDetails: any = {
@@ -111,7 +111,7 @@ export default function useRate() {
 		} else if (type === "delete") {
 			DeleteAlert(mutationDelete, id);
 		} else {
-			if (id) {
+			if (id.id) {
 				let obj: any = {
 					rate: String(values.rate).replace(/\B(?=(\d{3})+(?!\d))/g, ","),
 					productId: values.product,
@@ -119,10 +119,8 @@ export default function useRate() {
 					id: values.id
 				};
 				setRateValue(obj);
-				setMenu(!menu);
 			} else {
 				setRateValue(productRateValues);
-				setMenu(!menu);
 			}
 		}
 	};
@@ -165,20 +163,46 @@ export default function useRate() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
+			let index1: number = 0;
 			rateDetails?.forEach((item: any, index: number) => {
+				item.coatings.forEach((item1: any, indextype: any) => {
+					if (indextype > 0) {
+						index1 = index1 + 1;
+						let data = [
+							index1,
+							item.name ? (
+								<span className={detailsViewBut} onClick={() => handleView(item)}>
+									{item.name}
+								</span>
+							) : (
+								"_"
+							),
+							`${item1.type.charAt(0).toUpperCase() + item1.type.slice(1)} #${item1.code}`,
+							item1?.rate ? `Rs.${String(item1.rate).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}` : "_",
+							<div className={flex}>
+								{objModulesData.controls.includes("Edit") && (
+									<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
+								)}
+								{objModulesData.controls.includes("Delete") && (
+									<Delete className={deleteBut} onClick={() => onClick(item, "delete", item.id)} />
+								)}
+							</div>
+						];
+						list.push(data);
+					}
+				});
+				index1 = index1 + 1;
 				let data = [
-					index + 1,
-					item.product ? (
-						<span className={detailsViewBut} onClick={() => handleView(item)}>
-							{item.product.name}
-						</span>
-					) : (
-						"_"
-					),
-					`${item.coating_type.type.charAt(0).toUpperCase() + item.coating_type.type.slice(1)} #${
-						item.coating_type.code
-					}`,
-					`Rs.${String(item.rate).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+					index1,
+					item.name ? <span className={detailsViewBut}>{item.name}</span> : "_",
+					item.coatings.length > 0
+						? `${item.coatings[0]?.type.charAt(0).toUpperCase() + item.coatings[0]?.type.slice(1)} #${
+								item.coatings[0]?.code
+						  }`
+						: "_",
+					item.coatings.length > 0
+						? `Rs.${String(item.coatings[0]?.rate).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+						: "_",
 					<div className={flex}>
 						{objModulesData.controls.includes("Edit") && (
 							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
@@ -190,13 +214,13 @@ export default function useRate() {
 				];
 				list.push(data);
 				allList.push(item);
-				selectList.push([
-					item.product ? <span className={detailsViewBut}>{item.product.name}</span> : "_",
-					`${item.coating_type.type.charAt(0).toUpperCase() + item.coating_type.type.slice(1)} #${
-						item.coating_type.code
-					} `,
-					`Rs.${String(item.rate).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-				]);
+				// selectList.push([
+				// 	item.product ? <span className={detailsViewBut}>{item.product.name}</span> : "_",
+				// 	`${item.coating_type.type.charAt(0).toUpperCase() + item.coating_type.type.slice(1)} #${
+				// 		item.coating_type.code
+				// 	} `,
+				// 	`Rs.${String(item.rate).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+				// ]);
 			});
 			setAllRateList(allList);
 			setTableSelectData(selectList);
@@ -210,7 +234,7 @@ export default function useRate() {
 			let variantlist: any = [];
 			let variantsDetails: any = await products.data;
 			variantsDetails?.forEach((item: any) => {
-				let obj = { name: item, id: item.id };
+				let obj = { name: item.name, id: item.id };
 				variantlist.push(obj);
 			});
 			setProductVariantlist(variantlist);

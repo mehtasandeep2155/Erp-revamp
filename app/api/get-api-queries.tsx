@@ -16,7 +16,9 @@ import {
 	getUserlist,
 	getPoentriesDetails,
 	getJobDetails,
-	getBranchDetails
+	getBranchDetails,
+	getProductWithRateDetails,
+	getProductRateDetails
 } from "./get-api";
 
 export const getJob = () => {
@@ -51,10 +53,20 @@ export const getRate = () => {
 	const rates = useQuery("ratelist", getRateDetails);
 	return { rates };
 };
+export const getProductRate = () => {
+	const productsRate = useQuery("productratelist", getProductRateDetails);
+	return { productsRate };
+};
 export const getType = () => {
 	const types = useQuery("typelist", getTypeDetails);
 	return { types };
 };
+
+export const getProductWithRate = () => {
+	const productsWithRate = useQuery("productWithRateList", getProductWithRateDetails);
+	return { productsWithRate };
+};
+
 export const getColor = () => {
 	const colors = useQuery("colorlist", getColorDetails);
 	return { colors };

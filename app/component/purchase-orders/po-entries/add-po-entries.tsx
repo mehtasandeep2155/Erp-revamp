@@ -36,7 +36,7 @@ const AddPoEntries = (data: ProductProps) => {
 	const { getAllList } = usePoEntries();
 	const { colors } = getColor();
 	const { getAllRateList, tableDataSelect, fetchagain } = useRate();
-	const { getAllPurchaseList, tableDataSelectPurcahse } = usePurchaseOrder(0);
+	const { getAllPurchaseList, tableDataSelectPurcahse } = usePurchaseOrder();
 	const { rates } = getRate();
 	const { purchaseOrderds } = getPurchaseOrders();
 

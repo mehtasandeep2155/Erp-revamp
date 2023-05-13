@@ -11,7 +11,7 @@ import { authButton, checkDiv } from "../login/styles";
 import Layout from "../layout";
 import { signUpFormik } from "../login/styles";
 import { signUpFormikFieldsData } from "@component/utils/helper";
-import { formControl, formGroup, inputError } from "@css/styles";
+import { formControl, formControlAuth, formGroup, inputError } from "@css/styles";
 import { usePasswordVisibility } from "../password-visibility-hook";
 
 const SignUpPage = (data: SignUpProps) => {
@@ -34,15 +34,17 @@ const SignUpPage = (data: SignUpProps) => {
 								valueProps={props}
 								type={name !== name ? "text" : showPassword ? "text" : name}
 								formGroupStyle={formGroup}
-								inputStyle={props.touched[name] && props.errors[name] ? inputError : formControl}
+								inputStyle={props.touched[name] && props.errors[name] ? inputError : formControlAuth}
 								icon={
-									<div className={checkDiv}>
-										{showPassword ? (
-											<VisibilityOffOutlined {...visibilityIconProps} />
-										) : (
-											<VisibilityOutlined {...visibilityIconProps} />
-										)}
-									</div>
+									icon ? (
+										<div className={checkDiv}>
+											{showPassword ? (
+												<VisibilityOffOutlined {...visibilityIconProps} />
+											) : (
+												<VisibilityOutlined {...visibilityIconProps} />
+											)}
+										</div>
+									) : null
 								}
 							/>
 						))}

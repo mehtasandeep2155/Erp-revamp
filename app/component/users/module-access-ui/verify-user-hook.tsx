@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { baseUrl } from "@api/base-url";
 import { handleuser } from "@api/network";
-import { ExpandStyles, subCompanyDiv, gpGood, gpBad, editIcon, flex, newDiv, flexWrap } from "@css/styles";
+import { subCompanyDiv, gpGood, gpBad, editIcon, flex, newDiv } from "@css/styles";
 import { VerifyValues } from "@component/utils/form/initial-values";
 import axios from "axios";
 import { useMutation } from "react-query";
@@ -11,6 +11,7 @@ import { array } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getCompany, getUsers } from "@api/get-api-queries";
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
+import AccordionRowComponent from "@common/accordinon/accordion-row";
 
 export default function useVerification() {
 	const { companies } = getCompany();
@@ -174,25 +175,26 @@ export default function useVerification() {
 						item.role.charAt(0).toUpperCase() + item.role.slice(1),
 						item.company ? item.company?.name.charAt(0).toUpperCase() + item.company.name.slice(1) : "_",
 						item.company ? (
-							<Accordion sx={{ boxShadow: "none" }}>
-								<AccordionSummary
-									sx={{ boxShadow: "none" }}
-									expandIcon={<ExpandMore />}
-									aria-controls="panel1a-content"
-									id="panel1a-header"
-								>
-									<Typography sx={{ fontSize: "13px" }}>
-										{item.company.sub_company[0].name},
-									</Typography>
-								</AccordionSummary>
-								<AccordionDetails>
-									{item.company.sub_company.map((item1: any, index1: any) => {
-										if (index1 !== 0) {
-											return <Typography sx={{ fontSize: "13px" }}>{item1.name}</Typography>;
-										}
-									})}
-								</AccordionDetails>
-							</Accordion>
+							<AccordionRowComponent
+								title={item.company.sub_company?.map(
+									(item1: any, index: number) =>
+										index < 1 &&
+										`${item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}${
+											index < item.company.sub_company.length - 1 ? "," : ""
+										}`
+								)}
+								index={item.company?.sub_company?.length}
+								maxIndex={1}
+								summary={item.company.sub_company.map((item1: any, index1: any) => {
+									if (index1 >= 1) {
+										return (
+											<Typography key={index} sx={{ fontSize: "13px" }}>
+												{item1.name}
+											</Typography>
+										);
+									}
+								})}
+							/>
 						) : (
 							"_"
 						),

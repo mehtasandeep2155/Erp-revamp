@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { Input } from "@component/utils/form-fields";
 import { ProductColorProps, productColorValuesEditType } from "@component//utils/type/interfaces";
-import { verifyModelForm, dialogBtnDiv, flexInput, formColorControl, formGroupProduct, inputError } from "@css/styles";
+import { verifyModelForm, dialogBtnDiv, flexInput, formColorControl, formGroupProduct } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo } from "react";
 import { IconButtons } from "@common/buttons";
@@ -35,9 +35,7 @@ const AddProductColor = (data: ProductColorProps) => {
 									value={props.values[name]}
 									require={true}
 									formGroupStyle={formGroupProduct}
-									inputStyle={
-										props.touched[name] && props.errors[name] ? inputError : formColorControl
-									}
+									inputStyle={formColorControl}
 								/>
 							))}
 						</div>

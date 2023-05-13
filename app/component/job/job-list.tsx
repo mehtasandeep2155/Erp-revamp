@@ -5,6 +5,7 @@ import JobListWeb from "./job-list-ui";
 import AddJob from "./add-job";
 import useJob from "./job-hook";
 import { getJob } from "@api/get-api-queries";
+import { jobColums } from "@component/utils/form/constant";
 
 function JobList() {
 	const { jobs } = getJob();
@@ -20,7 +21,7 @@ function JobList() {
 		<>
 			<JobListWeb
 				tableData={tableData}
-				// columns={columns}
+				columns={jobColums}
 				onClickByAdmin={onClick}
 				onDelete={handleDelete}
 				loading={loader}

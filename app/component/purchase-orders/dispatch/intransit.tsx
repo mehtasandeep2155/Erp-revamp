@@ -1,9 +1,7 @@
 import CustomizedDialogs from "@common/dailog/dailog-model";
-import { HeaderPage } from "@component/commoncomponent/common-components";
 import TableComponent from "common/tables/custom-table";
 import { memo, useEffect } from "react";
 import usePurchaseOrder from "../purchase-order-hook";
-import VerifyPurchaseOrder from "../verify-purchase-order";
 import CustomerCard from "../customer-view";
 import ProductView from "../po-entries/po-entries-view";
 import { getPurchaseOrders } from "@api/get-api-queries";
@@ -27,7 +25,7 @@ const InTransit = () => {
 		handleProductView,
 		productObjList,
 		IsDetails
-	} = usePurchaseOrder(0);
+	} = usePurchaseOrder();
 	const { purchaseOrderds } = getPurchaseOrders();
 	useEffect(() => {
 		getAllPurchaseList();
@@ -57,23 +55,6 @@ const InTransit = () => {
 				handleClose={handleProductView}
 				width="md"
 				content={<ProductView products={productObjList} />}
-			/>
-			<CustomizedDialogs
-				title="Purchase Order Details"
-				isOpen={IsDetails}
-				width="sm"
-				handleClose={handleView}
-				content={
-					<VerifyPurchaseOrder
-						validation={varifyPoStatusSchema}
-						disabled={false}
-						verifyValue={verifyValue}
-						perChasevalue={perChasevalue}
-						handleProductApprove={handleProductApprove}
-						status="ready_for_dispatch"
-						productObjList={productObjList}
-					/>
-				}
 			/>
 		</>
 	);

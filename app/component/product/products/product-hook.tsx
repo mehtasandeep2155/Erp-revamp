@@ -1,16 +1,16 @@
 import axios from "axios";
-import { product } from "@api/network";
+import { product, productRate } from "@api/network";
 import { baseUrlProduct } from "@api/base-url";
 import { useMutation } from "react-query";
 import { productValuesType } from "@component/utils/type/interfaces";
 import { useState } from "react";
 import { deleteBut, editIcon, flex } from "css/styles";
 import { Delete, Edit, FileCopy } from "@mui/icons-material";
-import { productValues } from "@component/utils/form/initial-values";
+import { productRateValues, productValues } from "@component/utils/form/initial-values";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { variantColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
-import { getProduct } from "@api/get-api-queries";
+import { getProduct, getRate } from "@api/get-api-queries";
 
 export default function useProduct() {
 	const [loader, setLoader] = useState(false);
@@ -20,23 +20,60 @@ export default function useProduct() {
 	const { products } = getProduct();
 	const coloums = variantColums;
 	const [menu, setMenu] = useState(false);
+	const [rateMenu, setRateMenu] = useState(false);
 	const [TableData, setTableData] = useState([]);
 	const [variantvalue, setVariantValue] = useState(productValues);
 	const [tableDataSelect, setTableDataSelect] = useState([]);
+	const [rateValue, setRateValue] = useState(productRateValues);
+	const { rates } = getRate();
 
 	const mutation = useMutation(
-		(createPorductVariant: productValuesType) => {
+		(createPorductRate: any) => {
 			LoadingAlert();
-			let data1 = axios.post(baseUrlProduct + product, createPorductVariant);
-			return data1;
+			return axios.post(baseUrlProduct + productRate, createPorductRate);
 		},
 		{
 			onSuccess: () => {
 				Swal.close();
-				SuccessAlert("Product Added SuccessFully!");
+				SuccessAlert("Rate Added SuccessFully!");
+				rates.refetch();
+				setFetchAgain(true);
+				setRateMenu(false);
+			},
+			onError: (error) => {
+				Swal.close();
+				let errorMsg: any = error;
+				FailureAlert(errorMsg.response.data.message);
+				setLoader(false);
+			}
+		}
+	);
+	const onClickRate = async (values: any, type: string, id: string) => {
+		if (type == "close") {
+			if (!id) {
+				let formDetails: any = {
+					rateData: values
+				};
+				setLoader(true);
+				mutation.mutate(formDetails);
+			}
+		} else {
+			setRateMenu(false);
+		}
+	};
+	const mutationProduct = useMutation(
+		(createPorductVariant: productValuesType) => {
+			let data1 = axios.post(baseUrlProduct + product, createPorductVariant);
+			return data1;
+		},
+		{
+			onSuccess: (data) => {
+				Swal.close();
 				products.refetch();
 				setFetchAgain(true);
-				setMenu(!menu);
+				setMenu(false);
+				setRateMenu(!rateMenu);
+				setRateValue({ ...rateValue, ["productId"]: data.data });
 			},
 			onError: (error) => {
 				Swal.close();
@@ -47,9 +84,8 @@ export default function useProduct() {
 		}
 	);
 
-	const mutationEdit = useMutation(
+	const mutationEditProduct = useMutation(
 		(createPorductVariant: productValuesType) => {
-			LoadingAlert();
 			let data1 = axios.patch(
 				baseUrlProduct + `${product}/${createPorductVariant.id}`,
 				createPorductVariant.value
@@ -59,10 +95,10 @@ export default function useProduct() {
 		{
 			onSuccess: () => {
 				Swal.close();
-				SuccessAlert("Saved Changes SuccessFully!");
 				products.refetch();
 				setFetchAgain(true);
 				setMenu(!menu);
+				setRateMenu(!rateMenu);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -170,11 +206,11 @@ export default function useProduct() {
 			};
 			if (!id) {
 				setLoader(true);
-				mutation.mutate(formDetails);
+				mutationProduct.mutate(formDetails);
 			} else {
 				let data: any = { value: formDetails, id: id };
 				setLoader(true);
-				mutationEdit.mutate(data);
+				mutationEditProduct.mutate(data);
 			}
 		} else if (type === "delete") {
 			DeleteAlert(mutationDelete, id);
@@ -196,8 +232,8 @@ export default function useProduct() {
 		coloums,
 		fetchagain,
 		menu,
-		mutationEdit,
-		mutation,
+		mutationEditProduct,
+		mutationProduct,
 		getAllVariantList,
 		TableData,
 		onClick,
@@ -205,6 +241,9 @@ export default function useProduct() {
 		loader,
 		varinatList,
 		tableDataSelect,
+		rateMenu,
+		onClickRate,
+		rateValue,
 		varinatSectionNameList
 	};
 }

@@ -16,7 +16,6 @@ export default function TopProfileBox({ details, isOpen, handleDrawer, handleTog
 			<div className={flex}>
 				<div>
 					<div className={profileBtn}>
-						<div className={profileImgDrop}>A</div>
 						<div>
 							<b>{details?.role}</b>
 							<div>

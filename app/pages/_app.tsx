@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<AppHead colorTheme={colorTheme} />
 			<CacheProvider value={emotionCache}>
 				<QueryClientProvider client={queryClient}>
-					<Hydrate state={pageProps?.dehydratedState}>
+					<Hydrate state={pageProps?.dehydratedState} >
 						<AppLayout>
 							<AuthContext Component={Component} pageProps={pageProps} />
 						</AppLayout>

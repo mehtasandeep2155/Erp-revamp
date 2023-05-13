@@ -16,28 +16,29 @@ export default function TableComponent(props: any) {
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 
 	const handleChangePage = (event: any, newPage: any) => {
+		console.log(newPage, "page number");
 		setPage(newPage);
 	};
 
 	const handleChangeRowsPerPage = (event: any) => {
 		setRowsPerPage(event.target.value);
-		setPage(0);
+		// setPage(0);
 	};
 
 	const options: object = {
-		filterType: "radio",
+		filterType: "checkbox",
 		fixedSelectColumn: false,
 		customRow: true,
 		customRowRender: (tableData: any, index: any) => {
 			return (
 				<>
-					{index < rowsPerPage && (
+					{index < page * rowsPerPage ? (
 						<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
 							{tableData.map((item: any) => (
-								<TableCell>{item}</TableCell>
+								<TableCell sx={{ width: "100px" }}>{item}</TableCell>
 							))}
 						</TableRow>
-					)}
+					) : null}
 				</>
 			);
 		},
@@ -48,17 +49,12 @@ export default function TableComponent(props: any) {
 		viewColumns: false,
 		filter: false,
 		textLabels: {
-			pagination: {
-				next: <h1>next</h1>,
-				previous: "Previous Page",
-				rowsPerPage: "Rows per page:",
-				displayRows: "of"
-			},
 			body: {
 				noMatch: loading ? <CircularIntegration /> : "Sorry, there is no matching data to display"
 			}
 		},
 		pagination: false,
+		rowsPerPage: [5],
 		customFooter: () => {
 			return (
 				<>
@@ -78,8 +74,6 @@ export default function TableComponent(props: any) {
 				</>
 			);
 		},
-		rowsPerPageOptions: [5, 10, 15, 100],
-		rowsPerPage: 5,
 		responsive: "vertical",
 		customToolbar: () => (
 			<CustomToolbar

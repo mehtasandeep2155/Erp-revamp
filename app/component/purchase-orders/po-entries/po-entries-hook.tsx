@@ -3,15 +3,16 @@ import { entry } from "@api/network";
 import { baseUrlPurchaseOrder } from "@api/base-url";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { Close, Delete, Edit } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { deleteBut, detailsViewBut, editIcon, flex } from "css/styles";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { variantDetails } from "@component/utils/routes";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { productColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getRate, getPoentries, getPurchaseOrders } from "@api/get-api-queries";
 import { useRouter } from "next/router";
+import usePurchaseOrder from "../purchase-order-hook";
 
 export default function usePoEntries() {
 	const [menu, setMenu] = useState(false);
@@ -26,8 +27,11 @@ export default function usePoEntries() {
 	const [productUserlist, setUserlist] = useState([]);
 	const [loader, setLoader] = useState(false);
 	const columns = productColums;
-	const [tableData, setTableData] = useState([]);
+	const [tableData, setTableData]: any = useState([]);
+	const [tableInnerData, setTableInnerData] = useState([]);
+	const [savePoEntries, setSavePoEntries] = useState([]);
 	const { push } = useRouter();
+	const { getPoEntiryDetails } = usePurchaseOrder();
 
 	const handleOnClick = (currentRowsSelected: any, allRowsSelected: any, setFieldValue: any) => {
 		setFieldValue(["rateId"], productRatelist[allRowsSelected.rowIndex].name);
@@ -37,6 +41,35 @@ export default function usePoEntries() {
 		setFieldValue(["poId"], productUserlist[allRowsSelected.rowIndex].name);
 	};
 
+	const savePoEntryCallBack = useCallback(
+		(data: any) => {
+			data?.map((item: any, index: number) => {
+				let tableDataArray = [
+					index,
+					item?.rate?.product?.name,
+					item?.rate?.coating_type?.type,
+					item?.rate?.rate,
+					item?.rate?.product?.length,
+					item?.quantity,
+					item?.color?.color
+					// <Delete className={deleteBut} onClick={() => onClick(item, "delete", item.id)} />
+				];
+
+				let tableInnerDataArray: any = [
+					item?.rate?.product?.name,
+					item?.rate?.product?.height,
+					item?.rate?.product?.width,
+					item?.rate?.product?.weight,
+					item?.rate?.product?.thickness,
+					item?.rate?.product?.length
+				];
+				setTableData((prev: any) => [...prev, tableDataArray]);
+				setTableInnerData((prev) => [...prev, tableInnerDataArray]);
+			});
+		},
+		[savePoEntries]
+	);
+
 	const mutation = useMutation(
 		(createPorductUom: any) => {
 			LoadingAlert();
@@ -45,6 +78,16 @@ export default function usePoEntries() {
 		{
 			onSuccess: (data) => {
 				Swal.close();
+				if (Array.isArray(data.data)) {
+					setSavePoEntries(data.data);
+					getPoEntiryDetails(data.data);
+					savePoEntryCallBack(data.data);
+				} else {
+					setSavePoEntries([data.data]);
+					savePoEntryCallBack([data.data]);
+					getPoEntiryDetails([data.data]);
+				}
+
 				SuccessAlert("Products Added SuccessFully!");
 				poentries.refetch();
 				setFetchAgain(true);
@@ -101,12 +144,7 @@ export default function usePoEntries() {
 		setProductDetails([]);
 		if (type == "close") {
 			let valueData: any = {
-				...values,
-				["quantity"]: values.quantity,
-				["length"]: values.quantity,
-				colorId: values.colorId.id,
-				["rateId"]: values.rateId.id,
-				["poId"]: values.poId ? values.poId.id : ""
+				entryData: values
 			};
 
 			if (!id) {
@@ -127,6 +165,11 @@ export default function usePoEntries() {
 				mutationEdit.mutate(formDetails);
 			}
 		} else if (type === "delete") {
+			let entries = JSON.parse(localStorage.getItem("poEntries"));
+			entries = entries.filter((item: any) => item.id !== id);
+			localStorage.setItem("poEntries", JSON.stringify(entries));
+			savePoEntryCallBack(entries);
+			setSavePoEntries(entries);
 			DeleteAlert(mutationDelete, id);
 		} else {
 			if (id) {
@@ -239,7 +282,6 @@ export default function usePoEntries() {
 		productList,
 		productDetails,
 		columns,
-		tableData,
 		poEntriesValue,
 		menu,
 		fetchagain,
@@ -249,6 +291,9 @@ export default function usePoEntries() {
 		loader,
 		handleOnClick,
 		handleOnClickPurchase,
-		handleView
+		handleView,
+		savePoEntries,
+		tableData,
+		tableInnerData
 	};
 }

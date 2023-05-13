@@ -25,7 +25,7 @@ const Dispatched = () => {
 		InvoiceClick,
 		InvoiceValue,
 		menuCustomer
-	} = usePurchaseOrder(0);
+	} = usePurchaseOrder();
 	const { purchaseOrderds } = getPurchaseOrders();
 	useEffect(() => {
 		getAllPurchaseList();

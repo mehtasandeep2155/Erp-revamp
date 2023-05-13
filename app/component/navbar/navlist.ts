@@ -8,12 +8,14 @@ import {
 	customerList,
 	jobList,
 	poEntriesList,
+	purchaseOrderList,
 	productColorList,
 	productRateList,
 	productTypeList,
 	productVariantList,
 	subCompanyList,
-	ledgerList
+	ledgerList,
+	inVoiceList
 } from "@component/utils/routes";
 import { navListObjectInterface } from "@component/utils/type/interfaces";
 import {
@@ -22,6 +24,7 @@ import {
 	InventoryOutlined,
 	ManageAccounts,
 	PeopleOutlineOutlined,
+	Receipt,
 	ReceiptOutlined,
 	Shop2Outlined,
 	WorkHistory,
@@ -39,13 +42,13 @@ export const navListObject: Array<navListObjectInterface> = [
 		moduleAccess: "PurchaseOrders",
 		title: "Purchase Orders",
 		icon: Shop2Outlined,
-		route: poEntriesList
+		route: purchaseOrderList
 	},
 	{
 		moduleAccess: "PurchaseOrders",
-		title: "Branch",
-		icon: WorkHistoryOutlined,
-		route: branchList
+		title: "Invoice",
+		icon: Receipt,
+		route: inVoiceList
 	},
 	{
 		moduleAccess: "Company",
@@ -70,22 +73,24 @@ export const navListObject: Array<navListObjectInterface> = [
 		route: null,
 		children: [
 			{
-				title: "Color",
-				route: productColorList
+				title: "Products",
+				route: productVariantList
 			},
 			{
 				title: "Product Coating",
 				route: productTypeList
 			},
 			{
-				title: "Products",
-				route: productVariantList
-			},
-			{
-				title: "Product Rate",
-				route: productRateList
+				title: "Color",
+				route: productColorList
 			}
 		]
+	},
+	{
+		moduleAccess: "PurchaseOrders",
+		title: "Branch",
+		icon: WorkHistoryOutlined,
+		route: branchList
 	},
 	{
 		moduleAccess: "Customers",

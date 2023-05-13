@@ -3,41 +3,13 @@ import { replaceRegExp } from "../regex-helper";
 
 export default function useHandleChange(moduleList: any, setModuleList: any) {
 	const [password, setPassword] = useState<any>("");
-	const [companyName, setcompanyName] = useState([]);
-	const [companyID, setcompanyId] = useState([]);
 	const [personName, setPersonName] = useState([]);
 	const typelist = ["Anodized", "Powdered"];
 
-	useEffect(() => {
-		if (moduleList.subCompanyId) {
-			setcompanyName(moduleList.subCompanyId);
-			let list: any = [];
-			moduleList.subCompanyId.map((item: any) => {
-				list.push(item.id);
-			});
-			setcompanyId(list);
-		} else if (moduleList.colors) {
-			let list: any = [];
-			moduleList.colors.map((item: any) => {
-				list.push(item.id);
-				companyName.push(item);
-				companyID.push(item.id);
-			});
-		}
-	}, []);
+	useEffect(() => {}, []);
 
 	const handleDelete = (item: any, name: any, id: any, setFieldValue: any) => {
-		if (name === "subCompanyId") {
-			let company = companyName.filter((chip: string) => chip !== item);
-			setcompanyName(company);
-			setcompanyId(companyID.filter((chip: string) => chip !== id));
-			setFieldValue(["subCompanyId"], company);
-		} else if (name === "colors") {
-			let company = companyName.filter((chip: string) => chip !== item);
-			setcompanyName(company);
-			setcompanyId(companyID.filter((chip: string) => chip !== id));
-			setFieldValue(["subCompanyId"], company);
-		} else if (name === "moduleAccess") {
+		if (name === "moduleAccess") {
 			setModuleList(moduleList.filter((item1: any) => item1 != item));
 			setFieldValue(
 				"moduleAccess",
@@ -53,12 +25,7 @@ export default function useHandleChange(moduleList: any, setModuleList: any) {
 		}
 	};
 
-	const handleChange = (event: any, props: any, id: any, uid: any) => {
-		console.log(event.target.value, "handle change");
-		const { setFieldValue, values } = props;
-		if (event.target.value.name === "raw") {
-			setFieldValue(["length"], values.productId.length);
-		}
+	const handleChange = (event: any, { setFieldValue, values }: any, id: any, uid: any) => {
 		if (event.target.name === "type") {
 			setFieldValue(event.target.name, event.target.value);
 		} else if (event.target.name === "rate" || event.target.name === "amount") {
@@ -89,32 +56,7 @@ export default function useHandleChange(moduleList: any, setModuleList: any) {
 				});
 			}
 		} else if (event.target.name == "subCompanyId" || event.target.name === "colors") {
-			if (event.target.value) {
-				if (event.target.value.length > 0) {
-					event.target.value.map((item: any) => {
-						if (!companyID.includes(item.id)) {
-							companyName.push(item);
-							companyID.push(item.id);
-						} else {
-							const index = companyName.indexOf(item);
-							const index1 = companyID.indexOf(item.id);
-							companyName.splice(index, 1);
-							companyID.splice(index1, 1);
-						}
-					});
-				} else {
-					if (!companyID.includes(event.target.value.id)) {
-						companyName.push(event.target.value);
-						companyID.push(event.target.value.id);
-					} else {
-						const index = companyName.indexOf(event.target.value);
-						const index1 = companyID.indexOf(event.target.value.id);
-						companyName.splice(index, 1);
-						companyID.splice(index1, 1);
-					}
-				}
-				setFieldValue(event.target.name, companyName);
-			}
+			setFieldValue(event.target.name, event.target.value);
 		} else if (event.target.name === "password") {
 			setPassword(event.target.value);
 			setFieldValue(event.target.name, event.target.value);
@@ -147,7 +89,6 @@ export default function useHandleChange(moduleList: any, setModuleList: any) {
 	return {
 		handleChange,
 		password,
-		companyName,
 		personName,
 		moduleList,
 		typelist,

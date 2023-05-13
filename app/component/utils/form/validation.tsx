@@ -71,7 +71,7 @@ export const useValidation = (values: any) => {
 	});
 
 	const branchSchema = Yup.object({
-		address: Yup.string().trim().matches(nameRegExp, "Invalid Address!").required("Address is Required!"),
+		address: Yup.string().trim().required("Address is Required!"),
 		type: Yup.object().required("Type is Required!"),
 		phone: Yup.string()
 			.trim()
@@ -118,8 +118,10 @@ export const useValidation = (values: any) => {
 	});
 
 	const InvoiceSchema = Yup.object({
-		associated_poId: Yup.object().typeError("Purchase Order is Required!").required("Purchase Order is Required!"),
-		cost_per_kg: Yup.number().typeError("Cost Per Kg Must be Number").required("Cost Per Kg is Required!"),
+		associated_poId: Yup.string().typeError("Purchase-order ID is Required!"),
+		cost_per_kg: values
+			? Yup.number().typeError("Cost Per Kg Must be Number").required("Cost Per Kg is Required!")
+			: Yup.string().notRequired(),
 		coating_discount: Yup.number()
 			.typeError("Cost Per Kg Must be Number")
 			.nullable()
@@ -196,18 +198,17 @@ export const useValidation = (values: any) => {
 	const ProductSchema = Yup.object({
 		quantity: Yup.number().typeError("Product Count must be a number").required("Product Count is Required!"),
 		length: Yup.number().typeError("Length  must be a number").required("Length is Required!"),
-		rateId: Yup.object()
-			.required("Rate is Required!")
-			.nullable()
-			.transform((v, o) => (o === "" ? null : v)),
-		poId: Yup.object()
-			.nullable()
-			.transform((v, o) => (o === "" ? null : v)),
+		rateId: Yup.string().notRequired(),
 		colorId: Yup.object()
 			.required("Color is Required!")
+			.typeError(null)
 			.nullable()
 			.transform((v, o) => (o === "" ? null : v)),
-		weight: Yup.number().typeError("Weight must be a number").required("Weight is Required!")
+		typeId: Yup.object()
+			.typeError(null)
+			.required("Coating is Required!")
+			.nullable()
+			.transform((v, o) => (o === "" ? null : v))
 	});
 
 	const varifyPoSchema = Yup.object({
@@ -238,7 +239,7 @@ export const useValidation = (values: any) => {
 
 	const PurchaseOrderSchema = Yup.object({
 		customer_id: Yup.object().typeError("Customer is Required").required("Customer is Required!"),
-		has_raw_material: Yup.object().required("Raw Material is Required!")
+		has_raw_material: Yup.string().required("Raw Material is Required!")
 	});
 
 	const InventorySchema = Yup.object({

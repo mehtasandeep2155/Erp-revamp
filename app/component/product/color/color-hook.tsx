@@ -78,7 +78,7 @@ export default function useColor() {
 			}
 		}
 	);
-	const onClick = async (values: productColorValuesType, type: string, id: string) => {
+	const onClick = async (values: productColorValuesType, type: string, id: any) => {
 		if (type == "close") {
 			if (!id) {
 				setLoader(true);
@@ -130,17 +130,7 @@ export default function useColor() {
 				let objData = [
 					index + 1,
 					`${item.color?.charAt(0).toUpperCase() + item.color?.slice(1)}`,
-					item.coating_type.length > 0 ? (
-						<span className={subCompanyDiv}>
-							{item.coating_type.map((item1: any, index1: number) => (
-								<span key={index1}>
-									<span className={menuItmeStyle}>{item1.type}</span>
-								</span>
-							))}
-						</span>
-					) : (
-						"_"
-					),
+					item.code,
 					<div className={flex}>
 						{objModulesData.controls.includes("Edit") && (
 							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />

@@ -1,31 +1,21 @@
 import { HeaderPage } from "@component/commoncomponent/common-components";
 import TableComponent from "common/tables/custom-table";
 import { memo } from "react";
-import AddProductVariant from "./add-product-ui";
 
-const ProductVariantListWeb = (props: any) => {
-	const { coloums, onClickByAdmin, onDelete, loading, tableData, isOpen, tableDataSelect, variantvalues } = props;
-
+const ProductVariantListWeb = ({ coloums, onClickByAdmin, onDelete, loading, tableData }: any) => {
 	return (
 		<>
 			<HeaderPage onClickByAdmin={onClickByAdmin} tableData={tableData} />
-			{!isOpen ? (
-				<TableComponent
-					columns={coloums}
-					title="Product List"
-					tableData={tableData}
-					onDelete={onDelete}
-					loading={loading}
-					buttonTitle="Add Product"
-					clickAction={onClickByAdmin}
-				/>
-			) : (
-				<AddProductVariant
-					tableDataSelect={tableDataSelect}
-					variantvalues={variantvalues}
-					onClickByAdmin={onClickByAdmin}
-				/>
-			)}
+			<TableComponent
+				columns={coloums}
+				title="Product List"
+				tableData={tableData}
+				onDelete={onDelete}
+				loading={loading}
+				clickAction={onClickByAdmin}
+				buttonTitle="Add Product"
+				expandableRow={true}
+			/>
 		</>
 	);
 };

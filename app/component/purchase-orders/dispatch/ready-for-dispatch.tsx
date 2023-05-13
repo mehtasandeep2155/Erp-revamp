@@ -27,7 +27,7 @@ const ReadyForDispatch = () => {
 		productObjList,
 		verifyValue,
 		IsDetails
-	} = usePurchaseOrder(0);
+	} = usePurchaseOrder();
 	const { purchaseOrderds } = getPurchaseOrders();
 	const { varifyPoStatusSchema } = useValidation(verifyValue);
 
@@ -58,23 +58,6 @@ const ReadyForDispatch = () => {
 				handleClose={handleProductView}
 				width="md"
 				content={<ProductView products={productObjList} />}
-			/>
-			<CustomizedDialogs
-				title="Purchase Order Details"
-				isOpen={IsDetails}
-				width="sm"
-				handleClose={handleView}
-				content={
-					<VerifyPurchaseOrder
-						disabled={false}
-						validation={varifyPoStatusSchema}
-						verifyValue={verifyValue}
-						perChasevalue={perChasevalue}
-						handleProductApprove={handleProductApprove}
-						status="dispatched"
-						productObjList={productObjList}
-					/>
-				}
 			/>
 		</>
 	);

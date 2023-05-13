@@ -151,14 +151,14 @@ export interface DialogTitleProps {
 }
 export interface productTypeValuesType {
 	type: string;
-	colors: any;
-	id: any;
-	name: any;
-	product: any;
+	colors: Array<object>;
+	id: string;
+	name: string;
+	product: string;
 }
 
 export interface ProductTypeProps {
-	typeValue: any;
+	typeValue: productTypeValuesType;
 	onClickByAdmin: (values: any, type: string, id: string) => void;
 }
 
@@ -341,6 +341,7 @@ export interface VerifyPoProps {
 	status: any;
 	handleProductApprove: any;
 	productObjList: any;
+	handleClose: any;
 }
 
 interface navListObjectChildren {
@@ -354,4 +355,22 @@ export interface navListObjectInterface {
 	icon: React.FC;
 	route: string | null;
 	children?: Array<navListObjectChildren>;
+}
+
+export interface tabPanelProps {
+	children?: React.ReactNode;
+	index: number;
+	value: number;
+}
+
+export interface tabComponentData {
+	label: string;
+	component: JSX.Element | React.ReactNode;
+	route: string;
+}
+
+export interface tabComponentProps {
+	tabData: tabComponentData[];
+	value: any;
+	handleTabChange: any;
 }

@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { Input, AutocompleteInput } from "@component/utils/form-fields";
 import { VerifyUserProps } from "@component/utils/type/interfaces";
-import { verifyForm, loginBtn } from "@css/styles";
+import { verifyForm, loginBtn, formControlVerify, inputError, formGroupProduct } from "@css/styles";
 import { btnDiv } from "@component/auth/login/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo, useEffect, useState } from "react";
@@ -38,6 +38,9 @@ const VerifyUserForm = (props: VerifyUserProps) => {
 							valueProps={props}
 							error={"email"}
 							value={props.values.email}
+							inputStyle={
+								props.touched["email"] && props.errors["email"] ? inputError : formControlVerify
+							}
 						/>
 						<AutocompleteInput
 							options={companyList}
@@ -47,6 +50,7 @@ const VerifyUserForm = (props: VerifyUserProps) => {
 							value={props.values.company ? props.values.company.name : props.values.companyName}
 							valueProps={props}
 							label={"Company Name"}
+							formGroup={formGroupProduct}
 							placeholder={"Select a USer Company Name"}
 						/>
 						<AutocompleteInput
@@ -58,6 +62,7 @@ const VerifyUserForm = (props: VerifyUserProps) => {
 							valueProps={props}
 							label={"User Role"}
 							placeholder={"Select a USer Role"}
+							formGroup={formGroupProduct}
 						/>
 						<SimpleTable controls={moduleList} valueProps={props} modules={props.values} />
 						<FormControlLabel

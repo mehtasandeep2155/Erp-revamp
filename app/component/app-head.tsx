@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { darkBlue, fadeGrey, pelorous } from "../css/color-palette";
+import { darkBlue, fadeGrey, lightGrey, pelorous, secondary100 } from "../css/color-palette";
 export default function AppHead({ colorTheme }: any) {
 	return (
 		<Head>
@@ -29,6 +29,10 @@ export default function AppHead({ colorTheme }: any) {
                     }
                     .MuiChip-root{
                         background-color: rgba(33, 150, 243, 0.1);
+                        height:35px !important;
+                    }
+                    .MuiChip-deleteIcon{
+                        font-size:20px !important;
                     }
                     #details,select,body,.tss-gm6zfk-MUIDataTableHeadCell-fixedHeade,.tss-ynxllk-MUIDataTableFilter-root,#logOut{
                         background-color: ${colorTheme.bodyColor} !important;
@@ -126,6 +130,10 @@ export default function AppHead({ colorTheme }: any) {
                     .MuiModal-backdrop{
                         background-color: rgb(0 0 0 / 8%) !important;
                     }
+
+                    .MuiMenu-root .MuiModal-backdrop{
+                        background-color: rgb(0 0 0 / 2%) !important;
+                    }
                     .css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
                         position:relative;
                         width:100px;
@@ -139,7 +147,6 @@ export default function AppHead({ colorTheme }: any) {
                     }
                     .MuiOutlinedInput-notchedOutline{
                         display: block;
-                        width: 195px;
                         padding: 0.375rem 0.75rem;
                         font-size: 13px;
                         font-weight: 400;
@@ -155,11 +162,6 @@ export default function AppHead({ colorTheme }: any) {
                         background:none !important;
                         border:none !important;
                     }
-                    .MuiOutlinedInput-root{
-                        width:98% !important;
-                    }
-                    
-                
                     .MuiTableFooter-root .MuiTableCell-root{
                         border: none !important;
                     }
@@ -198,11 +200,20 @@ export default function AppHead({ colorTheme }: any) {
                     }
                     .MuiMenu-paper {
                         border-radius: 4px !important;
-                        width:184px;
+                        width:215px;
+
                     }
+                    .MuiMenu-root  .MuiMenu-paper {
+                        border-radius: 4px !important;
+                        width:210px;
+                        margin-top:10px !important;
+                    }
+
                     .MuiTableHead-root .MuiTableRow-root{
                         font-size: 12px !important;
                         font-weight: 600;
+                        border-bottom: 1px solid #C0C0C0 !important;
+                        border-top: 1px solid #C0C0C0 !important;
                     }
                     .MuiButtonBase-root{
                         font-size:15px;
@@ -214,8 +225,12 @@ export default function AppHead({ colorTheme }: any) {
                     .MuiTablePagination-root{
                         overflow:hidden;
                     }
-                   
-
+                    .MuiTableCell-head span .MuiButtonBase-root{
+                        font-weight:500 !important;
+                        font-size:13px !important;
+                    }
+                    
+              
                     .MuiDialog-paperWidthXs{
                         margin-top:calc(25% - 228px/2) !important;
                     }
@@ -225,7 +240,10 @@ export default function AppHead({ colorTheme }: any) {
                     .tss-1ork7hi-MUIDataTablePagination-tableCellContainer{
                         padding:45px !important;
                     }
-                    
+                    // svg ~ fieldset {
+                    //     // width: 95% !important;
+                    //     height: 36.6px;
+                    // }
                     .MuiBadge-badge{
                         background-color:${pelorous} !important;
                         color:white;
@@ -233,18 +251,31 @@ export default function AppHead({ colorTheme }: any) {
                     }
                     .MuiTableBody-root .MuiTableRow-root .MuiTableCell-root{
                         padding-right:6px !important;
-                        padding-top:10px !important;
-                        padding-bottom:6px !important;	
+                        padding-top:15px !important;
+                        padding-bottom:12px !important;	
                         padding-left: 10px !important;
+                    }
+                    .MuiToolbar-root {
+                        padding-top : 10px;
+                    }
+                    .MuiTableCell-head span .MuiButtonBase-root {
+                        font-weight: 700 !important;
+                        font-size: 13px !important;
                     }
                     .MuiTableCell-root{
                         padding:0px !important;
+                        border-bottom : none !important;
                     }
                     .MuiTableRow-head .MuiTableCell-root{
                         padding-left:8px !important;
                         background: #DAEEFA;
                         width: 1095px;
-                        height: 49px;
+                        height: 29px;
+                    }
+                    .MuiAutocomplete-popper {
+                        border: 1px solid ${lightGrey};
+                        margin: 10px 0 !important;
+                        border-radius: 4px;
                     }
                     .e-css-1givqna-MuiTableCell-root{
                         padding-right:10px !important;
@@ -259,7 +290,7 @@ export default function AppHead({ colorTheme }: any) {
                         margin:0px !important;
                     }
                     .tss-1cdcmys-MUIDataTable-responsiveBase{
-                        padding:10px;
+                        padding:10px 0;
                     }							
                     .MuiDrawer-paper {
                         opacity: green !important;
@@ -269,8 +300,10 @@ export default function AppHead({ colorTheme }: any) {
                         padding:10px !important;
                     }
                     div > .Mui-expanded {
-                        background:${darkBlue} !important;
                         margin-bottom:5px;
+                    }
+                    .MuiTab-root{
+                        text-transform:none;
                     }
                     @media only screen and (min-width: 320px) and (max-width:480px){
                         .e-css-1betqn-MuiAccordionSummary-content{

@@ -128,7 +128,7 @@ export default function useBranch() {
 			}
 			branchDetails?.forEach((item: any, index: number) => {
 				let objData = [
-					index+1,
+					index + 1,
 					item.type,
 					item.contact_phone,
 					item.contact_name,

@@ -8,7 +8,7 @@ const CustomChip = (propsChip: any) => {
 
 	return (
 		<div>
-			<b className={bold}>{itemKey == 0 && columnNames[index].name}</b>
+			{/* <b className={bold}>{itemKey == 0 && columnNames[index].name}</b> */}
 			<br />
 			<Chip
 				variant="outlined"

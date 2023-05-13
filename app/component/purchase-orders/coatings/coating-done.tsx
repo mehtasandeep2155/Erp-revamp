@@ -16,7 +16,6 @@ const CoatingDone = () => {
 		getAllPurchaseList,
 		fetchagain,
 		loader,
-		CoatingInDoneTableData,
 		handleProductApprove,
 		handleView,
 		isOpenCustomer,
@@ -27,7 +26,7 @@ const CoatingDone = () => {
 		productObjList,
 		verifyValue,
 		IsDetails
-	} = usePurchaseOrder(0);
+	} = usePurchaseOrder();
 	const { purchaseOrderds } = getPurchaseOrders();
 	const { varifyPoStatusSchema } = useValidation(verifyValue);
 
@@ -40,7 +39,7 @@ const CoatingDone = () => {
 			<TableComponent
 				title="Coating Finished List"
 				columns={CoatingDoneColums}
-				tableData={CoatingInDoneTableData}
+				tableData={[]}
 				onDelete={""}
 				loading={loader}
 			/>
@@ -57,23 +56,6 @@ const CoatingDone = () => {
 				handleClose={handleProductView}
 				width="md"
 				content={<ProductView products={productObjList} />}
-			/>
-			<CustomizedDialogs
-				title="Purchase Order Details"
-				isOpen={IsDetails}
-				width="sm"
-				handleClose={handleView}
-				content={
-					<VerifyPurchaseOrder
-						verifyValue={verifyValue}
-						validation={varifyPoStatusSchema}
-						perChasevalue={perChasevalue}
-						handleProductApprove={handleProductApprove}
-						status="coating_finished"
-						disabled={false}
-						productObjList={productObjList}
-					/>
-				}
 			/>
 		</>
 	);

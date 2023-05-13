@@ -1,5 +1,6 @@
 const primary = "#142E43";
 const secondary = "#2196F3";
+const disabled = "#2196f39c";
 const layoutBackground = "#f3f9fe";
 const darkBlue = "#0B1F2F";
 const darkCharcoal = "#333333";
@@ -21,11 +22,17 @@ const drawerArrowBackground = "#97b2c963";
 const productCardBorder = "#80808099";
 const gpGoodColor = "#c5f7e8";
 const gpBadColor = "#fad3d3";
+const black = "#00000";
+const deleteTypeBg = "#D9D9D947";
+const deliveryPointColor = "rgba(117, 217, 187, 0.5)";
+const originPointColor = "rgba(99, 91, 255, 0.23)";
 
 export {
 	primary,
+	originPointColor,
 	darkBlue,
 	darkCharcoal,
+	deliveryPointColor,
 	fadeGrey,
 	grey,
 	darkGrey,
@@ -45,5 +52,8 @@ export {
 	mediumGrey,
 	productCardBorder,
 	gpGoodColor,
-	gpBadColor
+	gpBadColor,
+	black,
+	disabled,
+	deleteTypeBg
 };
