@@ -73,7 +73,6 @@ function PurchaseOrderList() {
 				setTabListData(finishTableData);
 			}
 		}
-
 		setValue(newValue);
 	};
 

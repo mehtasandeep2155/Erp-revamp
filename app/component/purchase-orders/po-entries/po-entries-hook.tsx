@@ -39,10 +39,7 @@ export default function usePoEntries() {
 		setFieldValue(["poId"], productUserlist[allRowsSelected.rowIndex].name);
 	};
 
-	const handleDelete = (id: string, data: any) => {
-		const filterEntery: any = data.filter((item: any) => item.id !== id);
-		savePoEntryCallBack(filterEntery);
-		setSavePoEntries(filterEntery);
+	const handleDelete = (id: string) => {
 		DeleteAlert(mutationDelete, id);
 	};
 
@@ -59,7 +56,7 @@ export default function usePoEntries() {
 					item?.rate?.product?.length,
 					item?.quantity,
 					item?.color?.color,
-					<Delete className={deleteBut} onClick={() => handleDelete(item.id, data)} />
+					<Delete className={deleteBut} onClick={() => handleDelete(item.id)} />
 				];
 				let tableInnerDataArray: any = [
 					item?.rate?.product?.name,
@@ -124,6 +121,9 @@ export default function usePoEntries() {
 
 	const mutationDelete = useMutation(
 		(createCompany: any) => {
+			const filterEntery: any = savePoEntries.filter((item: any) => item.id !== createCompany.id);
+			savePoEntryCallBack(filterEntery);
+			setSavePoEntries(filterEntery);
 			LoadingAlert();
 			return axios.delete(baseUrlPurchaseOrder + `${entry}/${createCompany.id}`);
 		},
