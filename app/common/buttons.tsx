@@ -8,6 +8,7 @@ export const IconButtons = ({ icon, styles, lebel, clickEvent, type, disabled, r
 			onClick={(e) => (disabled ? {} : clickEvent && clickEvent(e))}
 			ref={ref}
 			type={type}
+			disabled={disabled}
 		>
 			{icon && icon}
 			{lebel && lebel}

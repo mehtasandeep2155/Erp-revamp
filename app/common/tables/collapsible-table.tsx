@@ -5,18 +5,17 @@ import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import IconButton from "@mui/material/IconButton";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
 import { ArrowDownward, ExpandLess, ExpandMore } from "@mui/icons-material";
+import { innerDataContainer, innerTableHeadingStyle, outerTableRow } from "@css/mui-styles";
 
-const YourPurchaseOrderTable = ({ rows, tableInnerData, iconAt, tableInnerHead, title }: any) => {
+const YourPurchaseOrderTable = ({ rows, tableInnerData, iconAt, tableInnerHead, title, index }: any) => {
 	const [open, setOpen] = React.useState(false);
 
+	let modifiedTableInnerData = tableInnerData.filter((item: any, i: number) => i === index);
 	return (
 		<>
 			<TableRow>
@@ -38,8 +37,8 @@ const YourPurchaseOrderTable = ({ rows, tableInnerData, iconAt, tableInnerHead, 
 			<TableRow>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
-						<Box margin={1}>
-							<Typography variant="subtitle2" gutterBottom component="div">
+						<Box sx={innerDataContainer}>
+							<Typography variant="subtitle2" gutterBottom component="div" sx={innerTableHeadingStyle}>
 								{title}
 							</Typography>
 							<Table>
@@ -51,7 +50,7 @@ const YourPurchaseOrderTable = ({ rows, tableInnerData, iconAt, tableInnerHead, 
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{tableInnerData?.map((item: any, index: number) => (
+									{modifiedTableInnerData?.map((item: any, index: number) => (
 										<TableRow>
 											{item?.map((item: any) => (
 												<TableCell>{item}</TableCell>
@@ -72,21 +71,22 @@ export default function CollapsibleTable({ tableHead, tableInnerHead, tableData,
 	return (
 		<TableContainer component={Paper} sx={{ width: "100%" }}>
 			<Table>
-				<TableHead>
-					<TableRow>
+				<TableHead sx={outerTableRow}>
+					<TableRow sx={outerTableRow}>
 						{tableHead?.map((item: any) => (
 							<TableCell>{item}</TableCell>
 						))}
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{tableData?.map((item: any) => (
+					{tableData?.map((item: any, index: number) => (
 						<YourPurchaseOrderTable
 							rows={item}
 							tableInnerData={tableInnerData}
 							iconAt={iconAt}
 							tableInnerHead={tableInnerHead}
 							title={title}
+							index={index}
 						/>
 					))}
 				</TableBody>

@@ -12,7 +12,6 @@ import { productColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getRate, getPoentries, getPurchaseOrders } from "@api/get-api-queries";
 import { useRouter } from "next/router";
-import usePurchaseOrder from "../purchase-order-hook";
 
 export default function usePoEntries() {
 	const [menu, setMenu] = useState(false);
@@ -31,7 +30,6 @@ export default function usePoEntries() {
 	const [tableInnerData, setTableInnerData] = useState([]);
 	const [savePoEntries, setSavePoEntries] = useState([]);
 	const { push } = useRouter();
-	const { getPoEntiryDetails } = usePurchaseOrder();
 
 	const handleOnClick = (currentRowsSelected: any, allRowsSelected: any, setFieldValue: any) => {
 		setFieldValue(["rateId"], productRatelist[allRowsSelected.rowIndex].name);
@@ -41,8 +39,17 @@ export default function usePoEntries() {
 		setFieldValue(["poId"], productUserlist[allRowsSelected.rowIndex].name);
 	};
 
+	const handleDelete = (id: string, data: any) => {
+		const filterEntery: any = data.filter((item: any) => item.id !== id);
+		savePoEntryCallBack(filterEntery);
+		setSavePoEntries(filterEntery);
+		DeleteAlert(mutationDelete, id);
+	};
+
 	const savePoEntryCallBack = useCallback(
 		(data: any) => {
+			let list: any = [];
+			let innerList: any = [];
 			data?.map((item: any, index: number) => {
 				let tableDataArray = [
 					index,
@@ -51,21 +58,22 @@ export default function usePoEntries() {
 					item?.rate?.rate,
 					item?.rate?.product?.length,
 					item?.quantity,
-					item?.color?.color
-					// <Delete className={deleteBut} onClick={() => onClick(item, "delete", item.id)} />
+					item?.color?.color,
+					<Delete className={deleteBut} onClick={() => handleDelete(item.id, data)} />
 				];
-
 				let tableInnerDataArray: any = [
 					item?.rate?.product?.name,
 					item?.rate?.product?.height,
 					item?.rate?.product?.width,
 					item?.rate?.product?.weight,
 					item?.rate?.product?.thickness,
-					item?.rate?.product?.length
+					item?.length
 				];
-				setTableData((prev: any) => [...prev, tableDataArray]);
-				setTableInnerData((prev) => [...prev, tableInnerDataArray]);
+				list.push(tableDataArray);
+				innerList.push(tableInnerDataArray);
 			});
+			setTableData(list);
+			setTableInnerData(innerList);
 		},
 		[savePoEntries]
 	);
@@ -79,13 +87,15 @@ export default function usePoEntries() {
 			onSuccess: (data) => {
 				Swal.close();
 				if (Array.isArray(data.data)) {
-					setSavePoEntries(data.data);
-					getPoEntiryDetails(data.data);
-					savePoEntryCallBack(data.data);
+					data.data.forEach((item: any) => {
+						setSavePoEntries([...savePoEntries, item]);
+						savePoEntryCallBack([...savePoEntries, item]);
+					});
 				} else {
-					setSavePoEntries([data.data]);
-					savePoEntryCallBack([data.data]);
-					getPoEntiryDetails([data.data]);
+					[data.data].forEach((item: any) => {
+						setSavePoEntries([...savePoEntries, item]);
+						savePoEntryCallBack([...savePoEntries, item]);
+					});
 				}
 
 				SuccessAlert("Products Added SuccessFully!");
@@ -164,13 +174,6 @@ export default function usePoEntries() {
 				setLoader(true);
 				mutationEdit.mutate(formDetails);
 			}
-		} else if (type === "delete") {
-			let entries = JSON.parse(localStorage.getItem("poEntries"));
-			entries = entries.filter((item: any) => item.id !== id);
-			localStorage.setItem("poEntries", JSON.stringify(entries));
-			savePoEntryCallBack(entries);
-			setSavePoEntries(entries);
-			DeleteAlert(mutationDelete, id);
 		} else {
 			if (id) {
 				let formDetails: any = {
@@ -254,6 +257,7 @@ export default function usePoEntries() {
 			setFetchAgain(false);
 		}
 	};
+
 	const getAllList = async () => {
 		if (!rates.isLoading) {
 			let ratelist: any = [];

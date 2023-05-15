@@ -113,7 +113,7 @@ const poEntriesValues: any = {
 };
 const purchaseOrderValues: any = {
 	customer_id: "",
-	has_raw_material: "",
+	has_raw_material: "No",
 	delivery_pointId: "",
 	origin_pointId: ""
 };

@@ -40,7 +40,12 @@ import useCustomer from "@component/customer/customer/customer-hook";
 import useBranch from "@component/branch/branch-hook";
 import useRate from "@component/product/rate/rate-hook";
 import useHandleChange from "@component/utils/form/handle-change";
-import { getCoatingColorList, getProductCoatingList, getProductListFromRating } from "./add-purchase-order-util";
+import {
+	getCoatingColorList,
+	getProductCoatingList,
+	getProductLength,
+	getProductListFromRating
+} from "./add-purchase-order-util";
 import usePurchaseOrder from "./purchase-order-hook";
 import { poEntriesValues } from "@component/utils/form/initial-values";
 import usePoEntries from "./po-entries/po-entries-hook";
@@ -56,7 +61,6 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 		getAllProductsWithRate,
 		getAllList,
 		allRateList,
-		poEntries,
 		onClick: purchaseOrderClick
 	} = usePurchaseOrder();
 	const { branchList, getAllBranchList } = useBranch();
@@ -73,7 +77,6 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 		getAllProductsWithRate();
 		getAllList();
 		getAllRateList();
-		// setSubmit(true);
 	}, []);
 
 	const addInProductInfo = (values: any, { resetForm, setFieldValue }: any) => {
@@ -90,7 +93,9 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 			colorId: castValues.colorId.name
 		};
 		setAddProductViewInfo([...addProductViewInfo, { ...formValues, colorId: castValues.colorId.id }]);
+
 		setAddProductInfo([...addProductInfo, values]);
+
 		setDisabled(false);
 		let productID = values.productId;
 		resetForm();
@@ -106,7 +111,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 	};
 
 	const handlePoSubmit = (values: any) => {
-		const entries = JSON.parse(localStorage.getItem("poEntries")).map((item: any) => item.id);
+		const entries = savePoEntries.map((item: any) => item.id);
 		const formDetails: any = {
 			["po_entries"]: entries,
 			["has_raw_material"]: values.has_raw_material === "Yes" ? true : false,
@@ -121,6 +126,10 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 	const removeFromProductInfo = (item: any) => {
 		setAddProductInfo(addProductInfo.filter((filter: any, index) => index !== item));
 		setAddProductViewInfo(addProductViewInfo.filter((filter: any, index) => index !== item));
+	};
+
+	const handleResetForm = (poReset: any, entryReset: any) => {
+		entryReset();
 	};
 
 	return (
@@ -185,7 +194,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 												<AutoCompleteSeacrhSelect
 													onChange={handleChange}
 													options={branchList?.map((item: any) => {
-														return { name: item.contact_name, id: item.id };
+														return { name: item.name, id: item.id };
 													})}
 													error="delivery_pointId"
 													name="delivery_pointId"
@@ -198,7 +207,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 												<AutoCompleteSeacrhSelect
 													onChange={handleChange}
 													options={branchList?.map((item: any) => {
-														return { name: item.contact_name, id: item.id };
+														return { name: item.name, id: item.id };
 													})}
 													error="origin_pointId"
 													name="origin_pointId"
@@ -240,6 +249,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																		name={"length"}
 																		label={"Product Length"}
 																		valueProps={propsItem}
+																		defaultValue={10}
 																		error=""
 																		value={item.length}
 																		formGroupStyle={formGroupCol}
@@ -270,6 +280,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																		require={true}
 																		style={styleAddSelectProductInfo}
 																	/>
+
 																	<AutoCompleteSeacrhSelect
 																		options={getCoatingColorList(
 																			productWithRateData,
@@ -295,21 +306,30 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																</div>
 															);
 														})}
+
 														<div className={productInfo}>
 															<Input
-																disabled={false}
+																disabled={
+																	propsItem.values?.productId?.id ? false : true
+																}
 																name={"length"}
 																onChange={handleChange}
 																label={"Product Length"}
 																valueProps={propsItem}
 																error={"length"}
+																defaultValue={getProductLength(
+																	productWithRateData,
+																	propsItem?.values?.productId?.id
+																)}
 																value={propsItem.values.length}
 																formGroupStyle={formGroupCol}
 																require={true}
 																inputStyle={formControlProductInfo}
 															/>
 															<Input
-																disabled={false}
+																disabled={
+																	propsItem.values?.productId?.id ? false : true
+																}
 																name={"quantity"}
 																label={"Product Quantity"}
 																onChange={handleChange}
@@ -332,6 +352,9 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																label={"Coating"}
 																value={propsItem.values.typeId}
 																require={true}
+																disabled={
+																	propsItem.values?.productId?.id ? false : true
+																}
 																style={styleAddSelectProductInfo}
 															/>
 															<AutoCompleteSeacrhSelect
@@ -347,6 +370,9 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																label={"Color"}
 																value={propsItem.values.colorId}
 																require={true}
+																disabled={
+																	propsItem.values?.productId?.id ? false : true
+																}
 																style={styleAddSelectProductInfo}
 															/>
 															<IconButtons
@@ -354,30 +380,42 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																	e.preventDefault();
 																	propsItem.handleSubmit();
 																}}
+																disabled={
+																	propsItem.values?.productId?.id ? false : true
+																}
 																styles={addType}
 																icon={<Add />}
 																type="submit"
+															/>
+														</div>
+														<div className={buttonMarginPoAddForm}>
+															<IconButtons
+																clickEvent={(e: any) => {
+																	e.preventDefault();
+																	handleResetForm(
+																		props.resetForm,
+																		propsItem.resetForm
+																	);
+																}}
+																styles={cancleButton}
+																lebel={"Reset"}
+																type="reset"
+															/>
+															<IconButtons
+																clickEvent={(e: any) => {
+																	e.preventDefault();
+																	handleFormSubmit();
+																}}
+																disabled={disabled}
+																styles={submitButton}
+																lebel={"Add"}
+																type="button"
 															/>
 														</div>
 													</Form>
 												)}
 											</Formik>
 										</div>
-									</div>
-									<div className={buttonMarginPoAddForm}>
-										<IconButtons
-											clickEvent={() => handleSubmit("", "model", "")}
-											styles={cancleButton}
-											lebel={"Reset"}
-											type="button"
-										/>
-										<IconButtons
-											clickEvent={handleFormSubmit}
-											disabled={disabled}
-											styles={submitButton}
-											lebel={"Add"}
-											type="button"
-										/>
 									</div>
 									{savePoEntries?.length > 0 && (
 										<div className={purchaseOrderSubmit}>

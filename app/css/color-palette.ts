@@ -26,6 +26,7 @@ const black = "#00000";
 const deleteTypeBg = "#D9D9D947";
 const deliveryPointColor = "rgba(117, 217, 187, 0.5)";
 const originPointColor = "rgba(99, 91, 255, 0.23)";
+const innerTableBg = "#C2E3FE14";
 
 export {
 	primary,
@@ -55,5 +56,6 @@ export {
 	gpBadColor,
 	black,
 	disabled,
-	deleteTypeBg
+	deleteTypeBg,
+	innerTableBg
 };

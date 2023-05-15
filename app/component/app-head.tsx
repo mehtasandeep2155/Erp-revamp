@@ -305,6 +305,10 @@ export default function AppHead({ colorTheme }: any) {
                     .MuiTab-root{
                         text-transform:none;
                     }
+                    .Mui-disabled {
+                        background: #EFEFEF4D !important;
+                        color: ${lightGrey} !important;
+                    }
                     @media only screen and (min-width: 320px) and (max-width:480px){
                         .e-css-1betqn-MuiAccordionSummary-content{
                             margin: 3px -10px !important;

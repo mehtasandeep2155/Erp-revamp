@@ -21,7 +21,6 @@ import {
 	detailsPointViewBut,
 	detailsStatusBut,
 	customerViewBut,
-	newDiv,
 	originDiv,
 	deliveryDiv
 } from "css/styles";
@@ -39,7 +38,7 @@ import {
 import Swal from "sweetalert2";
 import { getProduct, getProductRate, getProductWithRate, getPurchaseOrders, getRate } from "@api/get-api-queries";
 import { useRouter } from "next/router";
-import { poEntriesDetails, purchaseOrderList } from "@component/utils/routes";
+import { poEntriesDetails } from "@component/utils/routes";
 import PurcharseOrderTableAction from "./purchase-order-table-action";
 
 export default function usePurchaseOrder() {
@@ -130,10 +129,6 @@ export default function usePurchaseOrder() {
 			]);
 		}
 		setIsOpenCustomer(!isOpenCustomer);
-	};
-
-	const getPoEntiryDetails = (data: any) => {
-		localStorage.setItem("poEntries", JSON.stringify(data));
 	};
 
 	const handleDispatch = (item: any) => {
@@ -631,7 +626,7 @@ export default function usePurchaseOrder() {
 				if (item.status !== "in_transit" && item.status !== "dispatched") {
 					let data4 = [
 						index + 1,
-						"Customer",
+						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
 						<b className={detailsViewBut}>
 							View <span>{item?.po_entries?.length}</span>
 						</b>,
@@ -676,7 +671,7 @@ export default function usePurchaseOrder() {
 					index1 = index1 + 1;
 					let data1 = [
 						index1,
-						"Customer",
+						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
 						<b className={detailsViewBut}>
 							View <span>{item?.po_entries?.length}</span>
 						</b>,
@@ -701,7 +696,7 @@ export default function usePurchaseOrder() {
 					index2 = index2 + 1;
 					let data2 = [
 						index2,
-						"Customer",
+						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
 						<b className={detailsViewBut}>
 							View <span>{item?.po_entries?.length}</span>
 						</b>,
@@ -726,7 +721,7 @@ export default function usePurchaseOrder() {
 					index3 = index3 + 1;
 					let data3 = [
 						index3,
-						"Customer",
+						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
 						<b className={detailsViewBut}>
 							View <span>{item?.po_entries?.length}</span>
 						</b>,
@@ -751,7 +746,7 @@ export default function usePurchaseOrder() {
 					index5 = index5 + 1;
 					let data5 = [
 						index5,
-						"Customer",
+						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
 						<b className={detailsViewBut}>
 							View <span>{item?.po_entries?.length}</span>
 						</b>,
@@ -776,7 +771,7 @@ export default function usePurchaseOrder() {
 					index6 = index6 + 1;
 					let data6 = [
 						index6,
-						"Customer",
+						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
 						<b className={detailsViewBut}>
 							View <span>{item?.po_entries?.length}</span>
 						</b>,
@@ -797,7 +792,7 @@ export default function usePurchaseOrder() {
 					index7 = index7 + 1;
 					let data7 = [
 						index7,
-						"Customer",
+						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
 						<b className={detailsViewBut}>
 							View <span>{item?.po_entries?.length}</span>
 						</b>,
@@ -923,7 +918,6 @@ export default function usePurchaseOrder() {
 		ProductClick,
 		handleOnClick,
 		productRatelist,
-		getPoEntiryDetails,
 		getAllList,
 		productPoList,
 		handleOnClickPurchase,

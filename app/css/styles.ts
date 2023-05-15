@@ -1951,6 +1951,7 @@ export const buttonMarginPoAddForm = css`
 	margin: 40px 20px 0 auto;
 	${flex};
 	gap: 10px;
+	float: right;
 `;
 
 export const invoiceSubmit = css`
@@ -1986,6 +1987,5 @@ export const invoiceCheckbox = css`
 
 export const purchaseOrderSubmit = css`
 	${flexCol};
-	padding-left: 30px;
 	background: ${white};
 `;

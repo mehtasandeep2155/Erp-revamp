@@ -20,6 +20,7 @@ export const Input = ({
 	id,
 	type,
 	inputStyle,
+	defaultValue,
 	icon,
 	formGroupStyle,
 	uom
@@ -36,10 +37,10 @@ export const Input = ({
 				<input
 					className={inputStyle}
 					disabled={disabled}
+					defaultValue={defaultValue}
 					value={value}
 					placeholder={placeholder}
 					name={name}
-					defaultValue={value}
 					type={type ? type : "text"}
 					onChange={(e) => onChange(e, valueProps, id, uid)}
 				/>
@@ -357,6 +358,7 @@ export const AutoCompleteSeacrhSelect = (props: any) => {
 							onChange={(e) => onChange(e, valueProps)}
 							fullWidth
 							value={value}
+							disabled={disabled}
 							placeholder={placeholder}
 							name={name}
 							{...params}

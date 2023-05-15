@@ -15,6 +15,11 @@ const getProductCoatingList = (productWithRateData: any[], id: string): any => {
 	return productCoatingList ? productCoatingList : [];
 };
 
+const getProductLength = (productWithRateData: any[], id: string): any => {
+	const findProduct = productWithRateData?.find((item) => item?.id === id);
+	return findProduct?.length;
+};
+
 const getCoatingColorList = (productWithRateData: any[], id: string, coatingId: string): any => {
 	const coatingColorList: any = [];
 	const findProduct = productWithRateData?.find((item) => item?.id === id);
@@ -25,4 +30,4 @@ const getCoatingColorList = (productWithRateData: any[], id: string, coatingId: 
 	return coatingColorList ? coatingColorList : [];
 };
 
-export { getProductListFromRating, getProductCoatingList, getCoatingColorList };
+export { getProductListFromRating, getProductCoatingList, getCoatingColorList, getProductLength };

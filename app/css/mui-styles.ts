@@ -8,7 +8,8 @@ import {
 	darkBlue,
 	black,
 	disabled,
-	deleteTypeBg
+	deleteTypeBg,
+	innerTableBg
 } from "./color-palette";
 
 export const notifyIcon = { border: `1px solid ${fadeGrey}`, borderRadius: "4px" };
@@ -274,5 +275,45 @@ export const moveButton = {
 	borderRadius: "4px",
 	"&:hover": {
 		background: darkBlue
+	}
+};
+
+export const innerTableHeadingStyle = {
+	fontWeight: "bold",
+	padding: "10px 0 10px 10px",
+	background: innerTableBg,
+	marginBottom: "0 !important"
+};
+
+export const innerDataContainer = {
+	border: `1px solid ${fadeGrey}`,
+	borderRadius: "4px",
+
+	".MuiTableCell-head ": {
+		fontWeight: "600",
+		borderBottom: "none"
+	},
+
+	".MuiTableHead-root .MuiTableRow-root": {
+		borderBottom: "none !important",
+		background: `${innerTableBg} !important`
+	},
+
+	".MuiTableCell-root , .MuiTableCell-body , .MuiTableCell-sizeMedium": {
+		paddingTop: "0px !important",
+		background: `${innerTableBg} !important`
+	},
+
+	".MuiTableRow-head .MuiTableCell-root": {
+		background: "none !important",
+		height: "28px"
+	}
+};
+
+export const outerTableRow = {
+	height: "48px",
+
+	".MuiTableCell-root , .MuiTableCell-head , .MuiTableCell-sizeMedium ": {
+		fontWeight: "bold"
 	}
 };

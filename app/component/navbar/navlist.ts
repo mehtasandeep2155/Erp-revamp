@@ -28,7 +28,9 @@ import {
 	ReceiptOutlined,
 	Shop2Outlined,
 	WorkHistory,
-	WorkHistoryOutlined
+	WorkHistoryOutlined,
+	ColorLens,
+	FormatColorReset
 } from "@mui/icons-material";
 
 export const navListObject: Array<navListObjectInterface> = [
@@ -70,22 +72,21 @@ export const navListObject: Array<navListObjectInterface> = [
 		moduleAccess: "Products",
 		title: "Products",
 		icon: AddShoppingCartOutlined,
-		route: null,
-		children: [
-			{
-				title: "Products",
-				route: productVariantList
-			},
-			{
-				title: "Product Coating",
-				route: productTypeList
-			},
-			{
-				title: "Color",
-				route: productColorList
-			}
-		]
+		route: productVariantList
 	},
+	{
+		moduleAccess: "Products",
+		title: "Color",
+		icon: ColorLens,
+		route: productColorList
+	},
+	{
+		moduleAccess: "Products",
+		title: "Coating",
+		icon: FormatColorReset,
+		route: productTypeList
+	},
+
 	{
 		moduleAccess: "PurchaseOrders",
 		title: "Branch",
