@@ -77,7 +77,6 @@ export default function usePoEntries() {
 		},
 		[savePoEntries]
 	);
-
 	const mutation = useMutation(
 		(createPorductUom: any) => {
 			LoadingAlert();
@@ -86,18 +85,10 @@ export default function usePoEntries() {
 		{
 			onSuccess: (data) => {
 				Swal.close();
-				if (Array.isArray(data.data)) {
-					data.data.forEach((item: any) => {
-						setSavePoEntries([...savePoEntries, item]);
-						savePoEntryCallBack([...savePoEntries, item]);
-					});
-				} else {
-					[data.data].forEach((item: any) => {
-						setSavePoEntries([...savePoEntries, item]);
-						savePoEntryCallBack([...savePoEntries, item]);
-					});
-				}
-
+				data.data.forEach((item: any) => {
+					savePoEntries.push(item);
+					savePoEntryCallBack(savePoEntries);
+				});
 				SuccessAlert("Products Added SuccessFully!");
 				poentries.refetch();
 				setFetchAgain(true);
