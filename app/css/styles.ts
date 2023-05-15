@@ -22,7 +22,14 @@ import {
 export const flex = css`
 	display: flex;
 `;
-
+export const flexSummary = css`
+	display: flex;
+	justify-content: start;
+	float: left;
+`;
+export const summaryDiv = css`
+	width: 151px;
+`;
 export const flexCol = css`
 	${flex};
 	flex-direction: column;
@@ -739,7 +746,8 @@ export const dialogBtnDiv = css`
 	margin-top: 10px;
 `;
 export const formDiv = css`
-	padding: 0px 10px 10px 10px;
+	margin-left: 2%;
+	margin-right: 2%;
 	height: 345px;
 	width: 55%;
 `;
@@ -951,10 +959,7 @@ export const downLoad = css`
 
 export const flexInput = css`
 	${flex}
-	justify-content:space-between;
-	${Mobile} {
-		gap: 19px;
-	}
+	gap: 19px;
 	width: 91%;
 `;
 export const flexCol2input = css`
@@ -1960,7 +1965,9 @@ export const invoiceSubmit = css`
 	margin-top: 50px;
 	gap: 20px;
 `;
-
+export const titleDiv = css`
+	font-size: 13.5px;
+`;
 export const radioContainer = css`
 	${flexCol}
 	margin-right: 130px;

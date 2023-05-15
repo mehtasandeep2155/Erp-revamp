@@ -42,7 +42,7 @@ const loginFormikFieldsData = [
 const colorFormikFieldsData = [{ placeholder: "Enter Color Name", name: "color", label: "Color Name" }];
 const typeFormikFieldsData = [
 	{ placeholder: "Enter Coating Name", name: "type", label: "Coating Name", InputComponent: "input" },
-	{ placeholder: "Search...", name: "colors", label: "Colors Name", InputComponent: "select" }
+	{ placeholder: "Search Color...", name: "colors", label: "Colors Name", InputComponent: "select" }
 ];
 const productFormikFieldsData1 = [
 	{

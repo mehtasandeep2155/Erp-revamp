@@ -31,7 +31,7 @@ export const Input = ({
 				{label && (
 					<InputLabel className={`${labelStyles}`}>
 						{label}
-						{require && <span className={requireStyle}>*</span>}
+						{require ? <span className={requireStyle}>*</span> : <span className={requireStyle}> </span>}
 					</InputLabel>
 				)}
 				<input
@@ -61,7 +61,7 @@ export const MultiCompanySelectInput = (props: any) => {
 			<div className={formGroupStyle}>
 				<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 					{label}
-					{require && <span className={requireStyle}>*</span>}
+					{require ? <span className={requireStyle}>*</span> : <span className={requireStyle}> </span>}
 				</InputLabel>
 				<Autocomplete
 					multiple
@@ -116,7 +116,7 @@ export const MultiSelectInput = (props: any) => {
 			<div className={formGroup}>
 				<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 					{label}
-					{require && <span className={requireStyle}>*</span>}
+					{require ? <span className={requireStyle}>*</span> : <span className={requireStyle}> </span>}
 				</InputLabel>
 				<Autocomplete
 					id="combo-box-demo"
@@ -226,7 +226,7 @@ export const SelectInput = (props: any) => {
 			<div className={formGroup}>
 				<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 					{label}
-					{require && <span className={requireStyle}>*</span>}
+					{require ? <span className={requireStyle}>*</span> : <span className={requireStyle}> </span>}
 				</InputLabel>
 				<Select
 					fullWidth
@@ -279,7 +279,7 @@ export const AutoCompleteSelect = (props: any) => {
 			<div className={formGroup}>
 				<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 					{label}
-					{require && <span className={requireStyle}>*</span>}
+					{require ? <span className={requireStyle}>*</span> : <span className={requireStyle}></span>}
 				</InputLabel>
 				<Autocomplete
 					freeSolo
@@ -335,7 +335,7 @@ export const AutoCompleteSeacrhSelect = (props: any) => {
 			<div className={formGroup}>
 				<InputLabel id="demo-multiple-chip-label" className={`${labelStyles} `}>
 					{label}
-					{require && <span className={requireStyle}>*</span>}
+					{require ? <span className={requireStyle}>*</span> : <span className={requireStyle}> </span>}
 				</InputLabel>
 				<Autocomplete
 					disablePortal

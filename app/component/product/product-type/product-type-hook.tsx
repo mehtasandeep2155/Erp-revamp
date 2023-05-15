@@ -5,7 +5,7 @@ import { productTypeValuesType } from "@component/utils/type/interfaces";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { Delete, Edit } from "@mui/icons-material";
-import { deleteBut, editIcon, flex, flexWrap } from "css/styles";
+import { deleteBut, editIcon, flex, flexSummary, flexWrap, summaryDiv } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { productTypeColums } from "@component/utils/form/constant";
@@ -93,13 +93,16 @@ export default function useProductType() {
 					companies.push(element.id);
 				});
 				setLoader(true);
-				mutation.mutate({ ...values, ["colors"]: companies });
+				mutation.mutate({ ...values, ["colors"]: companies, ["type"]: values.type.toLowerCase() });
 			} else {
 				let companies: any = [];
 				values.colors?.forEach((element: any) => {
 					companies.push(element.id);
 				});
-				let data: any = { name: { ...values, ["colors"]: companies }, id: id };
+				let data: any = {
+					name: { ...values, ["colors"]: companies, ["type"]: values.type.toLowerCase() },
+					id: id
+				};
 				if (tableData.includes(values)) {
 					FailureAlert("Same Record Already Exits!");
 				} else {
@@ -145,32 +148,37 @@ export default function useProductType() {
 				let data = [
 					index + 1,
 					`${item.type.charAt(0).toUpperCase() + item.type.slice(1)}`,
-					item.colors && (
-						<AccordionRowComponent
-							title={item.colors?.map(
-								(item1: any, index: number) =>
-									index < 3 &&
-									`${item1.color.charAt(0).toUpperCase() + item1.color.slice(1)}${
-										index < item.colors.length - 1 ? "," : ""
-									}`
-							)}
-							index={item.colors?.length}
-							maxIndex={3}
-							summary={
-								<div className={flexWrap}>
-									{item.colors.map((item1: any, index1: any) => {
-										if (index1 > 3) {
-											return (
-												<Typography key={index1} sx={{ fontSize: "13px" }}>
-													{item1.color}
-												</Typography>
-											);
-										}
-									})}
-								</div>
-							}
-						/>
-					),
+					<div className={summaryDiv}>
+						{item.colors && (
+							<AccordionRowComponent
+								title={item.colors?.map(
+									(item1: any, index1: number) =>
+										index1 < 3 && (
+											<span>
+												{item1.color.charAt(0).toUpperCase() + item1.color.slice(1)}
+												{index1 < 3 - 1 ? "," : ""}
+											</span>
+										)
+								)}
+								index={item.colors?.length}
+								maxIndex={4}
+								summary={
+									<div className={flexSummary}>
+										{item.colors.map((item1: any, index1: any) => {
+											if (index1 > 2) {
+												return (
+													<span>
+														{item1.color.charAt(0).toUpperCase() + item1.color.slice(1)}
+														{index1 < item.colors.length - 1 ? "," : ""}
+													</span>
+												);
+											}
+										})}
+									</div>
+								}
+							/>
+						)}
+					</div>,
 					<div className={flex}>
 						{objModulesData.controls.includes("Edit") && (
 							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
