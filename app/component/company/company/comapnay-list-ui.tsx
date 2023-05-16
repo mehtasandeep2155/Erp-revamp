@@ -3,7 +3,18 @@ import { memo } from "react";
 import { HeaderPage } from "@component/commoncomponent/common-components";
 
 const CompanyListWeb = (props: any) => {
-	const { columns, tableData, onClickByAdmin, onDelete, loading, menu } = props;
+	const {
+		columns,
+		tableData,
+		onClickByAdmin,
+		onDelete,
+		loading,
+		handleChangeRowsPerPage,
+		handleChangePage,
+		page,
+		rowsPerPage,
+		totalCount
+	} = props;
 
 	return (
 		<>
@@ -13,8 +24,14 @@ const CompanyListWeb = (props: any) => {
 				tableData={tableData}
 				columns={columns}
 				onDelete={onDelete}
+				clickAction={onClickByAdmin}
 				loading={loading}
 				buttonTitle="Add Company"
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangePage={handleChangePage}
+				page={page}
+				totalCount={totalCount}
+				rowsPerPage={rowsPerPage}
 			/>
 		</>
 	);

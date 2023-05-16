@@ -1,10 +1,20 @@
 import TableComponent from "@common/tables/custom-table";
 import { memo } from "react";
-import { HeaderPage } from "@component/commoncomponent/common-components";
 import { header, tableTitle } from "@css/styles";
 
 const SubCompanyListWeb = (props: any) => {
-	const { columns, tableData, onClickByAdmin, onDelete, loading } = props;
+	const {
+		columns,
+		tableData,
+		onClickByAdmin,
+		onDelete,
+		loading,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		totalCount,
+		handleChangeRowsPerPage
+	} = props;
 	return (
 		<>
 			<div className={header}>
@@ -17,6 +27,12 @@ const SubCompanyListWeb = (props: any) => {
 				onDelete={onDelete}
 				loading={loading}
 				buttonTitle="Add Sub Company"
+				clickAction={onClickByAdmin}
+				page={page}
+				rowsPerPage={rowsPerPage}
+				handleChangePage={handleChangePage}
+				totalCount={totalCount}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
 			/>
 		</>
 	);

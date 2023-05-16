@@ -17,7 +17,7 @@ export default function useProduct() {
 	const [varinatList, setvariantList] = useState([]);
 	const [varinatSectionNameList, setvariantSetionNameList] = useState([]);
 	const [fetchagain, setFetchAgain] = useState(false);
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 	const coloums = variantColums;
 	const [menu, setMenu] = useState(false);
 	const [TableData, setTableData] = useState([]);

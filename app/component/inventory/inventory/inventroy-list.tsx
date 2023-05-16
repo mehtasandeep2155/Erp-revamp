@@ -13,7 +13,7 @@ function InventroyViewList() {
 	const { inventries } = getInventory();
 	const { ProductSchema } = useValidation(inventoryvalue);
 	const { tableDataSelect, getAllVariantList } = useProduct();
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 
 	useEffect(() => {
 		getAllVariantList();

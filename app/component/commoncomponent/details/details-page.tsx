@@ -7,7 +7,7 @@ import { ArrowBack } from "@mui/icons-material";
 import { poEntriesList, productRateList } from "@component/utils/routes";
 
 export default function VariantDetails() {
-	const { rates } = getRate();
+	const { rates } = getRate("", "");
 	const router = useRouter();
 	const { query, pathname, push } = router;
 	const [variantObj, setVariantObj] = useState({});

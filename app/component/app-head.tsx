@@ -23,10 +23,10 @@ export default function AppHead({ colorTheme }: any) {
                         font-size:13px;	
                         
                     }	
-                    .tss-djbknv-MUIDataTablePagination-navContainer{
-                        justify-content:space-between !important;
-                        width:500px !important;
-                    }
+                    // .tss-djbknv-MUIDataTablePagination-navContainer{
+                    //     justify-content:space-between !important;
+                    //     width:500px !important;
+                    // }
                     .MuiChip-root{
                         background-color: rgba(33, 150, 243, 0.1);
                         height:35px !important;
@@ -185,8 +185,9 @@ export default function AppHead({ colorTheme }: any) {
                         width:100%;
                     }
                     .MuiTablePagination-displayedRows {
-                        margin-left: 607px;
-                        min-width: 11%;
+                       display:flex !important;
+                       justify-content:end;
+                      width:auto;
                     }
                     
                     .MuiTablePagination-spacer{
@@ -242,9 +243,9 @@ export default function AppHead({ colorTheme }: any) {
                     .tss-1cdcmys-MUIDataTable-responsiveBase::-webkit-scrollbar {
                         width: 1px !important;
                     }
-                    .tss-1ork7hi-MUIDataTablePagination-tableCellContainer{
-                        padding:45px !important;
-                    }
+                    // .tss-1ork7hi-MUIDataTablePagination-tableCellContainer{
+                    //     padding:45px !important;
+                    // }
                    
                     .MuiBadge-badge{
                         background-color:${pelorous} !important;

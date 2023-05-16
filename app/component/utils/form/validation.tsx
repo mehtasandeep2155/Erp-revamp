@@ -71,6 +71,7 @@ export const useValidation = (values: any) => {
 	});
 
 	const branchSchema = Yup.object({
+		name: Yup.string().trim().required("Name is Required!"),
 		address: Yup.string().trim().required("Address is Required!"),
 		type: Yup.object().required("Type is Required!"),
 		phone: Yup.string()
@@ -79,16 +80,12 @@ export const useValidation = (values: any) => {
 			.matches(phoneRegExp, "Phone number is not valid")
 			.min(10, "Phone number is not too short")
 			.max(10, "Phone number is not too long"),
-		contact_name: Yup.string()
-			.trim()
-			.matches(nameRegExp, "Invalid Contact Name!")
-			.required("Contact Name is Required!"),
+		contact_name: Yup.string().trim().matches(nameRegExp, "Invalid Contact Name!").nullable(),
 		contact_phone: Yup.string()
 			.trim()
-			.required("Phone Number Is Required")
 			.matches(phoneRegExp, "Phone number is not valid")
 			.min(10, "Phone number is not too short")
-			.max(10, "Phone number is not too long")
+			.nullable()
 	});
 
 	const CustomerSchema = Yup.object({

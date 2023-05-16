@@ -7,11 +7,24 @@ import useColor from "./color-hook";
 import { getColor } from "@api/get-api-queries";
 
 function ProductColorList() {
-	const { menu, fetchagain, tableData, getAllColorList, colorValue, onClick, loader } = useColor();
-	const { colors } = getColor();
+	const {
+		menu,
+		fetchagain,
+		tableData,
+		getAllColorList,
+		rowsPerPage,
+		page,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		colorValue,
+		onClick,
+		loader,
+		totalCount
+	} = useColor();
+	const { colors } = getColor(page, rowsPerPage);
 	useEffect(() => {
 		getAllColorList();
-	}, [colors.isLoading, fetchagain, colors.isRefetching]);
+	}, [colors.isLoading, fetchagain, colors.isRefetching, rowsPerPage, page]);
 
 	const { ProductColorSchema } = useValidation(colorValue);
 
@@ -24,9 +37,14 @@ function ProductColorList() {
 				onDelete={handleDelete}
 				loading={loader}
 				colorValue={colorValue}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangePage={handleChangePage}
+				rowsPerPage={rowsPerPage}
+				page={page}
+				totalCount={totalCount}
 			/>
 			<CustomizedDialogs
-				title="Add Color"
+				title={colorValue.id ? "Edit Color" : "Add Color"}
 				width={"xs"}
 				isOpen={menu}
 				handleClose={onClick}

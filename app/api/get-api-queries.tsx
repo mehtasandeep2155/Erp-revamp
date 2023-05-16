@@ -26,39 +26,43 @@ export const getJob = () => {
 	return { jobs };
 };
 
-export const getBranch = () => {
-	const branches = useQuery("branchlist", getBranchDetails);
+export const getBranch = (page: any, limit: any) => {
+	const branches = useQuery(["branchlist", page, limit], getBranchDetails);
 	return { branches };
 };
 
-export const getUsers = () => {
-	const users = useQuery("userlist", getUserlist);
+export const getUsers = (page: any, limit: any) => {
+	const users = useQuery(["userlist", page, limit], getUserlist);
 	return { users };
 };
 
-export const getPoentries = () => {
-	const poentries = useQuery("poentriesList", getPoentriesDetails);
+export const getPoentries = (page: any, limit: any) => {
+	const poentries = useQuery(["poentriesList", page, limit], getPoentriesDetails);
 	return { poentries };
 };
 
-export const getProduct = () => {
-	const products = useQuery("productlist", getProductDetails);
+export const getProduct = (page: any, limit: any) => {
+	const products = useQuery(["productlist", page, limit], getProductDetails);
 	return { products };
 };
-export const getCompany = () => {
-	const companies = useQuery("companylist", getCompanyDetails);
+export const getCompany = (page: any, limit: any) => {
+	const companies = useQuery(["companylist", page, limit], getCompanyDetails);
 	return { companies };
 };
-export const getRate = () => {
-	const rates = useQuery("ratelist", getRateDetails);
+export const getSubCompany = (page: any, limit: any) => {
+	const subcompanies = useQuery(["subcompanylist", page, limit], getSubCompanyDetails);
+	return { subcompanies };
+};
+export const getRate = (page: any, limit: any) => {
+	const rates = useQuery(["ratelist", page, limit], getRateDetails);
 	return { rates };
 };
 export const getProductRate = () => {
-	const productsRate = useQuery("productratelist", getProductRateDetails);
+	const productsRate = useQuery(["productratelist"], getProductRateDetails);
 	return { productsRate };
 };
-export const getType = () => {
-	const types = useQuery("typelist", getTypeDetails);
+export const getType = (page: any, limit: any) => {
+	const types = useQuery(["typelist", page, limit], getTypeDetails);
 	return { types };
 };
 
@@ -67,19 +71,14 @@ export const getProductWithRate = () => {
 	return { productsWithRate };
 };
 
-export const getColor = () => {
-	const colors = useQuery("colorlist", getColorDetails);
+export const getColor = (page: any, limit: any) => {
+	const colors = useQuery(["colorlist", page, limit], getColorDetails);
 	return { colors };
 };
 
-export const getCustomer = () => {
-	const customerlists = useQuery("customerlist", getCustomerDetails);
+export const getCustomer = (page: any, limit: any) => {
+	const customerlists = useQuery(["customerlist", page, limit], getCustomerDetails);
 	return { customerlists };
-};
-
-export const getSubCompany = () => {
-	const subcompanies = useQuery("subcompanylist", getSubCompanyDetails);
-	return { subcompanies };
 };
 
 export const getInventory = () => {
@@ -92,8 +91,8 @@ export const getInventoryMaster = () => {
 	return { inventoryviews };
 };
 
-export const getInvoice = () => {
-	const invoices = useQuery("invoicelist", getInVoiceDetails);
+export const getInvoice = (page: any, limit: any) => {
+	const invoices = useQuery(["invoicelist", page, limit], getInVoiceDetails);
 	return { invoices };
 };
 

@@ -41,18 +41,6 @@ export const navListObject: Array<navListObjectInterface> = [
 		route: dashboard
 	},
 	{
-		moduleAccess: "PurchaseOrders",
-		title: "Purchase Orders",
-		icon: Shop2Outlined,
-		route: purchaseOrderList
-	},
-	{
-		moduleAccess: "PurchaseOrders",
-		title: "Invoice",
-		icon: Receipt,
-		route: inVoiceList
-	},
-	{
 		moduleAccess: "Company",
 		title: "Company",
 		icon: BusinessOutlined,
@@ -86,12 +74,17 @@ export const navListObject: Array<navListObjectInterface> = [
 		icon: FormatColorReset,
 		route: productTypeList
 	},
-
 	{
 		moduleAccess: "PurchaseOrders",
-		title: "Branch",
-		icon: WorkHistoryOutlined,
-		route: branchList
+		title: "Purchase Orders",
+		icon: Shop2Outlined,
+		route: purchaseOrderList
+	},
+	{
+		moduleAccess: "PurchaseOrders",
+		title: "Invoice",
+		icon: Receipt,
+		route: inVoiceList
 	},
 	{
 		moduleAccess: "Customers",
@@ -100,16 +93,22 @@ export const navListObject: Array<navListObjectInterface> = [
 		route: customerList
 	},
 	{
-		moduleAccess: "Job",
-		title: "Job Details",
-		icon: WorkHistory,
-		route: jobList
+		moduleAccess: "PurchaseOrders",
+		title: "Branch",
+		icon: WorkHistoryOutlined,
+		route: branchList
 	},
 	{
 		moduleAccess: "Ledger",
 		title: "Ledger",
 		icon: ReceiptOutlined,
 		route: ledgerList
+	},
+	{
+		moduleAccess: "Job",
+		title: "Job Details",
+		icon: WorkHistory,
+		route: jobList
 	},
 	{
 		moduleAccess: "Inventory",

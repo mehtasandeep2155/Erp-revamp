@@ -1,9 +1,19 @@
 import { Form, Formik } from "formik";
 import { Input } from "@component/utils/form-fields";
 import { SubCompanyProps, SubCompanyValuesType } from "@component//utils/type/interfaces";
-import { verifyForm, loginBtn, btnDiv } from "@css/styles";
+import {
+	verifyForm,
+	loginBtn,
+	btnDiv,
+	verifyModelForm,
+	formColorControl,
+	formGroupProduct,
+	dialogBtnDiv
+} from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo } from "react";
+import { IconButtons } from "@common/buttons";
+import { submitButton } from "@css/mui-styles";
 
 const AddSubCompany = (data: SubCompanyProps) => {
 	const { handleChange } = useHandleChange("", "");
@@ -14,7 +24,7 @@ const AddSubCompany = (data: SubCompanyProps) => {
 	};
 
 	return (
-		<div className={verifyForm}>
+		<div className={verifyModelForm}>
 			<Formik initialValues={subCompanyValue} onSubmit={handleSubCompanySubmit} validationSchema={validation}>
 				{(props) => (
 					<Form>
@@ -28,11 +38,16 @@ const AddSubCompany = (data: SubCompanyProps) => {
 							error={"name"}
 							value={props.values.name}
 							require={true}
+							formGroupStyle={formGroupProduct}
+							inputStyle={formColorControl}
 						/>
-						<div className={btnDiv}>
-							<button className={loginBtn} type="submit">
-								{subCompanyValue.id ? "Save Changes" : "Add Sub Company"}
-							</button>
+						<div className={dialogBtnDiv}>
+							<IconButtons
+								clickEvent={() => {}}
+								styles={submitButton}
+								lebel={subCompanyValue.id ? "Save Changes" : "Add"}
+								type="submit"
+							/>
 						</div>
 					</Form>
 				)}

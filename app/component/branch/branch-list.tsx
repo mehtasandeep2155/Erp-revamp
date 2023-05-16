@@ -4,10 +4,25 @@ import { getBranch } from "@api/get-api-queries";
 import useBranch from "./branch-hook";
 import AddBranch from "./add-branch";
 import BranchListUi from "./branch-list-ui";
+import SwipeableTemporaryDrawer from "@common/drawer/drawer-model";
 
 function BranchList() {
-	const { branches } = getBranch();
-	const { menu, onClick, branchValue, columns, getAllBranchList, fetchagain, tableData, loader } = useBranch();
+	const {
+		menu,
+		onClick,
+		branchValue,
+		columns,
+		getAllBranchList,
+		fetchagain,
+		tableData,
+		loader,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		totalCount
+	} = useBranch();
+	const { branches } = getBranch(page, rowsPerPage);
 
 	useEffect(() => {
 		getAllBranchList();
@@ -22,21 +37,29 @@ function BranchList() {
 				onClickByAdmin={onClick}
 				onDelete={handleDelete}
 				loading={loader}
+				page={page}
+				totalCount={totalCount}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangePage={handleChangePage}
+				rowsPerPage={rowsPerPage}
 			/>
-			<CustomizedDialogs
-				title="Branch"
-				isOpen={menu}
-				handleClose={onClick}
-				content={
-					<AddBranch
-						setIsOpen={false}
-						branchValue={branchValue}
-						onClickByAdmin={onClick}
-						purchase={false}
-						props={undefined}
-					/>
-				}
-			/>
+			<>
+				<SwipeableTemporaryDrawer
+					isOpen={menu}
+					handleClose={onClick}
+					anchor="right"
+					title="Add Branch"
+					content={
+						<AddBranch
+							setIsOpen={false}
+							branchValue={branchValue}
+							onClickByAdmin={onClick}
+							purchase={false}
+							props={undefined}
+						/>
+					}
+				/>
+			</>
 		</>
 	);
 }

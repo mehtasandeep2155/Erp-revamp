@@ -16,7 +16,7 @@ const VerifyUserForm = (props: VerifyUserProps) => {
 	const [moduleList, setModuleList] = useState<any>([]);
 	const { handleChange } = useHandleChange(moduleList, setModuleList);
 	const { userdetails, submit, Members } = props;
-	const { companies } = getCompany();
+	const { companies } = getCompany("", "");
 	const { companyList, getCompanyList } = useVerification();
 	const { VerifySchema } = useValidation(userdetails);
 

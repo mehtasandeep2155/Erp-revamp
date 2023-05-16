@@ -293,6 +293,14 @@ export const inputError = css`
 	width: 281px;
 	border: 1px solid red;
 `;
+
+export const inputErrorCustomer = css`
+	${formControlAuth};
+	${formControl};
+	width: 100%;
+	border: 1px solid red;
+`;
+
 export const formColorControl = css`
 	${formControl}
 	width: 378px;
@@ -550,7 +558,7 @@ export const editFinishBut = css`
 export const detailsViewBut = css`
 	${editBut}
 	z-index:99999;
-	width: 68px;
+	width: auto;
 	background: #edc5c5;
 	font-size: 11px;
 	color: black !important;
@@ -673,7 +681,7 @@ export const invoicePageView = css`
 export const tablePoActionMoveForm = css`
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 15px;
 `;
 export const verifyModelForm = css``;
 
@@ -1416,7 +1424,7 @@ export const topNavbar = css`
 export const topNavItems = css`
 	${flex}
 	width: 100%;
-	justify-content: space-between;
+	justify-content: flex-end;
 	margin-right: 60px;
 	margin-left: 30px;
 	${Mobile} {
@@ -2010,4 +2018,18 @@ export const invoiceCheckbox = css`
 export const purchaseOrderSubmit = css`
 	${flexCol};
 	background: ${white};
+`;
+
+export const addProductForm = css`
+	${flex};
+`;
+
+export const multipleCompanies = css`
+	height: 35px !important;
+`;
+
+export const addSubCompany = css`
+	margin-left: 70px;
+	width: 360px;
+	margin-top: 3px;
 `;

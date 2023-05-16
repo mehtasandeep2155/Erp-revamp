@@ -24,7 +24,7 @@ import { pelorous } from "@css/color-palette";
 const AddInVoice = (data: InvoiceProps) => {
 	const { InvoiceValue, onClickByAdmin, disabled, productPoList, tableDataSelect, handleOnInvoceClick } = data;
 	const { getAllCompanyList, fetchagain } = useCustomer();
-	const { customerlists } = getCustomer();
+	const { customerlists } = getCustomer("", "");
 	const { purchaseOrderds } = getPurchaseOrders();
 	const { InvoiceSchema } = useValidation(InvoiceValue);
 

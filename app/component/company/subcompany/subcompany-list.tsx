@@ -7,10 +7,23 @@ import useSubCompany from "./sub-company-hook";
 import { getSubCompany } from "@api/get-api-queries";
 
 function SubCompanyList() {
-	const { getSubCompanyList, onClick, subCompanyValue, columns, tableData, menu, loader, fetchagain } =
-		useSubCompany();
+	const {
+		getSubCompanyList,
+		onClick,
+		subCompanyValue,
+		columns,
+		tableData,
+		menu,
+		loader,
+		fetchagain,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		totalCount
+	} = useSubCompany();
 	const { SubCompanySchema } = useValidation(subCompanyValue);
-	const { subcompanies } = getSubCompany();
+	const { subcompanies } = getSubCompany(page, rowsPerPage);
 
 	useEffect(() => {
 		getSubCompanyList();
@@ -25,10 +38,16 @@ function SubCompanyList() {
 				onClickByAdmin={onClick}
 				onDelete={handleDelete}
 				loading={loader}
+				page={page}
+				rowsPerPage={rowsPerPage}
+				handleChangePage={handleChangePage}
+				totalCount={totalCount}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
 			/>
 			<CustomizedDialogs
-				title="Sub Company"
+				title="Add Sub Company"
 				isOpen={menu}
+				width={"xs"}
 				handleClose={onClick}
 				content={
 					<AddSubCompany

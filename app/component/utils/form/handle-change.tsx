@@ -55,7 +55,9 @@ export default function useHandleChange(moduleList: any, setModuleList: any) {
 					}
 				});
 			}
-		} else if (event.target.name == "subCompanyId" || event.target.name === "colors") {
+		} else if (event.target.name === "colors") {
+			setFieldValue(event.target.name, event.target.value);
+		} else if (event.target.name === "subCompanyId") {
 			setFieldValue(event.target.name, event.target.value);
 		} else if (event.target.name === "password") {
 			setPassword(event.target.value);

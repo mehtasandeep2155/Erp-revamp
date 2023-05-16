@@ -2,7 +2,18 @@ import { HeaderPage } from "@component/commoncomponent/common-components";
 import TableComponent from "common/tables/custom-table";
 import { memo } from "react";
 const ProductTypeListWeb = (props: any) => {
-	const { tableData, onClickByAdmin, columns, onDelete, loading } = props;
+	const {
+		tableData,
+		onClickByAdmin,
+		columns,
+		onDelete,
+		loading,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		totalCount,
+		handleChangeRowsPerPage
+	} = props;
 
 	return (
 		<>
@@ -15,6 +26,11 @@ const ProductTypeListWeb = (props: any) => {
 				loading={loading}
 				buttonTitle="Add Product Coating"
 				clickAction={onClickByAdmin}
+				page={page}
+				totalCount={totalCount}
+				rowsPerPage={rowsPerPage}
+				handleChangePage={handleChangePage}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
 			/>
 		</>
 	);

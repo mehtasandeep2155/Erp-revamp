@@ -24,16 +24,29 @@ import { Chip } from "@mui/material";
 import Swal from "sweetalert2";
 import { getCompany } from "@api/get-api-queries";
 import AccordionRowComponent from "@common/accordinon/accordion-row";
+import { addCompany } from "@component/utils/routes";
+import { useRouter } from "next/router";
 
 export default function useCompany() {
 	const [menu, setMenu] = useState(false);
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [companyValue, setCompanyValue] = useState(CompanyValues);
-	const { companies } = getCompany();
+	const [page, setPage] = useState(1);
+	const [totalCount, setTotalCount] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { companies } = getCompany(page, rowsPerPage);
 	const [allComapnyList, setAllCompanyList] = useState(companies.data);
 	const columns = companyColums;
 	const [tableData, setTableData] = useState([]);
+	const { push } = useRouter();
+
 	const mutation = useMutation(
 		(createCompany: CompanyValuesType) => {
 			LoadingAlert();
@@ -122,6 +135,7 @@ export default function useCompany() {
 			}
 			setMenu(!menu);
 		}
+		push(addCompany);
 	};
 
 	const getAllCompanyList = async () => {
@@ -129,6 +143,7 @@ export default function useCompany() {
 		if (!companies.isLoading || fetchagain) {
 			let list: any = [];
 			let companyDetails = await companies.data;
+			setTotalCount(companyDetails?.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -143,9 +158,9 @@ export default function useCompany() {
 				}
 			}
 			setAllCompanyList(companyDetails);
-			companyDetails?.forEach((item: any, index: number) => {
+			companyDetails?.data?.forEach((item: any, index: number) => {
 				let objData = [
-					index + 1,
+					rowsPerPage * page + index - rowsPerPage + 1,
 					item.name.charAt(0).toUpperCase() + item.name.slice(1),
 					<div className={summaryCompanyDiv}>
 						{item.sub_company ? (
@@ -208,7 +223,12 @@ export default function useCompany() {
 		columns,
 		fetchagain,
 		getAllCompanyList,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		page,
+		rowsPerPage,
 		tableData,
+		totalCount,
 		allComapnyList,
 		loader
 	};

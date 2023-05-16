@@ -23,7 +23,16 @@ export default function useInVoice() {
 	const [IsOpenPo, setIsOpenPo] = useState(false);
 	const [PoDetails, setPoDetails] = useState([]);
 	const [tableData, setTableData] = useState([]);
-	const { invoices } = getInvoice();
+	const [page, setPage] = useState(1);
+	const [totalCount, setTotalCount] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { invoices } = getInvoice(page, rowsPerPage);
 
 	const handlePoView = (item: any, type: any) => {
 		setIsOpenPo(!IsOpenPo);
@@ -164,6 +173,7 @@ export default function useInVoice() {
 		if (!invoices.isLoading || fetchagain) {
 			let list: any = [];
 			let inVoiceDetails = await invoices.data;
+			setTotalCount(inVoiceDetails?.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -177,9 +187,9 @@ export default function useInVoice() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			inVoiceDetails?.forEach((item: any, index: number) => {
+			inVoiceDetails?.data.forEach((item: any, index: number) => {
 				let objData = [
-					index + 1,
+					rowsPerPage * page + index - rowsPerPage + 1,
 					<span className={detailsViewBut} onClick={() => handlePoView(item.associated_po, "view")}>
 						P.O Info
 					</span>,
@@ -229,6 +239,11 @@ export default function useInVoice() {
 		customerObj,
 		PoDetails,
 		handlePoView,
+		totalCount,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage,
 		IsOpenPo
 	};
 }

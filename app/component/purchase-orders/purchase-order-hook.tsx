@@ -37,7 +37,7 @@ import {
 	statusTabs
 } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
-import { getProduct, getProductRate, getProductWithRate, getPurchaseOrders, getRate } from "@api/get-api-queries";
+import { getProduct, getProductRate, getProductWithRate, getPurchaseOrders } from "@api/get-api-queries";
 import { useRouter } from "next/router";
 import { poEntriesDetails } from "@component/utils/routes";
 import PurcharseOrderTableAction from "./purchase-order-table-action";
@@ -45,7 +45,7 @@ import PurcharseOrderTableAction from "./purchase-order-table-action";
 export default function usePurchaseOrder() {
 	const [IsOpen, setIsOpen] = useState(false);
 	const [IsDetails, setIsDetails] = useState(false);
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 	const { purchaseOrderds } = getPurchaseOrders();
 	const { productsRate } = getProductRate();
 	const [loader, setLoader] = useState(false);
@@ -57,7 +57,7 @@ export default function usePurchaseOrder() {
 	const [perChasevalue, setPurchaseValue] = useState<any>(purchaseOrderValues);
 	const [productmenu, setProductmenu] = useState(false);
 	const columns = CoatingColums;
-	const [tableData, setTableData] = useState();
+	const [tableData, setTableData] = useState([]);
 	const [readyForCoatingTableData, setReadyForCoatingTableData] = useState([]);
 	const [CoatingInProgressTableData, setCoatingInProgressTableData] = useState([]);
 	const [allTableData, seAllTableData] = useState([]);
@@ -68,7 +68,7 @@ export default function usePurchaseOrder() {
 	const [customerObj, setCustomerObj] = useState({});
 	const [isOpenProduct, setIsOpenProduct] = useState(false);
 	const [productObjList, setProductObjList] = useState([]);
-	const [tableDataSelectPurcahse, setTableSelectData] = useState();
+	const [tableDataSelectPurcahse, setTableSelectData] = useState([]);
 	const [InvoiceValue, setInvoiceValue] = useState<any>(InvoiceValues);
 	const [menuCustomer, setMenuCustomer] = useState(false);
 	const [productDetailsList, setProductDetailsList] = useState([]);
@@ -356,7 +356,7 @@ export default function usePurchaseOrder() {
 			perChasevalue["products"] = values.products;
 		}
 		let list: any = [];
-		perChasevalue.products?.map((item: any) => {
+		perChasevalue.products?.data?.map((item: any) => {
 			let data = [
 				item.rate.product ? (
 					<span className={detailsViewBut} onClick={() => handleView(item.rate)}>
@@ -403,7 +403,7 @@ export default function usePurchaseOrder() {
 		if (!productsRate.isLoading) {
 			let ratelist: any = [];
 			let list: any = [];
-			let datarate: any = await productsRate.data;
+			let datarate: any = await productsRate?.data?.data;
 			datarate?.forEach((item: any) => {
 				let obj = { name: item, id: item.id };
 				ratelist.push(obj);
@@ -414,7 +414,7 @@ export default function usePurchaseOrder() {
 		}
 		if (!purchaseOrderds.isLoading) {
 			let purchaselist: any = [];
-			let datarate: any = await purchaseOrderds.data;
+			let datarate: any = await purchaseOrderds?.data?.data;
 			datarate?.forEach((item: any) => {
 				let obj = { name: item, id: item.id };
 				purchaselist.push(obj);
@@ -598,13 +598,6 @@ export default function usePurchaseOrder() {
 	const getAllPurchaseList = async () => {
 		setLoader(true);
 		if (!purchaseOrderds.isLoading || fetchagain) {
-			let list: any = [];
-			let coatingReady: any = [];
-			let coatingInprogress: any = [];
-			let allData: any = [];
-			let transits: any = [];
-			let finsihList: any = [];
-			let readyDispatch: any = [];
 			let index1 = 0;
 			let index2 = 0;
 			let index3 = 0;
@@ -612,7 +605,14 @@ export default function usePurchaseOrder() {
 			let index6 = 0;
 			let index7 = 0;
 			let product = [];
-			let selectList: any = [];
+			tableData.map(() => tableData.pop());
+			tableDataSelectPurcahse.map(() => tableDataSelectPurcahse.pop());
+			CoatingInProgressTableData.map(() => CoatingInProgressTableData.pop());
+			readyForCoatingTableData.map(() => readyForCoatingTableData.pop());
+			tableDataSelectPurcahse.map(() => tableDataSelectPurcahse.pop());
+			InTransitTableData.map(() => InTransitTableData.pop());
+			finishTableData.map(() => finishTableData.pop());
+			allTableData.map(() => allTableData.pop());
 			let polist: any = [];
 			let dataorder: any = await purchaseOrderds.data;
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
@@ -628,7 +628,7 @@ export default function usePurchaseOrder() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			dataorder?.forEach((item: any, index: any) => {
+			dataorder?.data?.forEach((item: any, index: any) => {
 				let obj = { name: item, id: item.id };
 				polist.push(obj);
 				setProductPoList(polist);
@@ -677,7 +677,7 @@ export default function usePurchaseOrder() {
 							handleDetailsView={handleDetailsView}
 						/>
 					];
-					allData.push(data4);
+					allTableData.push(data4);
 				}
 				if (item.status === "initiated") {
 					index1 = index1 + 1;
@@ -703,7 +703,7 @@ export default function usePurchaseOrder() {
 							handleDetailsView={handleDetailsView}
 						/>
 					];
-					list.push(data1);
+					tableData.push(data1);
 				} else if (item.status === "coating_initiated") {
 					index2 = index2 + 1;
 					let data2 = [
@@ -728,7 +728,7 @@ export default function usePurchaseOrder() {
 							handleDetailsView={handleDetailsView}
 						/>
 					];
-					coatingReady.push(data2);
+					readyForCoatingTableData.push(data2);
 				} else if (item.status === "coating_processing") {
 					index3 = index3 + 1;
 					let data3 = [
@@ -753,7 +753,7 @@ export default function usePurchaseOrder() {
 							handleDetailsView={handleDetailsView}
 						/>
 					];
-					coatingInprogress.push(data3);
+					CoatingInProgressTableData.push(data3);
 				} else if (item.status === "in_transit") {
 					index5 = index5 + 1;
 					let data5 = [
@@ -778,7 +778,7 @@ export default function usePurchaseOrder() {
 							handleDetailsView={handleDetailsView}
 						/>
 					];
-					transits.push(data5);
+					InTransitTableData.push(data5);
 				} else if (item.status === "ready_for_dispatch") {
 					index6 = index6 + 1;
 					let data6 = [
@@ -799,7 +799,7 @@ export default function usePurchaseOrder() {
 							: "_",
 						<PurcharseOrderTableAction item={item} handleDispatch={handleDispatch} />
 					];
-					readyDispatch.push(data6);
+					DispatchReadyTableData.push(data6);
 				} else {
 					index7 = index7 + 1;
 					let data7 = [
@@ -836,9 +836,9 @@ export default function usePurchaseOrder() {
 							</span>
 						</div>
 					];
-					finsihList.push(data7);
+					finishTableData.push(data7);
 				}
-				selectList.push([
+				tableDataSelectPurcahse.push([
 					item.order_number,
 					item.has_raw_material ? "Yes" : "No",
 					item.issued_date
@@ -857,14 +857,7 @@ export default function usePurchaseOrder() {
 					)
 				]);
 			});
-			setTableSelectData(selectList);
-			setTableData(list);
-			setInTransitTableData(transits);
-			setFinishTableData(finsihList);
-			seAllTableData(allData);
-			setDispatchReadyTableData(readyDispatch);
-			setReadyForCoatingTableData(coatingReady);
-			setCoatingInProgressTableData(coatingInprogress);
+			// seAllTableData(allData);
 			setLoader(false);
 			setFetchAgain(false);
 		}
@@ -872,7 +865,7 @@ export default function usePurchaseOrder() {
 	const getAllProduct = async () => {
 		if (!products.isLoading) {
 			let list: any = [];
-			let dataproduct: any = await products.data;
+			let dataproduct: any = await products?.data;
 			dataproduct?.forEach((item: any) => {
 				let obj = { name: item, id: item.id };
 				list.push(obj);

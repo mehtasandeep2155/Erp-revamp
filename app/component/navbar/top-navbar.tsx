@@ -42,10 +42,10 @@ export default function TopNavbar({ handleToggle, toggleMode, handleOpen, isOpen
 				<div className={topNavItemsDiv}>
 					<div className={topNavItems}>
 						<Menu className={`${MobileMenu}`} onClick={() => handleDrawer(!isOpen3, "open")} />
-						<div className={formControlSearchContainer}>
+						{/* <div className={formControlSearchContainer}>
 							<Search className={searchIcon} sx={{ fontSize: "13px" }} />
 							<input className={formControlSearch} placeholder="Search" />
-						</div>
+						</div> */}
 						<div className={flexWrap}>
 							<IconButtons
 								icon={

@@ -10,7 +10,7 @@ function GarbageList() {
 	const { coloums, fetchagain, menu, getGarbageList, TableData, onClick, GarbageValue, loader } = useGarbage();
 	const { garbages } = getGarbage();
 	const { tableDataSelect, getAllVariantList } = useProduct();
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 
 	useEffect(() => {
 		getGarbageList();

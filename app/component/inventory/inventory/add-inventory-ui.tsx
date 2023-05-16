@@ -20,7 +20,7 @@ const AddInventoryView = (data: InventoryProps) => {
 		onClickByAdmin(castValues, "close", inventoryvalue.id);
 	};
 
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 	const { getAllList, productVariantlist, handleOnClick } = useRate();
 
 	useEffect(() => {

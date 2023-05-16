@@ -1,16 +1,25 @@
 import { useEffect, memo } from "react";
-import { useValidation } from "@component/utils/form/validation";
-import CustomizedDialogs from "@common/dailog/dailog-model";
 import CompanyListWeb from "./customer-list-ui";
-import AddCustomer from "./add-customer";
 import useCompany from "./customer-hook";
 import { getCustomer } from "@api/get-api-queries";
 
 function CompanyList() {
-	const { menuCustomer, onClick, customerValue, columns, fetchagain, getAllCompanyList, tableData, loader } =
-		useCompany();
-	const { customerlists } = getCustomer();
-	const { CompanySchema } = useValidation(customerValue);
+	const {
+		menuCustomer,
+		onClick,
+		customerValue,
+		columns,
+		fetchagain,
+		getAllCompanyList,
+		tableData,
+		loader,
+		totalCount,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage
+	} = useCompany();
+	const { customerlists } = getCustomer(page, rowsPerPage);
 
 	useEffect(() => {
 		getAllCompanyList();
@@ -26,6 +35,12 @@ function CompanyList() {
 				onDelete={handleDelete}
 				loading={loader}
 				isOpen={menuCustomer}
+				page={page}
+				rowsPerPage={rowsPerPage}
+				totalCount={totalCount}
+				handleChangePage={handleChangePage}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				customerValue={customerValue}
 			/>
 		</>
 	);

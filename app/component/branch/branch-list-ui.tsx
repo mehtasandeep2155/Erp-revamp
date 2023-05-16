@@ -3,7 +3,18 @@ import { memo } from "react";
 import { HeaderPage } from "@component/commoncomponent/common-components";
 
 const BranchListWeb = (props: any) => {
-	const { columns, tableData, onClickByAdmin, onDelete, loading } = props;
+	const {
+		columns,
+		tableData,
+		onClickByAdmin,
+		onDelete,
+		loading,
+		page,
+		rowsPerPage,
+		totalCount,
+		handleChangePage,
+		handleChangeRowsPerPage
+	} = props;
 
 	return (
 		<>
@@ -13,8 +24,14 @@ const BranchListWeb = (props: any) => {
 				tableData={tableData}
 				columns={columns}
 				onDelete={onDelete}
+				clickAction={onClickByAdmin}
 				loading={loading}
 				buttonTitle="Add Branch"
+				page={page}
+				totalCount={totalCount}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangePage={handleChangePage}
+				rowsPerPage={rowsPerPage}
 			/>
 		</>
 	);

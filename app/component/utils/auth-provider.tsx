@@ -54,24 +54,12 @@ import { adminRoles } from "@component/utils/form/constant";
 
 export default function AuthContext({ Component, pageProps }: any) {
 	const { push, pathname } = useRouter();
-	const { colors } = getColor();
-	const { rates } = getRate();
-	const { users } = getUsers();
-	const { types } = getType();
-	const { products } = getProduct();
 	const { purchaseOrderds } = getPurchaseOrders();
 	const { ledgers } = getLedger();
-	const { companies } = getCompany();
-	const { subcompanies } = getSubCompany();
-	const { customerlists } = getCustomer();
 	const { inventoryviews } = getInventoryMaster();
 	const { inventries } = getInventory();
 	const { garbages } = getGarbage();
-	const { poentries } = getPoentries();
-	const { invoices } = getInvoice();
 	const { jobs } = getJob();
-	const { branches } = getBranch();
-
 	useEffect(() => {
 		let localData = JSON.parse(localStorage.getItem("userdata"));
 		const path =
@@ -95,17 +83,7 @@ export default function AuthContext({ Component, pageProps }: any) {
 	}, []);
 
 	useEffect(() => {
-		if (pathname.toLowerCase().includes(productColorList)) {
-			colors.refetch();
-		} else if (pathname.toLowerCase().includes(productRateList)) {
-			rates.refetch();
-		} else if (pathname.toLowerCase().includes(dashboard)) {
-			users.refetch();
-		} else if (pathname.toLowerCase().includes(productTypeList)) {
-			types.refetch();
-		} else if (pathname.toLowerCase().includes(productVariantList)) {
-			products.refetch();
-		} else if (
+		if (
 			pathname.toLocaleLowerCase().includes(purchaseOrderList) ||
 			pathname.toLocaleLowerCase().includes(coatingReadyList) ||
 			pathname.toLocaleLowerCase().includes(coatingInProgressList) ||
@@ -121,26 +99,14 @@ export default function AuthContext({ Component, pageProps }: any) {
 			pathname.toLocaleLowerCase().includes(ledgerPaidList)
 		) {
 			ledgers.refetch();
-		} else if (pathname.toLocaleLowerCase().includes(companyList)) {
-			companies.refetch();
-		} else if (pathname.toLocaleLowerCase().includes(subCompanyList)) {
-			subcompanies.refetch();
-		} else if (pathname.toLocaleLowerCase().includes(customerList)) {
-			customerlists.refetch();
 		} else if (pathname.toLocaleLowerCase().includes(inventoryMasterList)) {
 			inventoryviews.refetch();
 		} else if (pathname.toLocaleLowerCase().includes(inventoryList)) {
 			inventries.refetch();
 		} else if (pathname.toLocaleLowerCase().includes(garbageList)) {
 			garbages.refetch();
-		} else if (pathname.toLocaleLowerCase().includes(poEntriesList)) {
-			poentries.refetch();
-		} else if (pathname.toLocaleLowerCase().includes(inVoiceList)) {
-			invoices.refetch();
 		} else if (pathname.toLocaleLowerCase().includes(jobList)) {
 			jobs.refetch();
-		} else if (pathname.toLocaleLowerCase().includes(branchList)) {
-			branches.refetch();
 		}
 	}, [pathname]);
 

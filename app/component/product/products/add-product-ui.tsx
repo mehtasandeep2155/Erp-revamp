@@ -27,7 +27,7 @@ const AddProductVariant = () => {
 		const castValues = ProductVariantSchema.cast(values);
 		onClick(castValues, "close", variantvalue.id);
 	};
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 
 	useEffect(() => {
 		getAllVariantList();

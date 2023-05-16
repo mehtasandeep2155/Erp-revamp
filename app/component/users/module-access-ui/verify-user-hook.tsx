@@ -14,11 +14,21 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/
 import AccordionRowComponent from "@common/accordinon/accordion-row";
 
 export default function useVerification() {
-	const { companies } = getCompany();
+	const { companies } = getCompany("", "");
 	const [companyList, setCompanyList] = useState([]);
 	const [menu, setMenu] = useState(false);
 	const [loader, setLoader] = useState(false);
-	const { users } = getUsers();
+	const [page, setPage] = useState(1);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [totalCount, setTotalCount] = useState(0);
+
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { users } = getUsers(page, rowsPerPage);
 	const [userDetails, setuserDetails] = useState<any>(VerifyValues);
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [tableData, setTableData] = useState();
@@ -128,9 +138,10 @@ export default function useVerification() {
 			let list: any = [];
 			let index1 = 0;
 			let datamodule: any = await users.data;
-			setUserlist(datamodule);
+			setTotalCount(datamodule?.count);
+			setUserlist(datamodule?.data);
 			let listUser: any = [];
-			datamodule?.forEach((item: any, index: number) => {
+			datamodule?.data?.forEach((item: any, index: number) => {
 				let currentDate = new Date();
 				let yesterday = new Date(currentDate.getTime());
 				yesterday.setDate(currentDate.getDate() - 1);
@@ -165,7 +176,7 @@ export default function useVerification() {
 				if (item.role !== "Admin" && item.role !== "SuperAdmin") {
 					index1 = index1 + 1;
 					let data: any = [
-						index1,
+						rowsPerPage * page + index1 - rowsPerPage,
 						<div className={flex}>
 							{item.email}
 							{!item.verified && yesterday < new Date(item.createdAt) && (
@@ -237,7 +248,7 @@ export default function useVerification() {
 	const getCompanyList = async () => {
 		if (!companies.isLoading) {
 			let company: any = [];
-			let datacompany: any = await companies.data;
+			let datacompany: any = await companies.data.data;
 			datacompany?.forEach((item: any) => {
 				company.push(item.name);
 			});
@@ -253,6 +264,11 @@ export default function useVerification() {
 		onClick,
 		tableData,
 		// columns,
+		rowsPerPage,
+		totalCount,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		page,
 		fetchagain,
 		menu,
 		loader,

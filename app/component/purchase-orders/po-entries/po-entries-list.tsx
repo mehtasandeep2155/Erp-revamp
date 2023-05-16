@@ -7,8 +7,8 @@ import usePoEntries from "./po-entries-hook";
 import { getColor, getPoentries, getRate } from "@api/get-api-queries";
 
 function PoEntriesList() {
-	const { colors } = getColor();
-	const { rates } = getRate();
+	const { colors } = getColor("", "");
+	const { rates } = getRate("", "");
 	const {
 		getAllProducList,
 		onClick,
@@ -24,7 +24,7 @@ function PoEntriesList() {
 		handleOnClickPurchase,
 		productUserlist
 	} = usePoEntries();
-	const { poentries } = getPoentries();
+	const { poentries } = getPoentries("", "");
 	const { ProductSchema } = useValidation(poEntriesValue);
 
 	useEffect(() => {

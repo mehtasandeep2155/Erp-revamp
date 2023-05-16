@@ -17,11 +17,19 @@ export default function useSubCompany() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [subCompanyList, subcomapnylist] = useState([]);
-	const { subcompanies } = getSubCompany();
 	const [subCompanyValue, setSubCompanyValue] = useState(subCompanyValues);
 	const columns = subCompanyColums;
 	const [tableData, setTableData] = useState();
-
+	const [page, setPage] = useState(1);
+	const [totalCount, setTotalCount] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { subcompanies } = getSubCompany(page, rowsPerPage);
 	const mutation = useMutation(
 		(createSubCompany: SubCompanyValuesType) => {
 			LoadingAlert();
@@ -107,6 +115,7 @@ export default function useSubCompany() {
 		if (!subcompanies.isLoading || fetchagain) {
 			let list: any = [];
 			const datasubcompany: any = await subcompanies.data;
+			setTotalCount(datasubcompany?.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -120,9 +129,9 @@ export default function useSubCompany() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			datasubcompany?.forEach((item: any, index: number) => {
+			datasubcompany?.data?.forEach((item: any, index: number) => {
 				let objData = [
-					index+1,
+					rowsPerPage * page + index - rowsPerPage + 1,
 					item.name.charAt(0).toUpperCase() + item.name.slice(1),
 					<div className={flex}>
 						{objModulesData.controls.includes("Edit") && (
@@ -151,6 +160,11 @@ export default function useSubCompany() {
 		menu,
 		fetchagain,
 		loader,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		totalCount,
 		subCompanyList
 	};
 }

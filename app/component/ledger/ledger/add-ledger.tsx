@@ -11,9 +11,9 @@ import { getCustomer } from "@api/get-api-queries";
 const AddLedger = (data: LedgerProps) => {
 	const { ledgerValue, onClickByAdmin, disabled } = data;
 	const { customerList, getAllCompanyList, fetchagain } = useCustomer();
-	const { customerlists } = getCustomer();
+	const { customerlists } = getCustomer("", "");
 	const { LedgerSchema } = useValidation(ledgerValue);
-	
+
 	const handleLedgerSubmit = (values: any) => {
 		const castValues = LedgerSchema.cast(values);
 		onClickByAdmin(castValues, "close", ledgerValue.id);

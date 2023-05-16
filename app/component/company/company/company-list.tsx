@@ -5,10 +5,24 @@ import useCompany from "./company-hook";
 import { getCompany } from "@api/get-api-queries";
 
 function CompanyList() {
-	const { menu, onClick, companyValue, columns, allComapnyList, fetchagain, getAllCompanyList, tableData, loader } =
-		useCompany();
+	const {
+		menu,
+		onClick,
+		companyValue,
+		page,
+		rowsPerPage,
+		columns,
+		allComapnyList,
+		fetchagain,
+		getAllCompanyList,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		tableData,
+		loader,
+		totalCount
+	} = useCompany();
 	const { CompanySchema } = useValidation(companyValue);
-	const { companies } = getCompany();
+	const { companies } = getCompany(page, rowsPerPage);
 
 	useEffect(() => {
 		getAllCompanyList();
@@ -23,7 +37,13 @@ function CompanyList() {
 				onClickByAdmin={onClick}
 				onDelete={handleDelete}
 				loading={loader}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangePage={handleChangePage}
+				page={page}
+				rowsPerPage={rowsPerPage}
+				totalCount={totalCount}
 				allComapnyList={allComapnyList}
+				companyValue={companyValue}
 			/>
 		</>
 	);

@@ -19,7 +19,15 @@ export default function useProduct() {
 	const [varinatList, setvariantList] = useState([]);
 	const [varinatSectionNameList, setvariantSetionNameList] = useState([]);
 	const [fetchagain, setFetchAgain] = useState(false);
-	const { products } = getProduct();
+	const [page, setPage] = useState(1);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { products } = getProduct("", "");
 	const coloums = variantColums;
 	const [menu, setMenu] = useState(false);
 	const [rateMenu, setRateMenu] = useState(false);
@@ -27,7 +35,7 @@ export default function useProduct() {
 	const [variantvalue, setVariantValue]: any = useState(productValues);
 	const [tableDataSelect, setTableDataSelect] = useState([]);
 	const [rateValue, setRateValue] = useState(productRateValues);
-	const { rates } = getRate();
+	const { rates } = getRate(page, rowsPerPage);
 	const { push } = useRouter();
 
 	const mutation = useMutation(
@@ -138,7 +146,7 @@ export default function useProduct() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			dataVariant?.forEach((item: any, index: number) => {
+			dataVariant?.data?.forEach((item: any, index: number) => {
 				sectionNameList.push({ name: item });
 				let objdataName = { name: `${item.sectionName} ${item.sectionNumber}`, id: item.id };
 				listName.push(objdataName);
@@ -264,6 +272,10 @@ export default function useProduct() {
 		rateMenu,
 		onClickRate,
 		rateValue,
+		handleChangeRowsPerPage,
+		handleChangePage,
+		rowsPerPage,
+		page,
 		varinatSectionNameList
 	};
 }

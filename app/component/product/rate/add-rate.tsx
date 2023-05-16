@@ -26,7 +26,7 @@ const AddProductRate = () => {
 	const { handleChange } = useHandleChange("", "");
 	const { rateValue, onClickRate } = useProduct();
 	const { getAllList, productTypelist } = useRate();
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 	const { ProductRateSchema } = useValidation(rateValue);
 	const [rateData, setRateDate] = useState([]);
 

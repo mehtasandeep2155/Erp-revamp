@@ -36,3 +36,4 @@ export const DispatchedList = "/purchase-orders/dispatch/dispatched";
 export const addCoating = "/product/coating-form";
 export const addProduct = "/product/product-form";
 export const addProductRate = "/product/product-rate-form";
+export const addCompany = "/company/company-form";

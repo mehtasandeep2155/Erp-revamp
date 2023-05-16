@@ -138,6 +138,7 @@ export interface CompanyValuesType {
 }
 
 export interface BranchValueTypes {
+	name: string;
 	address: string;
 	type: string;
 	phone: string;
@@ -191,12 +192,13 @@ export interface CompanyProps {
 }
 
 export interface CutomerProps {
-	customerValue: any;
-	purchase: any;
-	validation: any;
-	props: any;
-	setIsOpen: any;
-	onClickByAdmin: (values: any, type: any, id: any) => void;
+	tableData?: any;
+	customerValue?: any;
+	purchase?: any;
+	validation?: any;
+	props?: any;
+	setIsOpen?: any;
+	onClickByAdmin?: (values: any, type: any, id: any) => void;
 }
 export interface JobProps {
 	jobValue: any;

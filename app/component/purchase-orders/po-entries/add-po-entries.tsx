@@ -34,10 +34,10 @@ const AddPoEntries = (data: ProductProps) => {
 		poOpen
 	} = data;
 	const { getAllList } = usePoEntries();
-	const { colors } = getColor();
+	const { colors } = getColor("", "");
 	const { getAllRateList, tableDataSelect, fetchagain } = useRate();
 	const { getAllPurchaseList, tableDataSelectPurcahse } = usePurchaseOrder();
-	const { rates } = getRate();
+	const { rates } = getRate("", "");
 	const { purchaseOrderds } = getPurchaseOrders();
 
 	const handlePoSubmit = (values: any) => {

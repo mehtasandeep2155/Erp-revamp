@@ -18,7 +18,7 @@ const AddGarbage = (data: GarbageTypeProps) => {
 		const castValues: any = GarbageSchema.cast(values);
 		onClickByAdmin(castValues, "close", garbageValues.id);
 	};
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 	const { getAllList, productVariantlist, handleOnClick } = useRate();
 
 	useEffect(() => {

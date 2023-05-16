@@ -20,10 +20,14 @@ function InVoiceList() {
 		PoDetails,
 		getAllLedgerList,
 		tableData,
-		loader
+		loader,
+		totalCount,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage
 	} = useInVoice();
-	const { getAllPurchaseList, tableDataSelectPurcahse, handleOnInvoceClick, productPoList } =
-		usePurchaseOrder();
+	const { getAllPurchaseList, tableDataSelectPurcahse, handleOnInvoceClick, productPoList } = usePurchaseOrder();
 	const { purchaseOrderds } = getPurchaseOrders();
 
 	useEffect(() => {
@@ -43,6 +47,11 @@ function InVoiceList() {
 				onClickByAdmin={onClick}
 				onDelete={handleDelete}
 				loading={loader}
+				totalCount={totalCount}
+				page={page}
+				rowsPerPage={rowsPerPage}
+				handleChangePage={handleChangePage}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
 			/>
 			<CustomizedDialogs
 				title="Invoice"

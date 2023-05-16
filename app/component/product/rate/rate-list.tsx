@@ -15,11 +15,13 @@ function ProductDeminsionList() {
 		handleOnClick,
 		getAllList,
 		menu,
-		rateValue
+		rateValue,
+		page,
+		rowsPerPage
 	} = useRate();
 
 	const { tableDataSelect, getAllVariantList } = useProduct();
-	const { rates } = getRate();
+	const { rates } = getRate(page, rowsPerPage);
 
 	useEffect(() => {
 		getAllRateList();

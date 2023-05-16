@@ -39,8 +39,8 @@ function PurchaseOrderList() {
 		handleDispatch,
 		invoiceDetails
 	} = usePurchaseOrder();
-	const { rates } = getRate();
-	const { products } = getProduct();
+	const { rates } = getRate("", "");
+	const { products } = getProduct("", "");
 	const { purchaseOrderds } = getPurchaseOrders();
 	const { varifyPoSchema } = useValidation(verifyValue);
 	const [value, setValue] = useState(0);
@@ -50,7 +50,7 @@ function PurchaseOrderList() {
 	const [submit, setSubmit] = useState(false);
 
 	const handleTabChange = (event: any, newValue: number) => {
-		if (value === 0) {
+		if (newValue === 0) {
 			setTabListData(allTableData);
 			setColumsData(purchaseOrderColums);
 			setListTitle("All Purchase Order List");

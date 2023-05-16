@@ -21,6 +21,8 @@ export default function TablePaginationComponent({
 				<TablePagination
 					component="div"
 					count={dataCount}
+					showFirstButton={true}
+					showLastButton={true}
 					page={page}
 					sx={{ width: "100%" }}
 					onPageChange={handleChangePage}
@@ -28,12 +30,13 @@ export default function TablePaginationComponent({
 					rowsPerPage={rowsPerPage}
 					onRowsPerPageChange={handleChangeRowsPerPage}
 					labelDisplayedRows={({ from, to, count }) =>
-						`Results: ${from - rowsPerPage}-${rowsPerPage} of ${count}`
+						`Results: ${from - rowsPerPage}-${from - rowsPerPage + rowsPerPage - 1} of ${dataCount}`
 					}
 					ActionsComponent={() => {
 						return (
 							<Pagination
-								defaultPage={1}
+								sx={{ display: "flex", justifyContent: "end" }}
+								defaultPage={page}
 								count={Math.floor(dataCount / rowsPerPage) + 1}
 								onChange={handleChangePage}
 								page={page}

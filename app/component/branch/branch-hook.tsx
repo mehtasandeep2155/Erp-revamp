@@ -14,7 +14,16 @@ import { getBranch } from "@api/get-api-queries";
 
 export default function useBranch() {
 	const [menu, setMenu] = useState(false);
-	const { branches } = getBranch();
+	const [page, setPage] = useState(1);
+	const [totalCount, setTotalCount] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { branches } = getBranch(page, rowsPerPage);
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [branchValue, setBranchValue] = useState(branchValues);
@@ -100,7 +109,7 @@ export default function useBranch() {
 				if (id) {
 					setBranchValue({ ...values, ["type"]: { name: values.type } });
 				} else {
-					setBranchValue(branchValue);
+					setBranchValue(branchValues);
 				}
 				setMenu(!menu);
 			}
@@ -108,9 +117,10 @@ export default function useBranch() {
 	};
 	const getAllBranchList = async () => {
 		setLoader(true);
-		let branchDetails = await branches.data;
+		let branchDetails = await branches?.data;
+		setTotalCount(branchDetails?.count);
 		if (!branches.isLoading || fetchagain) {
-			setBranchList(branches.data);
+			setBranchList(branches.data?.data);
 			let list: any = [];
 			let customers: any = [];
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
@@ -126,9 +136,9 @@ export default function useBranch() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			branchDetails?.forEach((item: any, index: number) => {
+			branchDetails?.data?.forEach((item: any, index: number) => {
 				let objData = [
-					index + 1,
+					rowsPerPage * page + index - rowsPerPage + 1,
 					item.type,
 					item.contact_phone,
 					item.contact_name,
@@ -162,6 +172,11 @@ export default function useBranch() {
 		fetchagain,
 		getAllBranchList,
 		tableData,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		totalCount,
 		loader,
 		branchList,
 		customerList

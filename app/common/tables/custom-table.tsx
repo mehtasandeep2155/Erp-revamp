@@ -5,7 +5,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import { getMuiTheme } from "./table-style";
 import { CustomToolbar } from "./custom-toolbar";
 import { TableCell, TableRow } from "@mui/material";
-import { useState } from "react";
 import TablePaginationComponent from "./pagination";
 import { footerPage } from "@css/styles";
 import { secondary100, white } from "@css/color-palette";
@@ -16,25 +15,20 @@ export default function TableComponent(props: any) {
 		columns,
 		tableData,
 		innertitle,
+		page,
+		rowsPerPage,
+		handleChangeRowsPerPage,
 		title,
 		loading,
 		buttonTitle,
+		totalCount,
 		tableInnerData,
+		handleChangePage,
 		clickAction,
 		tableInnerHead,
 		iconAt,
-		expandable,
+		expandable
 	} = props;
-	const [page, setPage] = useState(1);
-	const [rowsPerPage, setRowsPerPage] = useState(5);
-
-	const handleChangePage = (event: any, newPage: any) => {
-		setPage(newPage);
-	};
-
-	const handleChangeRowsPerPage = (event: any) => {
-		setRowsPerPage(event.target.value);
-	};
 
 	const options: object = {
 		filterType: "checkbox",
@@ -43,24 +37,22 @@ export default function TableComponent(props: any) {
 		customRowRender: (tableData: any, index: any) => {
 			return (
 				<>
-					{index < page * rowsPerPage ? (
-						expandable ? (
-							<YourPurchaseOrderTable
-								rows={tableData}
-								tableInnerData={tableInnerData}
-								iconAt={iconAt}
-								tableInnerHead={tableInnerHead}
-								title={innertitle}
-								index={index}
-							/>
-						) : (
-							<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
-								{tableData.map((item: any) => (
-									<TableCell sx={{ width: "100px" }}>{item}</TableCell>
-								))}
-							</TableRow>
-						)
-					) : null}
+					{expandable ? (
+						<YourPurchaseOrderTable
+							rows={tableData}
+							tableInnerData={tableInnerData}
+							iconAt={iconAt}
+							tableInnerHead={tableInnerHead}
+							title={innertitle}
+							index={index}
+						/>
+					) : (
+						<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
+							{tableData.map((item: any) => (
+								<TableCell sx={{ width: "100px" }}>{item}</TableCell>
+							))}
+						</TableRow>
+					)}
 				</>
 			);
 		},
@@ -76,23 +68,16 @@ export default function TableComponent(props: any) {
 			}
 		},
 		pagination: false,
-		rowsPerPage: [5],
 		customFooter: () => {
 			return (
 				<>
-					{tableData?.length > rowsPerPage ? (
-						<TablePaginationComponent
-							dataCount={tableData?.length}
-							page={page}
-							rowsPerPage={rowsPerPage}
-							handleChangeRowsPerPage={handleChangeRowsPerPage}
-							handleChangePage={handleChangePage}
-						/>
-					) : (
-						<>
-							<div className={footerPage}></div>
-						</>
-					)}
+					<TablePaginationComponent
+						dataCount={totalCount}
+						page={page}
+						rowsPerPage={rowsPerPage}
+						handleChangeRowsPerPage={handleChangeRowsPerPage}
+						handleChangePage={handleChangePage}
+					/>
 				</>
 			);
 		},

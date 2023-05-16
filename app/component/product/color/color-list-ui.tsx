@@ -3,7 +3,17 @@ import { memo } from "react";
 import { HeaderPage } from "@component/commoncomponent/common-components";
 import { colorColumns } from "@component/utils/form/constant";
 const ProductColorListWeb = (props: any) => {
-	const { tableData, onClickByAdmin, onDelete, loading, colorValue } = props;
+	const {
+		tableData,
+		onClickByAdmin,
+		onDelete,
+		loading,
+		handleChangeRowsPerPage,
+		handleChangePage,
+		rowsPerPage,
+		page,
+		totalCount
+	} = props;
 
 	return (
 		<>
@@ -16,6 +26,11 @@ const ProductColorListWeb = (props: any) => {
 				loading={loading}
 				buttonTitle={"Add Color"}
 				clickAction={onClickByAdmin}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangePage={handleChangePage}
+				rowsPerPage={rowsPerPage}
+				page={page}
+				totalCount={totalCount}
 			/>
 		</>
 	);

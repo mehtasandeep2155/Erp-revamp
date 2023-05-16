@@ -6,9 +6,23 @@ import useRate from "../rate/rate-hook";
 
 function ProductVariantList() {
 	const { tableDataSelect, getAllVariantList, onClick } = useProduct();
-	const { getAllRateList, tableData, tableInnerData, fetchagain, columns, loader, getAllList } = useRate();
-	const { rates } = getRate();
-	const { products } = getProduct();
+	const {
+		getAllRateList,
+		tableData,
+		tableInnerData,
+		fetchagain,
+		columns,
+		loader,
+		getAllList,
+		rowsPerPage,
+		page,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		totalCount
+	} = useRate();
+	const { rates } = getRate(page, rowsPerPage);
+
+	const { products } = getProduct("", "");
 
 	useEffect(() => {
 		getAllRateList();
@@ -28,6 +42,11 @@ function ProductVariantList() {
 				tableInnerData={tableInnerData}
 				loading={loader}
 				onClickByAdmin={onClick}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangePage={handleChangePage}
+				rowsPerPage={rowsPerPage}
+				page={page}
+				totalCount={totalCount}
 			/>
 		</>
 	);

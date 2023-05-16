@@ -135,12 +135,13 @@ const jobValues = {
 	feet_per_month: "",
 	rate_per_foot: ""
 };
-const branchValues = {
+const branchValues: any = {
+	name: "",
 	address: "",
 	type: "",
 	phone: "",
-	contact_name: "",
-	contact_phone: ""
+	contact_name: null,
+	contact_phone: null
 };
 const LedgerValues = {
 	customerId: "",

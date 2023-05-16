@@ -15,7 +15,7 @@ const AddCompany = (props: CompanyProps) => {
 	};
 	const { handleChange, handleDelete } = useHandleChange(comapnyValue, "");
 	const { subCompanyList, getSubCompanyList } = useSubCompany();
-	const { subcompanies } = getSubCompany();
+	const { subcompanies } = getSubCompany("", "");
 
 	useEffect(() => {
 		getSubCompanyList();

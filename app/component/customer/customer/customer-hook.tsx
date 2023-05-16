@@ -8,7 +8,7 @@ import { Close, Delete, Edit } from "@mui/icons-material";
 import { deleteBut, editIcon, flex } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
-import {customerColums} from "@component/utils/form/constant";
+import { customerColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getCustomer } from "@api/get-api-queries";
 
@@ -19,7 +19,16 @@ export default function useCustomer() {
 	const [customerValue, setCustomerValue] = useState(CustomerValues);
 	const [customerList, setCustomerList] = useState([]);
 	const columns = customerColums;
-	const { customerlists } = getCustomer();
+	const [page, setPage] = useState(1);
+	const [totalCount, setTotalCount] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { customerlists } = getCustomer(page, rowsPerPage);
 	const [tableData, setTableData] = useState([]);
 	const mutation = useMutation(
 		(createCompany: CompanyValuesType) => {
@@ -82,6 +91,10 @@ export default function useCustomer() {
 	);
 
 	const onClick = async (values: any, type: string, id: string) => {
+		console.log(type, "type");
+		if (type === "model") {
+			setMenuCustomer(false);
+		}
 		if (type === "customer") {
 			setMenuCustomer(!menuCustomer);
 		} else if (type === "delete") {
@@ -112,6 +125,7 @@ export default function useCustomer() {
 			let list: any = [];
 			let customers: any = [];
 			let companyDetails = await customerlists.data;
+			setTotalCount(companyDetails?.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -125,9 +139,9 @@ export default function useCustomer() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			companyDetails?.forEach((item: any, index: number) => {
+			companyDetails?.data.forEach((item: any, index: number) => {
 				let objData = [
-					index + 1,
+					rowsPerPage * page + index - rowsPerPage + 1,
 					item.name.charAt(0).toUpperCase() + item.name.slice(1),
 					item.email,
 					item.phone,
@@ -160,6 +174,11 @@ export default function useCustomer() {
 		getAllCompanyList,
 		tableData,
 		customerList,
+		totalCount,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage,
 		loader
 	};
 }

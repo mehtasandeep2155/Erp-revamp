@@ -8,7 +8,7 @@ export const CustomToolbar = ({ selectedRows, data, columns, datatableTitle, tit
 	return (
 		<div className={title ? flexTitleToolbar : flexToolbar}>
 			<input placeholder="Search" className={customeSearch} />
-			<IconButtons
+			{/* <IconButtons
 				icon={<ViewColumn />}
 				styles={columnStyle}
 				lebel={<h6>View Columns</h6>}
@@ -21,7 +21,7 @@ export const CustomToolbar = ({ selectedRows, data, columns, datatableTitle, tit
 				clickEvent={() => downloadRowsAsCSV(getRowsToBeDownloaded(selectedRows, data), columns, datatableTitle)}
 			/>
 			<IconButtons clickEvent={handlePrint} icon={<Print />} styles={printStyle} lebel={<h6>Print</h6>} />
-			<IconButtons icon={<FilterList />} styles={filterStyle} lebel={<h6>Filter</h6>} />
+			<IconButtons icon={<FilterList />} styles={filterStyle} lebel={<h6>Filter</h6>} /> */}
 			{title && <IconButtons clickEvent={clickAction} styles={titleStyle} lebel={<h6>{title}</h6>} />}
 		</div>
 	);

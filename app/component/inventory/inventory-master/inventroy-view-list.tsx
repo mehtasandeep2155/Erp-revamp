@@ -26,7 +26,7 @@ function InventroyList() {
 	const { inventoryviews } = getInventoryMaster();
 	const { ProductSchema } = useValidation(InvevtoryViewvalue);
 	const { tableDataSelect, getAllVariantList } = useProduct();
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 
 	useEffect(() => {
 		getAllInventoryViewList();

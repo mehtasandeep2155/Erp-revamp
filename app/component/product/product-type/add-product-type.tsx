@@ -24,7 +24,7 @@ const AddProductType = () => {
 	};
 
 	const { colorList, getAllColorList } = useColor();
-	const { colors } = getColor();
+	const { colors } = getColor("", "");
 
 	useEffect(() => {
 		getAllColorList();

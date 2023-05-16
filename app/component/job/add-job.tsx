@@ -27,7 +27,7 @@ const AddJob = (data: JobProps) => {
 	const { getAllUser, userList, tableDataSelect, handleOnUserClick } = useVerification();
 	const { jobValue, onClickByAdmin } = data;
 	const { JobSchema } = useValidation(jobValue);
-	const { users } = getUsers();
+	const { users } = getUsers("", "");
 
 	const handleCompanySubmit = (values: any) => {
 		const castValues = JobSchema.cast(values);

@@ -17,7 +17,7 @@ const AddInventoryView = (data: any) => {
 	const { handleChange } = useHandleChange("", "");
 	const { InventoryMasterSchema } = useValidation(invevtoryViewvalue);
 	const { dataList, handleSubmit, handleDelete, handleMore, handleReset } = useInventoryView();
-	const { products } = getProduct();
+	const { products } = getProduct("", "");
 	const { getAllList, productVariantlist, handleOnClick } = useRate();
 
 	useEffect(() => {

@@ -14,7 +14,16 @@ import { getColor } from "@api/get-api-queries";
 export default function useColor() {
 	const [loader, setLoader] = useState(false);
 	const [colorList, setColorList] = useState([]);
-	const { colors } = getColor();
+	const [totalCount, setTotalCount] = useState(0);
+	const [page, setPage] = useState(1);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { colors } = getColor(page, rowsPerPage);
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [menu, setMenu] = useState(false);
 	const [colorValue, setColorValue] = useState(productColorValues);
@@ -111,6 +120,7 @@ export default function useColor() {
 			let list: Array<object> = [];
 			let listName: any = [];
 			let datacolor: any = await colors.data;
+			setTotalCount(colors.data?.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -124,11 +134,11 @@ export default function useColor() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			datacolor?.forEach((item: any, index: number) => {
+			datacolor?.data?.forEach((item: any, index: number) => {
 				let objdataName = { name: item.color?.charAt(0).toUpperCase() + item.color?.slice(1), id: item.id };
 				listName.push(objdataName);
 				let objData = [
-					index + 1,
+					rowsPerPage * page + index - rowsPerPage + 1,
 					`${item.color?.charAt(0).toUpperCase() + item.color?.slice(1)}`,
 					item.code,
 					<div className={flex}>
@@ -157,6 +167,11 @@ export default function useColor() {
 		colorValue,
 		onClick,
 		loader,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		page,
+		rowsPerPage,
+		totalCount,
 		colorList
 	};
 }

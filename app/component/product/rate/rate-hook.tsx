@@ -20,9 +20,18 @@ export default function useRate() {
 	const [productTypelist, setTypelist] = useState([]);
 	const [loader, setLoader] = useState(false);
 	const [allRateList, setAllRateList] = useState([]);
-	const { products } = getProduct();
-	const { rates } = getRate();
-	const { types } = getType();
+	const [totalCount, setTotalCount] = useState(0);
+	const [page, setPage] = useState(1);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+	const { products } = getProduct("", "");
+	const { rates } = getRate(page, rowsPerPage);
+	const { types } = getType(1, 100);
 	const { push } = useRouter();
 
 	const handleOnClick = (currentRowsSelected: any, allRowsSelected: any, setFieldValue: any) => {
@@ -150,6 +159,7 @@ export default function useRate() {
 			let allList: any = [];
 			let productList: any = [];
 			let rateDetails = await rates.data;
+			setTotalCount(rates.data.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -164,10 +174,10 @@ export default function useRate() {
 				}
 			}
 			let index1: number = 0;
-			rateDetails?.forEach((item: any, index: number) => {
+			rateDetails?.data?.forEach((item: any, index: number) => {
 				item.coatings.forEach((item1: any, indextype: any) => {
 					if (indextype > 0) {
-						index1 = index1 + 1;
+						index1 = rowsPerPage * page + index1 - rowsPerPage + 1;
 						let data = [
 							index1,
 							item.name ? <span className={detailsViewBut}>{item.name}</span> : "_",
@@ -185,7 +195,7 @@ export default function useRate() {
 						list.push(data);
 					}
 				});
-				index1 = index1 + 1;
+				index1 = rowsPerPage * page + index1 - rowsPerPage + 1;
 				let data = [
 					index1,
 					item.name ? <span className={detailsViewBut}>{item.name}</span> : "_",
@@ -222,7 +232,7 @@ export default function useRate() {
 		if (!products.isLoading) {
 			let variantlist: any = [];
 			let variantsDetails: any = await products.data;
-			variantsDetails?.forEach((item: any) => {
+			variantsDetails?.data?.forEach((item: any) => {
 				let obj = { name: item.name, id: item.id };
 				variantlist.push(obj);
 			});
@@ -231,7 +241,7 @@ export default function useRate() {
 		if (!types.isLoading) {
 			let Typelist: any = [];
 			let typeDetails: any = await types.data;
-			typeDetails?.forEach((item: any) => {
+			typeDetails?.data?.forEach((item: any) => {
 				let obj = { name: item.type, id: item.id, type: item.subtype };
 				Typelist.push(obj);
 			});
@@ -254,6 +264,11 @@ export default function useRate() {
 		allRateList,
 		tableDataSelect,
 		tableInnerData,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		page,
+		totalCount,
+		rowsPerPage,
 		handleOnClick
 	};
 }

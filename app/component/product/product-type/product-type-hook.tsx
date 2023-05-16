@@ -21,9 +21,19 @@ export default function useProductType() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [typeValue, setTypeValue] = useState(productTypeValues);
 	const [tableData, setTableData] = useState([]);
-	const { types } = getType();
 	const { push } = useRouter();
+	const [page, setPage] = useState(1);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [totalCount, setTotalCount] = useState(0);
 
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
+
+	const { types } = getType(page, rowsPerPage);
 	const columns = productTypeColums;
 	const mutation = useMutation(
 		(createPorductType: productTypeValuesType) => {
@@ -134,6 +144,7 @@ export default function useProductType() {
 			let list: any = [];
 			let listName: any = [];
 			let dataType: any = await types.data;
+			setTotalCount(dataType.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -147,11 +158,11 @@ export default function useProductType() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			dataType?.forEach((item: any, index: number) => {
+			dataType?.data?.forEach((item: any, index: number) => {
 				let objdataName = { name: `${item.type} (${item.subtype})`, id: item.id };
 				listName.push(objdataName);
 				let data = [
-					index + 1,
+					rowsPerPage * page + index - rowsPerPage + 1,
 					`${item.type.charAt(0).toUpperCase() + item.type.slice(1)}`,
 					<div className={summaryDiv}>
 						{item.colors && (
@@ -206,9 +217,14 @@ export default function useProductType() {
 	return {
 		getAllProductType,
 		typeList,
+		page,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		rowsPerPage,
 		types,
 		tableData,
 		fetchagain,
+		totalCount,
 		typeValue,
 		columns,
 		onClick,
