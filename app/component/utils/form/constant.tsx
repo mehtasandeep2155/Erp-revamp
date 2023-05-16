@@ -84,12 +84,7 @@ const superAdminModules = [
 	"Job"
 ];
 const productColums = [
-	{
-		label: "#",
-		options: {
-			filter: false
-		}
-	},
+	"#",
 	"Product",
 	"Coating",
 	"Rate",
@@ -348,36 +343,10 @@ const InVoiceColums = [
 		}
 	}
 ];
-const rateColums = [
-	{
-		label: "#",
-		options: {
-			filter: false
-		}
-	},
-	"Product",
-	"Coating",
-	"Rate",
-	{
-		label: "Action",
-		options: {
-			filter: false
-		}
-	}
-];
+const rateColums = ["#", "Product", "Coating", "Rate", "Action"];
 
 const rateColumsSelect = ["Product", "Coating", "Rate"];
-const rateColumsView = [
-	"Rate",
-	"Section Name",
-	"Section Number",
-	"Height (mm)",
-	"Width",
-	"Weight (kg)",
-	"Thickness",
-	"Outer Diameter",
-	"Dimension (Height)"
-];
+const rateColumsView = ["Product", "Coating", "Color", "Rate", "Length"];
 const poColumsSelect = ["Order Number", "Raw Material Included", "Issue Date", "Products Count"];
 
 const companyColums = [

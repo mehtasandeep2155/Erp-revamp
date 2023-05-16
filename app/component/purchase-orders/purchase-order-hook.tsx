@@ -32,7 +32,8 @@ import {
 	branchViewColums,
 	customerViewColums,
 	generateInvoiceColumns,
-	productViewColums,
+	yourPurchaseOrderInnerHead,
+	rateColumsView,
 	statusTabs
 } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
@@ -93,16 +94,22 @@ export default function usePurchaseOrder() {
 			setHeadTitle(item.customer_info?.name);
 			let customerdata: any = [[item.customer_info?.name, item.customer_info?.email, item.customer_info?.phone]];
 			let productData: any = [];
+			let productInnerData: any = [];
 			item.po_entries?.map((item1: any) => {
 				productData.push([
-					item1.rate?.product?.name,
-					item1.color?.color,
-					item1.rate?.product.height,
+					item1.rate ? <span className={detailsViewBut}>{item1.rate?.product?.name}</span> : "_",
+					`${item1.rate?.coating_type?.type} ${item1.rate?.coating_type?.code}`,
+					`${item1.color?.color} ${item1.color?.code}`,
 					item1.rate?.rate,
-					item1.rate?.product.width,
-					item1.rate?.product.length,
-					item1.rate?.product.weight,
-					item1.quantity
+					item1.length
+				]);
+				productInnerData.push([
+					item1.rate?.product?.name,
+					item1.rate?.product?.height,
+					item1.rate?.product?.width,
+					item1.rate?.product?.weight,
+					item1.rate?.product?.thickness,
+					item1.rate?.product?.length
 				]);
 			});
 			branchData?.push([
@@ -124,7 +131,13 @@ export default function usePurchaseOrder() {
 			setPoDetails([
 				...poDetails,
 				{ title: "Customer Details", columns: customerViewColums, data: customerdata },
-				{ title: "Products", columns: productViewColums, data: productData },
+				{
+					title: "Products",
+					columns: rateColumsView,
+					innerColumns: yourPurchaseOrderInnerHead,
+					data: productData,
+					innerData: productInnerData
+				},
 				{ title: "Branch", columns: branchViewColums, data: branchData }
 			]);
 		}
@@ -533,7 +546,6 @@ export default function usePurchaseOrder() {
 				purchaseOrderds.refetch();
 				setSelectedproductslist([]);
 				setFetchAgain(true);
-				// setIsOpen(!IsOpen);
 			},
 			onError: (error) => {
 				Swal.close();

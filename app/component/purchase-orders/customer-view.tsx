@@ -1,5 +1,4 @@
 import TableComponent from "@common/tables/custom-table";
-import TableDetailsComponent from "@common/tables/details-table";
 import { customerViewColums } from "@component/utils/form/constant";
 
 export default function CustomerCard({ customerObj }: any) {

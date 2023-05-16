@@ -5,9 +5,21 @@ import { ThemeProvider } from "@mui/material/styles";
 import { getMuiTheme } from "./table-style";
 import { TableCell, TableRow } from "@mui/material";
 import { secondary100, white } from "@css/color-palette";
+import { YourPurchaseOrderTable } from "./collapsible-table";
 
 export default function TableDetailsComponent(props: any) {
-	const { columns, tableData, onRowClick, loading, pagination } = props;
+	const {
+		columns,
+		tableData,
+		onRowClick,
+		innertitle,
+		expandable,
+		loading,
+		tableInnerHead,
+		tableInnerData,
+		iconAt,
+		pagination
+	} = props;
 	const options: object = {
 		filterType: "checkbox",
 		search: false,
@@ -25,14 +37,22 @@ export default function TableDetailsComponent(props: any) {
 		customRowRender: (tableData: any, index: any) => {
 			return (
 				<>
-					<TableRow
-						sx={{ background: index % 2 === 0 ? white : secondary100 }}
-						onClick={(e) => onRowClick(e, index)}
-					>
-						{tableData.map((item: any) => (
-							<TableCell>{item}</TableCell>
-						))}
-					</TableRow>
+					{expandable ? (
+						<YourPurchaseOrderTable
+							rows={tableData}
+							tableInnerData={tableInnerData}
+							iconAt={iconAt}
+							tableInnerHead={tableInnerHead}
+							title={innertitle}
+							index={index}
+						/>
+					) : (
+						<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
+							{tableData.map((item: any) => (
+								<TableCell sx={{ width: "100px" }}>{item}</TableCell>
+							))}
+						</TableRow>
+					)}
 				</>
 			);
 		},

@@ -5,23 +5,24 @@ import { productTypeValuesType } from "@component/utils/type/interfaces";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { Delete, Edit } from "@mui/icons-material";
-import { deleteBut, editIcon, flex, flexSummary, flexWrap, summaryDiv } from "css/styles";
+import { deleteBut, detailsMultiView, editIcon, flex, flexSummary, summaryDiv } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { productTypeColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getType } from "@api/get-api-queries";
 import AccordionRowComponent from "@common/accordinon/accordion-row";
-import { Typography } from "@mui/material";
+import { useRouter } from "next/router";
+import { addCoating, productTypeList } from "@component/utils/routes";
 
 export default function useProductType() {
-	const [menu, setMenu] = useState(false);
 	const [loader, setLoader] = useState(false);
 	const [typeList, setTypeList] = useState([]);
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [typeValue, setTypeValue] = useState(productTypeValues);
 	const [tableData, setTableData] = useState([]);
 	const { types } = getType();
+	const { push } = useRouter();
 
 	const columns = productTypeColums;
 	const mutation = useMutation(
@@ -35,7 +36,7 @@ export default function useProductType() {
 				SuccessAlert("Product Coating Added SuccessFully!");
 				types.refetch();
 				setFetchAgain(true);
-				setMenu(!menu);
+				push(productTypeList);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -56,7 +57,7 @@ export default function useProductType() {
 				SuccessAlert("Saved Changes SuccessFully!");
 				types.refetch();
 				setFetchAgain(true);
-				setMenu(!menu);
+				push(productTypeList);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -85,8 +86,8 @@ export default function useProductType() {
 			}
 		}
 	);
-	const onClick = async (values: productTypeValuesType, type: string, id: any) => {
-		if (type == "close") {
+	const onClick = async (values: any, type: string, id: any) => {
+		if (type === "close") {
 			if (!id) {
 				let companies: any = [];
 				values.colors?.forEach((element: any) => {
@@ -110,16 +111,20 @@ export default function useProductType() {
 					mutationEdit.mutate(data);
 				}
 			}
+		} else if (type === "model") {
+			push(productTypeList);
 		} else if (type === "delete") {
 			DeleteAlert(mutationDelete, id);
 		} else {
 			if (id) {
-				let obj: any = { type: values.type, ["colors"]: values.colors, id: values.id };
-				setTypeValue(obj);
+				typeValue.type = values.type;
+				typeValue.colors = values.colors;
+				typeValue.id = values.id;
+				push(addCoating);
 			} else {
 				setTypeValue(productTypeValues);
+				push(addCoating);
 			}
-			setMenu(!menu);
 		}
 	};
 
@@ -151,15 +156,18 @@ export default function useProductType() {
 					<div className={summaryDiv}>
 						{item.colors && (
 							<AccordionRowComponent
-								title={item.colors?.map(
-									(item1: any, index1: number) =>
-										index1 < 3 && (
-											<span>
-												{item1.color.charAt(0).toUpperCase() + item1.color.slice(1)}
-												{index1 < 3 - 1 ? "," : ""}
-											</span>
-										)
-								)}
+								title={
+									<div className={flexSummary}>
+										{item.colors?.map(
+											(item1: any, index1: number) =>
+												index1 < 3 && (
+													<span className={detailsMultiView}>
+														{item1.color.charAt(0).toUpperCase() + item1.color.slice(1)}
+													</span>
+												)
+										)}
+									</div>
+								}
 								index={item.colors?.length}
 								maxIndex={4}
 								summary={
@@ -167,9 +175,8 @@ export default function useProductType() {
 										{item.colors.map((item1: any, index1: any) => {
 											if (index1 > 2) {
 												return (
-													<span>
+													<span className={detailsMultiView}>
 														{item1.color.charAt(0).toUpperCase() + item1.color.slice(1)}
-														{index1 < item.colors.length - 1 ? "," : ""}
 													</span>
 												);
 											}
@@ -199,7 +206,6 @@ export default function useProductType() {
 	return {
 		getAllProductType,
 		typeList,
-		menu,
 		types,
 		tableData,
 		fetchagain,

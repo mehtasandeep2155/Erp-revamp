@@ -1,6 +1,5 @@
 import { Form, Formik } from "formik";
 import { Input, AutoCompleteSelect } from "@component/utils/form-fields";
-import { ProductVariantProps, productValuesType } from "@component/utils/type/interfaces";
 import {
 	verifyForm,
 	btnDiv,
@@ -8,7 +7,6 @@ import {
 	formDivProduct,
 	uomDiv,
 	formGroupProduct,
-	inputErrorProduct,
 	formControlProduct
 } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
@@ -21,14 +19,13 @@ import { cancleButton, style, submitButton } from "@css/mui-styles";
 import { AddHeader } from "@component/commoncomponent/add-header";
 import { productFormikFieldsData, productFormikFieldsData1 } from "@component/utils/helper";
 
-const AddProductVariant = (data: ProductVariantProps) => {
-	const { variantvalues, onClickByAdmin } = data;
+const AddProductVariant = () => {
 	const { handleChange } = useHandleChange("", "");
-	const { varinatSectionNameList, getAllVariantList } = useProduct();
-	const { ProductVariantSchema } = useValidation({ array: varinatSectionNameList, values: variantvalues });
-	const handleProductVariantSubmit = (values: productValuesType) => {
+	const { varinatSectionNameList, getAllVariantList, variantvalue, onClick } = useProduct();
+	const { ProductVariantSchema } = useValidation({ array: varinatSectionNameList, values: variantvalue });
+	const handleProductVariantSubmit = (values: any) => {
 		const castValues = ProductVariantSchema.cast(values);
-		onClickByAdmin(castValues, "close", variantvalues.id);
+		onClick(castValues, "close", variantvalue.id);
 	};
 	const { products } = getProduct();
 
@@ -42,9 +39,9 @@ const AddProductVariant = (data: ProductVariantProps) => {
 
 	return (
 		<div className={verifyForm}>
-			<AddHeader title={variantvalues.id ? "Edit Product" : "Add Product"} />
+			<AddHeader title={variantvalue.id ? "Edit Product" : "Add Product"} />
 			<Formik
-				initialValues={variantvalues}
+				initialValues={variantvalue}
 				onSubmit={handleProductVariantSubmit}
 				validationSchema={ProductVariantSchema}
 			>
@@ -82,11 +79,7 @@ const AddProductVariant = (data: ProductVariantProps) => {
 														error={name}
 														value={props.values[name]}
 														uom={uomType && <span className={uomDiv}>{uomType}</span>}
-														inputStyle={
-															props.touched[name] && props.errors[name]
-																? inputErrorProduct
-																: formControlProduct
-														}
+														inputStyle={formControlProduct}
 													/>
 												</>
 											)}
@@ -107,18 +100,14 @@ const AddProductVariant = (data: ProductVariantProps) => {
 										value={props.values[name]}
 										uom={uomType && <span className={uomDiv}>{uomType}</span>}
 										formGroupStyle={formGroupProduct}
-										inputStyle={
-											props.touched[name] && props.errors[name]
-												? inputErrorProduct
-												: formControlProduct
-										}
+										inputStyle={formControlProduct}
 									/>
 								))}
 							</div>
 						</div>
 						<div className={btnDiv}>
 							<IconButtons
-								clickEvent={() => onClickByAdmin("", "model")}
+								clickEvent={() => onClick("", "model", "")}
 								styles={cancleButton}
 								lebel={"Cancel"}
 								type="button"
@@ -126,7 +115,7 @@ const AddProductVariant = (data: ProductVariantProps) => {
 							<IconButtons
 								clickEvent={() => {}}
 								styles={submitButton}
-								lebel={variantvalues.id ? "Save" : "Next"}
+								lebel={variantvalue.id ? "Save" : "Next"}
 								type="submit"
 							/>
 						</div>

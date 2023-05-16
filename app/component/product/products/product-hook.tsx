@@ -11,6 +11,8 @@ import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/t
 import { variantColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getProduct, getRate } from "@api/get-api-queries";
+import { useRouter } from "next/router";
+import { addProduct, addProductRate, productVariantList } from "@component/utils/routes";
 
 export default function useProduct() {
 	const [loader, setLoader] = useState(false);
@@ -22,10 +24,11 @@ export default function useProduct() {
 	const [menu, setMenu] = useState(false);
 	const [rateMenu, setRateMenu] = useState(false);
 	const [TableData, setTableData] = useState([]);
-	const [variantvalue, setVariantValue] = useState(productValues);
+	const [variantvalue, setVariantValue]: any = useState(productValues);
 	const [tableDataSelect, setTableDataSelect] = useState([]);
 	const [rateValue, setRateValue] = useState(productRateValues);
 	const { rates } = getRate();
+	const { push } = useRouter();
 
 	const mutation = useMutation(
 		(createPorductRate: any) => {
@@ -38,7 +41,7 @@ export default function useProduct() {
 				SuccessAlert("Rate Added SuccessFully!");
 				rates.refetch();
 				setFetchAgain(true);
-				setRateMenu(false);
+				push(productVariantList);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -49,7 +52,7 @@ export default function useProduct() {
 		}
 	);
 	const onClickRate = async (values: any, type: string, id: string) => {
-		if (type == "close") {
+		if (type === "close") {
 			if (!id) {
 				let formDetails: any = {
 					rateData: values
@@ -57,8 +60,10 @@ export default function useProduct() {
 				setLoader(true);
 				mutation.mutate(formDetails);
 			}
+		} else if (type === "model") {
+			push(addProduct);
 		} else {
-			setRateMenu(false);
+			push(productVariantList);
 		}
 	};
 	const mutationProduct = useMutation(
@@ -72,13 +77,18 @@ export default function useProduct() {
 				products.refetch();
 				setFetchAgain(true);
 				setMenu(false);
-				setRateMenu(!rateMenu);
-				setRateValue({ ...rateValue, ["productId"]: data.data });
+				rateValue.productId = data.data;
+				push(addProductRate);
 			},
 			onError: (error) => {
 				Swal.close();
 				let errorMsg: any = error;
-				FailureAlert(errorMsg.response.data.message);
+				if (errorMsg.response.data.statusCode === 403) {
+					push(addProductRate);
+				} else {
+					FailureAlert(errorMsg.response.data.message);
+					setLoader(false);
+				}
 				setLoader(false);
 			}
 		}
@@ -97,8 +107,6 @@ export default function useProduct() {
 				Swal.close();
 				products.refetch();
 				setFetchAgain(true);
-				setMenu(!menu);
-				setRateMenu(!rateMenu);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -206,24 +214,36 @@ export default function useProduct() {
 			};
 			if (!id) {
 				setLoader(true);
+				Object.keys(variantvalue).map((item: any) => {
+					variantvalue[item] = formDetails[item];
+				});
 				mutationProduct.mutate(formDetails);
 			} else {
 				let data: any = { value: formDetails, id: id };
 				setLoader(true);
 				mutationEditProduct.mutate(data);
 			}
+		} else if (type === "model") {
+			push(productVariantList);
 		} else if (type === "delete") {
 			DeleteAlert(mutationDelete, id);
 		} else {
 			if (id) {
-				let formDetails: any = {
-					...values
-				};
-				setVariantValue(formDetails);
-				setMenu(!menu);
+				// let formDetails: any = {
+				// 	...values
+				// };
+				// // setVariantValue(formDetails);
+				// Object.keys(variantvalue).map((item: any) => {
+				// 	item = values[item];
+				// });
+				// console.log(variantvalue, "varients");
+				// setMenu(!menu);
 			} else {
+				Object.keys(variantvalue).map((item: any) => {
+					variantvalue[item] = "";
+				});
 				setVariantValue(productValues);
-				setMenu(!menu);
+				push(addProduct);
 			}
 		}
 	};

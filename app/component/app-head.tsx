@@ -142,6 +142,11 @@ export default function AppHead({ colorTheme }: any) {
                         padding:0px !important;
                         padding-left:16px !important;
                     }
+                    // .MuiTableBody-root .MuiTableRow-root .MuiTableCell-root{
+                    //     padding:0px !important;
+                    //     padding-left:16px !important;
+
+                    // }
                     .table.dataTable {
                         width: auto !important;
                     }
@@ -240,21 +245,13 @@ export default function AppHead({ colorTheme }: any) {
                     .tss-1ork7hi-MUIDataTablePagination-tableCellContainer{
                         padding:45px !important;
                     }
-                    // svg ~ fieldset {
-                    //     // width: 95% !important;
-                    //     height: 36.6px;
-                    // }
+                   
                     .MuiBadge-badge{
                         background-color:${pelorous} !important;
                         color:white;
                         min-width:24px;
                     }
-                    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-root{
-                        padding-right:6px !important;
-                        padding-top:15px !important;
-                        padding-bottom:12px !important;	
-                        padding-left: 10px !important;
-                    }
+                  
                     .MuiToolbar-root {
                         padding-top : 10px;
                     }
@@ -263,7 +260,6 @@ export default function AppHead({ colorTheme }: any) {
                         font-size: 13px !important;
                     }
                     .MuiTableCell-root{
-                        padding:0px !important;
                         border-bottom : none !important;
                     }
                     .MuiTableRow-head .MuiTableCell-root{
@@ -276,11 +272,6 @@ export default function AppHead({ colorTheme }: any) {
                         border: 1px solid ${lightGrey};
                         margin: 10px 0 !important;
                         border-radius: 4px;
-                    }
-                    .e-css-1givqna-MuiTableCell-root{
-                        padding-right:10px !important;
-                        padding-top:10px !important;
-                        padding-bottom:10px !important;	
                     }
                     .MuiAccordionSummary-root{
                         min-height:0px !important;

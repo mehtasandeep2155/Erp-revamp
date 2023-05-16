@@ -159,7 +159,7 @@ export interface productTypeValuesType {
 
 export interface ProductTypeProps {
 	typeValue: productTypeValuesType;
-	onClickByAdmin: (values: any, type: string, id: string) => void;
+	onClick: (values: any, type: string, id: string) => void;
 }
 
 export interface ProductProps {

@@ -1,7 +1,6 @@
 import { Form, Formik } from "formik";
 import { memo, useEffect, useState } from "react";
 import { Input, AutoCompleteSeacrhSelect } from "@component/utils/form-fields";
-import { ProductRateProps } from "@component/utils/type/interfaces";
 import {
 	verifyForm,
 	btnDiv,
@@ -21,11 +20,11 @@ import { AddHeader } from "@component/commoncomponent/add-header";
 import { IconButtons } from "@common/buttons";
 import { addType, cancleButton, deleteType, disabledBtnStyles, style, submitButton } from "@css/mui-styles";
 import { Add, Clear } from "@mui/icons-material";
-import { disabled } from "@css/color-palette";
+import useProduct from "../products/product-hook";
 
-const AddProductRate = (data: ProductRateProps) => {
+const AddProductRate = () => {
 	const { handleChange } = useHandleChange("", "");
-	const { rateValue, onClickByAdmin } = data;
+	const { rateValue, onClickRate } = useProduct();
 	const { getAllList, productTypelist } = useRate();
 	const { products } = getProduct();
 	const { ProductRateSchema } = useValidation(rateValue);
@@ -45,7 +44,7 @@ const AddProductRate = (data: ProductRateProps) => {
 	};
 
 	const handleSubmit = () => {
-		onClickByAdmin(rateData, "close", rateValue.id);
+		onClickRate(rateData, "close", rateValue.id);
 	};
 
 	const handleClear = (item: any) => {
@@ -173,7 +172,7 @@ const AddProductRate = (data: ProductRateProps) => {
 			<div className={flexEnd}>
 				<div className={btnDiv}>
 					<IconButtons
-						clickEvent={() => onClickByAdmin("", "model", "")}
+						clickEvent={() => onClickRate("", "model", "")}
 						styles={cancleButton}
 						lebel={"Cancel"}
 						type="button"

@@ -19,8 +19,18 @@ const PurchaseOrderDetails = ({ data, headTitle, handleView }: any) => {
 											<h4 className={productTitle}>{item.title}</h4>
 											<TableDetailsComponent
 												columns={item.columns}
+												title={false}
 												tableData={item.data}
+												toolbar={false}
+												expandable={item.title === "Products"}
 												pagination={false}
+												loading={false}
+												tableHead={item.data}
+												tableInnerHead={item.innerColumns}
+												tableInnerData={item.innerData}
+												buttonTitle="Add Product"
+												iconAt={0}
+												innertitle={"Products Details"}
 											/>
 										</div>
 									)

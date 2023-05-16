@@ -9,20 +9,31 @@ import { useState } from "react";
 import TablePaginationComponent from "./pagination";
 import { footerPage } from "@css/styles";
 import { secondary100, white } from "@css/color-palette";
+import { YourPurchaseOrderTable } from "./collapsible-table";
 
 export default function TableComponent(props: any) {
-	const { columns, tableData, title, loading, buttonTitle, clickAction } = props;
+	const {
+		columns,
+		tableData,
+		innertitle,
+		title,
+		loading,
+		buttonTitle,
+		tableInnerData,
+		clickAction,
+		tableInnerHead,
+		iconAt,
+		expandable,
+	} = props;
 	const [page, setPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 
 	const handleChangePage = (event: any, newPage: any) => {
-		console.log(newPage, "page number");
 		setPage(newPage);
 	};
 
 	const handleChangeRowsPerPage = (event: any) => {
 		setRowsPerPage(event.target.value);
-		// setPage(0);
 	};
 
 	const options: object = {
@@ -33,11 +44,22 @@ export default function TableComponent(props: any) {
 			return (
 				<>
 					{index < page * rowsPerPage ? (
-						<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
-							{tableData.map((item: any) => (
-								<TableCell sx={{ width: "100px" }}>{item}</TableCell>
-							))}
-						</TableRow>
+						expandable ? (
+							<YourPurchaseOrderTable
+								rows={tableData}
+								tableInnerData={tableInnerData}
+								iconAt={iconAt}
+								tableInnerHead={tableInnerHead}
+								title={innertitle}
+								index={index}
+							/>
+						) : (
+							<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
+								{tableData.map((item: any) => (
+									<TableCell sx={{ width: "100px" }}>{item}</TableCell>
+								))}
+							</TableRow>
+						)
 					) : null}
 				</>
 			);
@@ -92,7 +114,7 @@ export default function TableComponent(props: any) {
 		<ThemeProvider theme={getMuiTheme()}>
 			<div id="table">
 				<MUIDataTable
-					title={title}
+					title={title ? title : false}
 					data={tableData}
 					columns={columns}
 					options={options}

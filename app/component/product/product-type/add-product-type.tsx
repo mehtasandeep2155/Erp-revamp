@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import { Input, MultiCompanySelectInput } from "@component/utils/form-fields";
-import { ProductTypeProps, productTypeValuesType } from "@component/utils/type/interfaces";
+import { productTypeValuesType } from "@component/utils/type/interfaces";
 import { verifyForm, btnDiv, formDiv, formControlProduct, flexCol2input } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo, useEffect } from "react";
@@ -11,15 +11,18 @@ import { AddHeader } from "@component/commoncomponent/add-header";
 import { IconButtons } from "@common/buttons";
 import { cancleButton, submitButton, style } from "@css/mui-styles";
 import { typeFormikFieldsData } from "@component/utils/helper";
+import useProductType from "./product-type-hook";
 
-const AddProductType = (data: ProductTypeProps) => {
-	const { typeValue, onClickByAdmin } = data;
+const AddProductType = () => {
+	const { onClick, typeValue } = useProductType();
 	const { handleChange, handleDelete } = useHandleChange(typeValue, "");
 	const { ProductTypeSchema } = useValidation(typeValue);
+
 	const handleTypeSubmit = (values: productTypeValuesType) => {
 		const castValues: any = ProductTypeSchema.cast(values);
-		onClickByAdmin(castValues, "close", typeValue.id);
+		onClick(castValues, "close", typeValue.id);
 	};
+
 	const { colorList, getAllColorList } = useColor();
 	const { colors } = getColor();
 
@@ -73,7 +76,7 @@ const AddProductType = (data: ProductTypeProps) => {
 						</div>
 						<div className={btnDiv}>
 							<IconButtons
-								clickEvent={() => onClickByAdmin("", "model", "")}
+								clickEvent={() => onClick("", "model", "")}
 								styles={cancleButton}
 								lebel={"Cancel"}
 								type="button"

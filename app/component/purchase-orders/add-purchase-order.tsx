@@ -3,6 +3,7 @@ import {
 	backButton,
 	buttonMarginPoAddForm,
 	detailsPage,
+	errTextAddPo,
 	flexCol,
 	flexWrapPage,
 	formControlProductInfo,
@@ -65,7 +66,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 	} = usePurchaseOrder();
 	const { branchList, getAllBranchList } = useBranch();
 	const [addProductInfo, setAddProductInfo] = useState([]);
-	const [addProductViewInfo, setAddProductViewInfo] = useState([]);
+	const [addProductViewInfo, setAddProductViewInfo]: any = useState([]);
 	const { getAllRateList } = useRate();
 	const { ProductSchema } = useValidation(poEntriesValues);
 	const { onClick, savePoEntries, tableData, tableInnerData } = usePoEntries();
@@ -93,9 +94,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 			colorId: castValues.colorId.name
 		};
 		setAddProductViewInfo([...addProductViewInfo, { ...formValues, colorId: castValues.colorId.id }]);
-
 		setAddProductInfo([...addProductInfo, values]);
-
 		setDisabled(false);
 		let productID = values.productId;
 		resetForm();
@@ -125,11 +124,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 
 	const removeFromProductInfo = (item: any) => {
 		setAddProductInfo(addProductInfo.filter((filter: any, index) => index !== item));
-		setAddProductViewInfo(addProductViewInfo.filter((filter: any, index) => index !== item));
-	};
-
-	const handleResetForm = (poReset: any, entryReset: any) => {
-		entryReset();
+		setAddProductViewInfo(addProductViewInfo.filter((filter: any, index: any) => index !== item));
 	};
 
 	return (
@@ -306,7 +301,6 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																</div>
 															);
 														})}
-
 														<div className={productInfo}>
 															<Input
 																disabled={
@@ -381,21 +375,39 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																	propsItem.handleSubmit();
 																}}
 																disabled={
-																	propsItem.values?.productId?.id ? false : true
+																	propsItem.values?.productId?.id &&
+																	addProductViewInfo.length > 0
+																		? propsItem?.values?.typeId?.name ===
+																				addProductViewInfo[0]?.typeId &&
+																		  propsItem?.values?.length ===
+																				addProductViewInfo[0]?.length.toString() &&
+																		  propsItem?.values?.colorId?.id ===
+																				addProductViewInfo[0]?.colorId
+																		: !propsItem.values?.productId?.id
 																}
 																styles={addType}
 																icon={<Add />}
 																type="submit"
 															/>
 														</div>
+														{addProductViewInfo.length > 0 &&
+															propsItem?.values?.typeId?.name ===
+																addProductViewInfo[0]?.typeId &&
+															propsItem?.values?.length ===
+																addProductViewInfo[0]?.length.toString() &&
+															propsItem?.values?.colorId?.id ===
+																addProductViewInfo[0]?.colorId && (
+																<div className={errTextAddPo}>
+																	Length, Coating, Color combination must be unique
+																</div>
+															)}
 														<div className={buttonMarginPoAddForm}>
 															<IconButtons
 																clickEvent={(e: any) => {
 																	e.preventDefault();
-																	handleResetForm(
-																		props.resetForm,
-																		propsItem.resetForm
-																	);
+																	propsItem.resetForm();
+																	setAddProductInfo([]);
+																	setAddProductViewInfo([]);
 																}}
 																styles={cancleButton}
 																lebel={"Reset"}

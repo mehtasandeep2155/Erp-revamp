@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { baseUrl } from "@api/base-url";
 import { handleuser } from "@api/network";
-import { subCompanyDiv, gpGood, gpBad, editIcon, flex, newDiv, flexSummary } from "@css/styles";
+import { subCompanyDiv, gpGood, gpBad, editIcon, flex, newDiv, flexSummary, detailsMultiView } from "@css/styles";
 import { VerifyValues } from "@component/utils/form/initial-values";
 import axios from "axios";
 import { useMutation } from "react-query";
@@ -176,15 +176,19 @@ export default function useVerification() {
 						item.company ? item.company?.name.charAt(0).toUpperCase() + item.company.name.slice(1) : "_",
 						item.company ? (
 							<AccordionRowComponent
-								title={item.company.sub_company?.map(
-									(item1: any, index1: number) =>
-										index1 < 1 && (
-											<span>
-												{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
-												{index1 < 1 - 1 ? "," : ""}
-											</span>
-										)
-								)}
+								title={
+									<div className={flexSummary}>
+										{item.company.sub_company?.map(
+											(item1: any, index1: number) =>
+												index1 < 1 && (
+													<span className={detailsMultiView}>
+														{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
+														{index1 < 1 - 1 ? "," : ""}
+													</span>
+												)
+										)}
+									</div>
+								}
 								index={item.company.sub_company?.length}
 								maxIndex={2}
 								summary={
@@ -192,7 +196,7 @@ export default function useVerification() {
 										{item.company.sub_company.map((item1: any, index1: any) => {
 											if (index1 > 0) {
 												return (
-													<span>
+													<span className={detailsMultiView}>
 														{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
 														{index1 < item.company.sub_company.length - 1 ? "," : ""}
 													</span>

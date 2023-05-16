@@ -33,3 +33,6 @@ export const coatingDoneList = "/purchase-orders/coatings/coating-done";
 export const InTransitList = "/purchase-orders/dispatch/intransit";
 export const DispatchReadyList = "/purchase-orders/dispatch/ready-for-dispatch";
 export const DispatchedList = "/purchase-orders/dispatch/dispatched";
+export const addCoating = "/product/coating-form";
+export const addProduct = "/product/product-form";
+export const addProductRate = "/product/product-rate-form";

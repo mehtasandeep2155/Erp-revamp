@@ -1,8 +1,10 @@
+import CollapsibleTable from "@common/tables/collapsible-table";
+import TableComponent from "@common/tables/custom-table";
 import { HeaderPage } from "@component/commoncomponent/common-components";
-import TableComponent from "common/tables/custom-table";
+import { yourPurchaseOrderInnerHead, rateColums } from "@component/utils/form/constant";
 import { memo } from "react";
 
-const ProductVariantListWeb = ({ coloums, onClickByAdmin, onDelete, loading, tableData }: any) => {
+const ProductVariantListWeb = ({ coloums, onClickByAdmin, onDelete, loading, tableInnerData, tableData }: any) => {
 	return (
 		<>
 			<HeaderPage onClickByAdmin={onClickByAdmin} tableData={tableData} />
@@ -11,10 +13,16 @@ const ProductVariantListWeb = ({ coloums, onClickByAdmin, onDelete, loading, tab
 				title="Product List"
 				tableData={tableData}
 				onDelete={onDelete}
+				expandable={true}
 				loading={loading}
+				tableHead={rateColums}
+				tableInnerHead={yourPurchaseOrderInnerHead}
+				tableInnerData={tableInnerData}
 				clickAction={onClickByAdmin}
 				buttonTitle="Add Product"
 				expandableRow={true}
+				iconAt={1}
+				innertitle={"Products Details"}
 			/>
 		</>
 	);

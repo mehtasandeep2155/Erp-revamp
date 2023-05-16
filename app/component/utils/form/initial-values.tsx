@@ -53,7 +53,8 @@ const productUomValues = {
 const productRateValues = {
 	rate: "",
 	productId: "",
-	typeId: ""
+	typeId: "",
+	id: ""
 };
 
 const VerifyValues = {
@@ -74,6 +75,7 @@ const productValues = {
 	height: "",
 	thickness: "",
 	length: "",
+	weight: "",
 	id: ""
 };
 

@@ -4,8 +4,7 @@ import useProductType from "./product-type-hook";
 import { memo } from "react";
 
 function ProductTypeList() {
-	const { getAllProductType, menu, types, tableData, fetchagain, typeValue, columns, onClick, loader } =
-		useProductType();
+	const { getAllProductType, onClick, types, tableData, fetchagain, typeValue, columns, loader } = useProductType();
 
 	useEffect(() => {
 		getAllProductType();
@@ -21,7 +20,6 @@ function ProductTypeList() {
 				onClickByAdmin={onClick}
 				onDelete={handleDelete}
 				loading={loader}
-				isOpen={menu}
 				typeValue={typeValue}
 			/>
 		</>

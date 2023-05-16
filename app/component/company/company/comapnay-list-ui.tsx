@@ -3,7 +3,7 @@ import { memo } from "react";
 import { HeaderPage } from "@component/commoncomponent/common-components";
 
 const CompanyListWeb = (props: any) => {
-	const { columns, tableData, onClickByAdmin, onDelete, loading, allComapnyList } = props;
+	const { columns, tableData, onClickByAdmin, onDelete, loading, menu } = props;
 
 	return (
 		<>

@@ -5,13 +5,25 @@ import { CompanyValuesType } from "@component/utils/type/interfaces";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { Close, Delete, Edit } from "@mui/icons-material";
-import { companyChip, deleteBut, editIcon, flex, menuItmeStyle, subCompanyDiv } from "css/styles";
+import {
+	companyChip,
+	deleteBut,
+	detailsMultiView,
+	editIcon,
+	flex,
+	flexSummary,
+	menuItmeStyle,
+	subCompanyDiv,
+	summaryCompanyDiv,
+	summaryDiv
+} from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { companyColums } from "@component/utils/form/constant";
 import { Chip } from "@mui/material";
 import Swal from "sweetalert2";
 import { getCompany } from "@api/get-api-queries";
+import AccordionRowComponent from "@common/accordinon/accordion-row";
 
 export default function useCompany() {
 	const [menu, setMenu] = useState(false);
@@ -133,15 +145,45 @@ export default function useCompany() {
 			setAllCompanyList(companyDetails);
 			companyDetails?.forEach((item: any, index: number) => {
 				let objData = [
-					index+1,
+					index + 1,
 					item.name.charAt(0).toUpperCase() + item.name.slice(1),
-					item.sub_company && (
-						<div className={subCompanyDiv}>
-							{item.sub_company.map((item1: any, index1: number) => (
-								<span key={index1}>{item1.name}</span>
-							))}
-						</div>
-					),
+					<div className={summaryCompanyDiv}>
+						{item.sub_company ? (
+							<AccordionRowComponent
+								title={
+									<div className={flexSummary}>
+										{item.sub_company?.map(
+											(item1: any, index1: number) =>
+												index1 < 1 && (
+													<span className={detailsMultiView}>
+														{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
+														{index1 < 1 - 1 ? "," : ""}
+													</span>
+												)
+										)}
+									</div>
+								}
+								index={item.sub_company?.length}
+								maxIndex={2}
+								summary={
+									<div className={flexSummary}>
+										{item.sub_company.map((item1: any, index1: any) => {
+											if (index1 > 0) {
+												return (
+													<span className={detailsMultiView}>
+														{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
+														{index1 < item.sub_company.length - 1 ? "," : ""}
+													</span>
+												);
+											}
+										})}
+									</div>
+								}
+							/>
+						) : (
+							"_"
+						)}
+					</div>,
 					<div className={flex}>
 						{objModulesData.controls.includes("Edit") && (
 							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />

@@ -24,11 +24,14 @@ export const flex = css`
 `;
 export const flexSummary = css`
 	display: flex;
-	justify-content: start;
-	float: left;
+	gap: 4px;
+	justify-content: space-evenly;
 `;
 export const summaryDiv = css`
 	width: 151px;
+`;
+export const summaryCompanyDiv = css`
+	width: 200px;
 `;
 export const flexCol = css`
 	${flex};
@@ -92,9 +95,8 @@ export const navSummary = css`
 export const flexToolbar = css`
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	gap: 10px;
 	float: right;
-	min-width: 651px;
 `;
 export const checkDiv = css`
 	display: flex;
@@ -116,7 +118,6 @@ export const checkSearchDiv = css`
 `;
 export const flexTitleToolbar = css`
 	${flexToolbar}
-	min-width: 780px;
 `;
 
 export const layoutBackgroundColor = css`
@@ -489,6 +490,13 @@ export const errText = css`
 	padding-top: 2px;
 `;
 
+export const errTextAddPo = css`
+	color: ${requireColor};
+	font-size: 12px;
+	display: flex;
+	padding-top: 15px;
+`;
+
 export const continueBut = css`
 	cursor: pointer;
 	border-radius: 5px;
@@ -509,7 +517,6 @@ export const bold = css`
 
 export const editBut = css`
 	font-size: 13px;
-	// cursor: pointer;
 	background: rgba(0, 0, 0, 0.075);
 	padding: 4px;
 	border-radius: 5px;
@@ -567,6 +574,14 @@ export const detailsPointViewBut = css`
 	${detailsViewBut}
 	background:  rgba(33, 150, 243, 0.15);
 	border-color: rgba(33, 150, 243, 0.15) !important;
+`;
+export const detailsMultiView = css`
+	font-size: 13px;
+	background: rgba(33, 150, 243, 0.15);
+	border-color: rgba(33, 150, 243, 0.15) !important;
+	padding: 4px;
+	border-radius: 26px;
+	border: 1px solid ${lightMode.navBorder};
 `;
 export const detailsStatusBut = css`
 	${detailsViewBut}

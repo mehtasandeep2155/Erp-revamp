@@ -4,9 +4,10 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/
 
 export default function AccordionRowComponent({ title, summary, index, maxIndex }: any) {
 	return (
-		<Accordion sx={{ boxShadow: "none" }}>
+		<Accordion sx={{ boxShadow: "none" }} aria-expanded={index >= maxIndex}>
 			<AccordionSummary
 				sx={{ boxShadow: "none" }}
+				aria-expanded={index >= maxIndex && true}
 				expandIcon={index >= maxIndex && <ExpandMore />}
 				aria-controls="panel1a-content"
 				id="panel1a-header"

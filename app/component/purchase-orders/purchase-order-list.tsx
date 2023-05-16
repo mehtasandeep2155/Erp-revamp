@@ -56,7 +56,6 @@ function PurchaseOrderList() {
 			setListTitle("All Purchase Order List");
 		} else {
 			setColumsData(CoatingColums);
-			// purchaseOrderds.refetch();
 			if (newValue === 1) {
 				setListTitle("Initiated Purchase Order List");
 				setTabListData(tableData);

@@ -9,19 +9,26 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
-import { ArrowDownward, ExpandLess, ExpandMore } from "@mui/icons-material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { innerDataContainer, innerTableHeadingStyle, outerTableRow } from "@css/mui-styles";
+import { secondary100, white } from "@css/color-palette";
 
-const YourPurchaseOrderTable = ({ rows, tableInnerData, iconAt, tableInnerHead, title, index }: any) => {
+export const YourPurchaseOrderTable = ({ rows, tableInnerData, iconAt, tableInnerHead, title, index }: any) => {
 	const [open, setOpen] = React.useState(false);
 
 	let modifiedTableInnerData = tableInnerData.filter((item: any, i: number) => i === index);
 	return (
 		<>
-			<TableRow>
+			<TableRow sx={{ padding: "0px", background: index % 2 === 0 ? white : secondary100 }}>
 				{rows.map((item: any, index: number) => (
-					<TableCell>
-						<div style={{ display: "flex", marginTop: "10px", alignItems: "center" }}>
+					<TableCell sx={{ padding: "7px" }}>
+						<div
+							style={{
+								display: "flex",
+								marginTop: "10px",
+								alignItems: "center"
+							}}
+						>
 							{iconAt === index ? (
 								open ? (
 									<ExpandMore onClick={() => setOpen(!open)} />
@@ -34,7 +41,7 @@ const YourPurchaseOrderTable = ({ rows, tableInnerData, iconAt, tableInnerHead, 
 					</TableCell>
 				))}
 			</TableRow>
-			<TableRow>
+			<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
 						<Box sx={innerDataContainer}>
@@ -51,9 +58,11 @@ const YourPurchaseOrderTable = ({ rows, tableInnerData, iconAt, tableInnerHead, 
 								</TableHead>
 								<TableBody>
 									{modifiedTableInnerData?.map((item: any, index: number) => (
-										<TableRow>
+										<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
 											{item?.map((item: any) => (
-												<TableCell>{item}</TableCell>
+												<TableCell sx={{ background: index % 2 === 0 ? white : secondary100 }}>
+													{item}
+												</TableCell>
 											))}
 										</TableRow>
 									))}

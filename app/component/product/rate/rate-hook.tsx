@@ -20,8 +20,6 @@ export default function useRate() {
 	const [productTypelist, setTypelist] = useState([]);
 	const [loader, setLoader] = useState(false);
 	const [allRateList, setAllRateList] = useState([]);
-	const [productCoatingTypeList, setproductCoatingTypeList] = useState([]);
-	const [coatingColorList, setCoatingColorList] = useState([]);
 	const { products } = getProduct();
 	const { rates } = getRate();
 	const { types } = getType();
@@ -41,6 +39,7 @@ export default function useRate() {
 
 	const columns = rateColums;
 	const [tableData, setTableData] = useState();
+	const [tableInnerData, setTableInnerData] = useState();
 	const [tableDataSelect, setTableSelectData] = useState();
 	const [rateValue, setRateValue] = useState(productRateValues);
 
@@ -149,6 +148,7 @@ export default function useRate() {
 			let list: any = [];
 			let selectList: any = [];
 			let allList: any = [];
+			let productList: any = [];
 			let rateDetails = await rates.data;
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
@@ -170,13 +170,7 @@ export default function useRate() {
 						index1 = index1 + 1;
 						let data = [
 							index1,
-							item.name ? (
-								<span className={detailsViewBut} onClick={() => handleView(item)}>
-									{item.name}
-								</span>
-							) : (
-								"_"
-							),
+							item.name ? <span className={detailsViewBut}>{item.name}</span> : "_",
 							`${item1.type.charAt(0).toUpperCase() + item1.type.slice(1)} #${item1.code}`,
 							item1?.rate ? `Rs.${String(item1.rate).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}` : "_",
 							<div className={flex}>
@@ -212,19 +206,14 @@ export default function useRate() {
 						)}
 					</div>
 				];
+				productList.push([item.name, item.height, item.width, item.weight, item.thickness, item.length]);
 				list.push(data);
 				allList.push(item);
-				// selectList.push([
-				// 	item.product ? <span className={detailsViewBut}>{item.product.name}</span> : "_",
-				// 	`${item.coating_type.type.charAt(0).toUpperCase() + item.coating_type.type.slice(1)} #${
-				// 		item.coating_type.code
-				// 	} `,
-				// 	`Rs.${String(item.rate).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-				// ]);
 			});
 			setAllRateList(allList);
 			setTableSelectData(selectList);
 			setTableData(list);
+			setTableInnerData(productList);
 			setLoader(false);
 			setFetchAgain(false);
 		}
@@ -264,6 +253,7 @@ export default function useRate() {
 		handleView,
 		allRateList,
 		tableDataSelect,
+		tableInnerData,
 		handleOnClick
 	};
 }
