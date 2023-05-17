@@ -139,12 +139,12 @@ export default function useBranch() {
 			branchDetails?.data?.forEach((item: any, index: number) => {
 				let objData = [
 					rowsPerPage * page + index - rowsPerPage + 1,
-					item.type,
+					item.name.charAt(0).toUpperCase() + item.name.slice(1) + item.code,
+					item.type.charAt(0).toUpperCase() + item.type.slice(1),
 					item.contact_phone,
-					item.contact_name,
+					item.contact_name.charAt(0).toUpperCase() + item.contact_name.slice(1),
 					item.phone,
 					item.address,
-					`#${item.code}`,
 					<div className={flex}>
 						{objModulesData.controls.includes("Edit") && (
 							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />

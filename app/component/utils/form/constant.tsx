@@ -401,12 +401,12 @@ const branchColums = [
 			filter: false
 		}
 	},
+	"Name",
 	"Type",
 	"Phone",
 	"Contact Name",
 	"Contact Phone",
 	"Address",
-	"Code",
 	{
 		label: "Action",
 		options: {

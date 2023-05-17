@@ -52,12 +52,13 @@ import { poEntriesValues } from "@component/utils/form/initial-values";
 import usePoEntries from "./po-entries/po-entries-hook";
 import CollapsibleTable from "../../common/tables/collapsible-table";
 import { yourPurchaseOrderHead, yourPurchaseOrderInnerHead } from "@component/utils/form/constant";
-import { getProductRate, getProductWithRate, getRate } from "@api/get-api-queries";
+import { getCustomer, getProductRate, getProductWithRate, getRate } from "@api/get-api-queries";
 
 const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 	const { PurchaseOrderSchema } = useValidation(perChasevalue);
 	const { handleChange } = useHandleChange("", "");
 	const { customerList, getAllCompanyList } = useCustomer();
+	const { customerlists } = getCustomer("", "");
 	const {
 		productWithRateData,
 		getAllProductsWithRate,
@@ -73,8 +74,6 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 	const { onClick, savePoEntries, tableData, tableInnerData } = usePoEntries();
 	const [disabled, setDisabled] = useState(true);
 	const { productsWithRate } = getProductWithRate("", "");
-	const { rates } = getRate("", "");
-	const { productsRate } = getProductRate("", "");
 
 	useEffect(() => {
 		getAllCompanyList();
@@ -82,7 +81,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 		getAllProductsWithRate();
 		getAllList();
 		getAllRateList();
-	}, [productsWithRate.isLoading, rates.isLoading, productsRate.isLoading]);
+	}, [productsWithRate.isLoading, customerlists.isLoading]);
 
 	const addInProductInfo = (values: any, { resetForm, setFieldValue }: any) => {
 		const castValues: any = ProductSchema.cast(values);
