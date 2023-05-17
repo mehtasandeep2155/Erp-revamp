@@ -54,7 +54,7 @@ export default function usePurchaseOrder() {
 	const { products } = getProduct("", "");
 	const [status, setStatus] = useState("");
 	const { purchaseOrderds } = getPurchaseOrders(page, rowsPerPage, status);
-	const { productsRate } = getProductRate();
+	const { productsRate } = getProductRate("", "");
 	const [loader, setLoader] = useState(false);
 	const [productslist, setProductsList] = useState([]);
 	const [Selectedproductslist, setSelectedproductslist] = useState([]);
@@ -81,7 +81,7 @@ export default function usePurchaseOrder() {
 	const [poDetails, setPoDetails] = useState([]);
 	const { push } = useRouter();
 	const [headTitle, setHeadTitle] = useState("");
-	const { productsWithRate } = getProductWithRate();
+	const { productsWithRate } = getProductWithRate("", "");
 	const [productWithRateData, setProductWithRateData] = useState<any>([]);
 	const [openGenerateInvoice, setOpenGenerateInvoice] = useState<boolean>(false);
 	const [invoiceDetails, setInvoiceDetails] = useState<any>([]);
@@ -100,7 +100,6 @@ export default function usePurchaseOrder() {
 			setListTitle("All Purchase Order List");
 		} else {
 			setColumns(CoatingColums);
-			// setTableData(listData);
 			if (newValue === 1) {
 				setStatus("initiated");
 				setListTitle("Initiated Purchase Order List");
@@ -442,20 +441,12 @@ export default function usePurchaseOrder() {
 			setAllRateList(list);
 			setProductRatelist(ratelist);
 		}
-		if (!purchaseOrderds.isLoading) {
-			let purchaselist: any = [];
-			let datarate: any = await purchaseOrderds?.data?.data;
-			datarate?.forEach((item: any) => {
-				let obj = { name: item, id: item.id };
-				purchaselist.push(obj);
-			});
-			setProductPurchaseOrderlist(purchaselist);
-		}
 	};
 
 	const getAllProductsWithRate = async () => {
 		if (!productsWithRate.isLoading) {
-			setProductWithRateData(productsWithRate?.data?.data);
+			const data = await productsWithRate?.data?.data;
+			setProductWithRateData(data);
 		}
 	};
 

@@ -57,8 +57,8 @@ export const getRate = (page: any, limit: any) => {
 	const rates = useQuery(["ratelist", page, limit], getRateDetails);
 	return { rates };
 };
-export const getProductRate = () => {
-	const productsRate = useQuery(["productratelist"], getProductRateDetails);
+export const getProductRate = (page: any, limit: any) => {
+	const productsRate = useQuery(["productratelist", page, limit], getProductRateDetails);
 	return { productsRate };
 };
 export const getType = (page: any, limit: any) => {
@@ -66,8 +66,8 @@ export const getType = (page: any, limit: any) => {
 	return { types };
 };
 
-export const getProductWithRate = () => {
-	const productsWithRate = useQuery("productWithRateList", getProductWithRateDetails);
+export const getProductWithRate = (page: any, limit: any) => {
+	const productsWithRate = useQuery(["productWithRateList", page, limit], getProductWithRateDetails);
 	return { productsWithRate };
 };
 

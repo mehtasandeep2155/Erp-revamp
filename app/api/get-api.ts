@@ -76,6 +76,7 @@ export const getProductWithRateDetails = async ({ queryKey }: any) => {
 	const page = queryKey[1];
 	const limit = queryKey[2];
 	const { data } = await axios.get(`${baseUrlProduct + productWithRate}?page=${page}&limit=${limit}`);
+	console.log(data);
 	return data;
 };
 
