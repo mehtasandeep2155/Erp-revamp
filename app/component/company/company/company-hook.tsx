@@ -24,7 +24,7 @@ import { Chip } from "@mui/material";
 import Swal from "sweetalert2";
 import { getCompany } from "@api/get-api-queries";
 import AccordionRowComponent from "@common/accordinon/accordion-row";
-import { addCompany } from "@component/utils/routes";
+import { addCompany, companyList } from "@component/utils/routes";
 import { useRouter } from "next/router";
 
 export default function useCompany() {
@@ -58,7 +58,7 @@ export default function useCompany() {
 				SuccessAlert("Company Added SuccessFully");
 				companies.refetch();
 				setFetchAgain(true);
-				setMenu(!menu);
+				push(companyList);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -78,7 +78,8 @@ export default function useCompany() {
 				SuccessAlert("Saved Changes SuccessFully!");
 				companies.refetch();
 				setFetchAgain(true);
-				setMenu(!menu);
+				// setMenu(!menu);
+				push(companyList);
 			},
 			onError: (error) => {
 				Swal.close();
@@ -128,8 +129,9 @@ export default function useCompany() {
 			DeleteAlert(mutationDelete, id);
 		} else {
 			if (id) {
-				let obj = { name: values.name, ["subCompanyId"]: values.sub_company, id: values.id };
-				setCompanyValue(obj);
+				companyValue.name = values.name;
+				companyValue.subCompanyId = values.sub_company;
+				companyValue.id = values.id;
 			} else {
 				setCompanyValue(CompanyValues);
 			}

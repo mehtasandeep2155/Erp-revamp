@@ -79,7 +79,7 @@ export default function usePurchaseOrder() {
 	const [productPoList, setProductPoList] = useState([]);
 	const [productPODetails, setProductPODetails] = useState({});
 	const [poDetails, setPoDetails] = useState([]);
-	const { push } = useRouter();
+	const { push, pathname } = useRouter();
 	const [headTitle, setHeadTitle] = useState("");
 	const { productsWithRate } = getProductWithRate("", "");
 	const [productWithRateData, setProductWithRateData] = useState<any>([]);
@@ -540,6 +540,17 @@ export default function usePurchaseOrder() {
 				setFetchAgain(true);
 				setSelectedproductslist([]);
 				setIsOpenCustomer(false);
+				handleTabChange("", 1);
+				push(
+					{
+						pathname: pathname,
+						query: `filter=ready-for-coating`
+					},
+					undefined,
+					{
+						shallow: true
+					}
+				);
 				setIsOpen(false);
 			},
 			onError: (error) => {

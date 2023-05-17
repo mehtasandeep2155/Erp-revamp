@@ -1,9 +1,9 @@
-import AddCompanyForm from "../../component/company/company/add-company-form";
+import AddCompany from "../../component/company/company/add-company";
 
 export default function Web() {
 	return (
 		<div>
-			<AddCompanyForm />
+			<AddCompany />
 		</div>
 	);
 }

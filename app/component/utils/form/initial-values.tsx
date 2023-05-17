@@ -33,7 +33,8 @@ const productColorValues = {
 };
 const CompanyValues = {
 	name: "",
-	subCompanyId: ""
+	subCompanyId: "",
+	id: ""
 };
 const subCompanyValues = {
 	name: ""

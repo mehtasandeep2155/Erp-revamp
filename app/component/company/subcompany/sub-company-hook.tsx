@@ -145,7 +145,7 @@ export default function useSubCompany() {
 				list.push(objData);
 			});
 			setTableData(list);
-			subcomapnylist(datasubcompany);
+			subcomapnylist(datasubcompany?.data);
 			setLoader(false);
 			setFetchAgain(false);
 		}
