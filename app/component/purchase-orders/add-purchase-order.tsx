@@ -52,7 +52,7 @@ import { poEntriesValues } from "@component/utils/form/initial-values";
 import usePoEntries from "./po-entries/po-entries-hook";
 import CollapsibleTable from "../../common/tables/collapsible-table";
 import { yourPurchaseOrderHead, yourPurchaseOrderInnerHead } from "@component/utils/form/constant";
-import { getCustomer, getProductRate, getProductWithRate, getRate } from "@api/get-api-queries";
+import { getCustomer, getProductWithRate, getRate } from "@api/get-api-queries";
 
 const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 	const { PurchaseOrderSchema } = useValidation(perChasevalue);
@@ -194,11 +194,11 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 													options={branchList?.map((item: any) => {
 														return { name: item.name, id: item.id };
 													})}
-													error="delivery_pointId"
-													name="delivery_pointId"
+													error="origin_pointId"
+													name="origin_pointId"
 													valueProps={props}
-													label={"Select Delivery Point"}
-													value={props.values.delivery_pointId}
+													label={"Select Origin Point"}
+													value={props.values.origin_pointId}
 													require={true}
 													style={styleAddPurchaseOrder}
 												/>
@@ -207,11 +207,11 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 													options={branchList?.map((item: any) => {
 														return { name: item.name, id: item.id };
 													})}
-													error="origin_pointId"
-													name="origin_pointId"
+													error="delivery_pointId"
+													name="delivery_pointId"
 													valueProps={props}
-													label={"Select Origin Point"}
-													value={props.values.origin_pointId}
+													label={"Select Delivery Point"}
+													value={props.values.delivery_pointId}
 													require={true}
 													style={styleAddPurchaseOrder}
 												/>

@@ -134,6 +134,7 @@ export default function useCompany() {
 				companyValue.id = values.id;
 			} else {
 				setCompanyValue(CompanyValues);
+				push(addCompany);
 			}
 			setMenu(!menu);
 		}

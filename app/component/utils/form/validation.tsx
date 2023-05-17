@@ -54,9 +54,13 @@ export const useValidation = (values: any) => {
 			.trim()
 			.matches(nameRegExp, "Invalid Company Name")
 			.required("Company Name is Required!"),
-		subCompanyId: Yup.array().typeError("Sub Company Must be An Array").required("Sub Company is Required!")
+		subCompanyId: Yup.array().min(1, "Sub Company Is Required!").required("Sub Company is Required!")
 	});
 
+	const ProductTypeSchema = Yup.object({
+		type: Yup.string().trim().matches(nameRegExp, "Invalid Coating!").required("Coating is Required!"),
+		colors: Yup.array().min(1, "Colors Must be An Array").required("Colors is Required!")
+	});
 	const JobSchema: any = Yup.object({
 		userId: Yup.object().required("User Details is Required!"),
 		payType: Yup.object().required("Payment Type  is Required!"),
@@ -127,11 +131,6 @@ export const useValidation = (values: any) => {
 			.typeError("Tax Must be Number")
 			.nullable()
 			.transform((v, o) => (o === "" ? null : v))
-	});
-
-	const ProductTypeSchema = Yup.object({
-		type: Yup.string().trim().matches(nameRegExp, "Invalid Coating!").required("Coating is Required!"),
-		colors: Yup.array().typeError("Colors Must be An Array").required("Colors is Required!")
 	});
 
 	const ProductRateSchema = Yup.object({

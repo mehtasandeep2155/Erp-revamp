@@ -579,9 +579,12 @@ export const customerViewBut = css`
 `;
 
 export const detailsPointViewBut = css`
-	${detailsViewBut}
-	background:  rgba(33, 150, 243, 0.15);
-	border-color: rgba(33, 150, 243, 0.15) !important;
+	color: #17a2b8 !important;
+	font-size: 13px;
+	cursor: pointer;
+	:hover {
+		text-decoration: underline;
+	}
 `;
 export const detailsMultiView = css`
 	font-size: 13px;

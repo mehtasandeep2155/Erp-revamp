@@ -31,9 +31,9 @@ const productColorValues = {
 	id: "",
 	name: ""
 };
-const CompanyValues = {
+const CompanyValues: any = {
 	name: "",
-	subCompanyId: "",
+	subCompanyId: [],
 	id: ""
 };
 const subCompanyValues = {

@@ -211,20 +211,14 @@ const variantColums = [
 const variantViewColums = ["Product Name", "Height (mm)", "Width", "Weight (kg)", "Thickness", "Length"];
 
 const purchaseOrderColums = [
-	{
-		label: "#",
-		options: {
-			filter: false
-		}
-	},
+	"Order No.",
 	"Customer",
 	"Product",
-	"Delivery Points",
-	"Origin Points",
+	"Delivery",
+	"Origin",
 	"Gross Weight",
 	"Net Weight",
-	"Order Number",
-	"Issue Date",
+	"Date",
 	"Status",
 	{
 		label: "Action",
@@ -234,20 +228,14 @@ const purchaseOrderColums = [
 	}
 ];
 const CoatingColums = [
-	{
-		label: "#",
-		options: {
-			filter: false
-		}
-	},
+	"Order No.",
 	"Customer",
 	"Product",
-	"Delivery Points",
-	"Origin Points",
+	"Delivery",
+	"Origin",
 	"Gross Weight",
 	"Net Weight",
-	"Order Number",
-	"Issue Date",
+	"Date",
 	{
 		label: "Action",
 		options: {

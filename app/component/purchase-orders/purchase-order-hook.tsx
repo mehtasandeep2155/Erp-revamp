@@ -650,16 +650,15 @@ export default function usePurchaseOrder() {
 			let list: any = [];
 			dataorder?.data?.map((item: any, index: any) => {
 				let data2 = [
-					rowsPerPage * page + index - rowsPerPage + 1,
+					item.order_number,
 					<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-					<b className={detailsViewBut}>
+					<b className={detailsPointViewBut}>
 						View <span>{item?.po_entries?.length}</span>
 					</b>,
 					<b className={detailsPointViewBut}>View</b>,
 					<b className={detailsPointViewBut}>View</b>,
 					item.gross_weight ? item.gross_weight : "_",
 					item.net_weight ? item.net_weight : "_",
-					item.order_number,
 					item.issued_date
 						? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
 								new Date(item.issued_date)
@@ -672,16 +671,15 @@ export default function usePurchaseOrder() {
 					/>
 				];
 				let data1 = [
-					rowsPerPage * page + index - rowsPerPage + 1,
+					item.order_number,
 					<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-					<b className={detailsViewBut}>
+					<b className={detailsPointViewBut}>
 						View <span>{item?.po_entries?.length}</span>
 					</b>,
 					<b className={detailsPointViewBut}>View</b>,
 					<b className={detailsPointViewBut}>View</b>,
 					item.gross_weight ? item.gross_weight : "_",
 					item.net_weight ? item.net_weight : "_",
-					item.order_number,
 					item.issued_date
 						? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
 								new Date(item.issued_date)

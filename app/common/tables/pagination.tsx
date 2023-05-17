@@ -30,14 +30,20 @@ export default function TablePaginationComponent({
 					rowsPerPage={rowsPerPage}
 					onRowsPerPageChange={handleChangeRowsPerPage}
 					labelDisplayedRows={({ from, to, count }) =>
-						`Results: ${from - rowsPerPage}-${from - rowsPerPage + rowsPerPage - 1} of ${dataCount}`
+						`Results: ${from - rowsPerPage}-${
+							dataCount > rowsPerPage ? from - rowsPerPage + rowsPerPage - page : dataCount
+						} of ${dataCount}`
 					}
 					ActionsComponent={() => {
 						return (
 							<Pagination
 								sx={{ display: "flex", justifyContent: "end" }}
 								defaultPage={page}
-								count={Math.floor(dataCount / rowsPerPage) + 1}
+								count={
+									dataCount > rowsPerPage
+										? Math.floor(dataCount / rowsPerPage) + 1
+										: Math.floor(dataCount / rowsPerPage)
+								}
 								onChange={handleChangePage}
 								page={page}
 							></Pagination>
