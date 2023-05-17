@@ -2,7 +2,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { flexIcon } from "@css/styles";
-import { cursorPointer, tableActionVisibiltyIcon } from "@css/mui-styles";
+import { tableActionVisibiltyIcon } from "@css/mui-styles";
 import { Receipt } from "@mui/icons-material";
 
 const PurcharseOrderTableAction = ({ handleView, item, handleDetailsView, handleDispatch }: any) => {

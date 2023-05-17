@@ -27,7 +27,7 @@ const CoatingDone = () => {
 		verifyValue,
 		IsDetails
 	} = usePurchaseOrder();
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 	const { varifyPoStatusSchema } = useValidation(verifyValue);
 
 	useEffect(() => {

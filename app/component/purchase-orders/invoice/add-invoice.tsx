@@ -25,7 +25,7 @@ const AddInVoice = (data: InvoiceProps) => {
 	const { InvoiceValue, onClickByAdmin, disabled, productPoList, tableDataSelect, handleOnInvoceClick } = data;
 	const { getAllCompanyList, fetchagain } = useCustomer();
 	const { customerlists } = getCustomer("", "");
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 	const { InvoiceSchema } = useValidation(InvoiceValue);
 
 	const handleLedgerSubmit = (values: any) => {

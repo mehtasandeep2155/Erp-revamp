@@ -15,15 +15,30 @@ const PurchaseOrderWeb = ({
 	handleTabChange,
 	open,
 	listTitle,
+	page,
+	rowsPerPage,
 	headTitle,
 	handleView,
+	handleChangePage,
+	handleChangeRowsPerPage,
+	totalCount,
 	data
 }: any) => {
 	return (
 		<>
 			<HeaderPage onClickByAdmin={onClickByAdmin} tableData={tableData} title="Add Purchase Order" />
 			<TabsComponent tabData={purchaseOrderTabsData} value={value} handleTabChange={handleTabChange} />
-			<TableComponent columns={columns} title={listTitle} tableData={tabListData} loading={loading} />
+			<TableComponent
+				columns={columns}
+				title={listTitle}
+				tableData={tabListData}
+				loading={loading}
+				page={page}
+				rowsPerPage={rowsPerPage}
+				handleChangePage={handleChangePage}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				totalCount={totalCount}
+			/>
 		</>
 	);
 };

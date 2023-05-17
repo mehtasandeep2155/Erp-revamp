@@ -8,15 +8,11 @@ import { approvePurchaseOredr, entry, invoice, purchaseOrder } from "@api/networ
 import { baseUrlPurchaseOrder } from "@api/base-url";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { AddOutlined, DeleteOutline, DoneOutline, DownloadOutlined } from "@mui/icons-material";
+import { DeleteOutline } from "@mui/icons-material";
 import {
 	detailsViewBut,
 	editBut,
 	editIcon,
-	flexInovioceIcon,
-	flexIcon,
-	editFinishBut,
-	editInvoiceBut,
 	countLine,
 	detailsPointViewBut,
 	detailsStatusBut,
@@ -33,6 +29,7 @@ import {
 	customerViewColums,
 	generateInvoiceColumns,
 	yourPurchaseOrderInnerHead,
+	purchaseOrderColums,
 	rateColumsView,
 	statusTabs
 } from "@component/utils/form/constant";
@@ -44,9 +41,19 @@ import PurcharseOrderTableAction from "./purchase-order-table-action";
 
 export default function usePurchaseOrder() {
 	const [IsOpen, setIsOpen] = useState(false);
+	const [page, setPage] = useState(1);
+	const [totalCount, setTotalCount] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const handleChangePage = (event: any, newPage: any) => {
+		setPage(newPage);
+	};
+	const handleChangeRowsPerPage = (event: any) => {
+		setRowsPerPage(event.target.value);
+	};
 	const [IsDetails, setIsDetails] = useState(false);
 	const { products } = getProduct("", "");
-	const { purchaseOrderds } = getPurchaseOrders();
+	const [status, setStatus] = useState("");
+	const { purchaseOrderds } = getPurchaseOrders(page, rowsPerPage, status);
 	const { productsRate } = getProductRate();
 	const [loader, setLoader] = useState(false);
 	const [productslist, setProductsList] = useState([]);
@@ -56,14 +63,10 @@ export default function usePurchaseOrder() {
 	const [fetchagain, setFetchAgain] = useState(false);
 	const [perChasevalue, setPurchaseValue] = useState<any>(purchaseOrderValues);
 	const [productmenu, setProductmenu] = useState(false);
-	const columns = CoatingColums;
+	const [columns, setColumns] = useState(purchaseOrderColums);
 	const [tableData, setTableData] = useState([]);
-	const [readyForCoatingTableData, setReadyForCoatingTableData] = useState([]);
-	const [CoatingInProgressTableData, setCoatingInProgressTableData] = useState([]);
-	const [allTableData, seAllTableData] = useState([]);
-	const [InTransitTableData, setInTransitTableData] = useState([]);
-	const [DispatchReadyTableData, setDispatchReadyTableData] = useState([]);
-	const [finishTableData, setFinishTableData] = useState([]);
+	const [listData, setListData] = useState([]);
+	const [AlltableData, setAllTableData] = useState([]);
 	const [isOpenCustomer, setIsOpenCustomer] = useState(false);
 	const [customerObj, setCustomerObj] = useState({});
 	const [isOpenProduct, setIsOpenProduct] = useState(false);
@@ -85,7 +88,35 @@ export default function usePurchaseOrder() {
 	const [openGenerateInvoice, setOpenGenerateInvoice] = useState<boolean>(false);
 	const [invoiceDetails, setInvoiceDetails] = useState<any>([]);
 	const [allRateList, setAllRateList] = useState([]);
+	const [ListTitle, setListTitle] = useState("All Purchase Order List");
+	const [value, setValue] = useState(0);
 	var poEntries: any = [];
+
+	const handleTabChange = (event: any, newValue: number) => {
+		setPage(1);
+		setRowsPerPage(5);
+		setValue(newValue);
+		if (newValue === 0) {
+			setStatus("");
+			setColumns(purchaseOrderColums);
+			setListTitle("All Purchase Order List");
+		} else {
+			setColumns(CoatingColums);
+			if (newValue === 1) {
+				setStatus("initiated");
+				setListTitle("Initiated Purchase Order List");
+			} else if (newValue === 2) {
+				setStatus("coating_initiated");
+				setListTitle("Coating Initiated Purchase Order List");
+			} else if (newValue === 3) {
+				setStatus("coating_processing");
+				setListTitle("Processing Purchase Order List");
+			} else if (newValue === 4) {
+				setStatus("ready_for_dispatch");
+				setListTitle("Ready For Dispatch Purchase Order List");
+			}
+		}
+	};
 
 	const handleDetailsView = (item: any) => {
 		setPoDetails([]);
@@ -598,23 +629,10 @@ export default function usePurchaseOrder() {
 	const getAllPurchaseList = async () => {
 		setLoader(true);
 		if (!purchaseOrderds.isLoading || fetchagain) {
-			let index1 = 0;
-			let index2 = 0;
-			let index3 = 0;
-			let index5 = 0;
-			let index6 = 0;
-			let index7 = 0;
 			let product = [];
-			tableData.map(() => tableData.pop());
-			tableDataSelectPurcahse.map(() => tableDataSelectPurcahse.pop());
-			CoatingInProgressTableData.map(() => CoatingInProgressTableData.pop());
-			readyForCoatingTableData.map(() => readyForCoatingTableData.pop());
-			tableDataSelectPurcahse.map(() => tableDataSelectPurcahse.pop());
-			InTransitTableData.map(() => InTransitTableData.pop());
-			finishTableData.map(() => finishTableData.pop());
-			allTableData.map(() => allTableData.pop());
 			let polist: any = [];
-			let dataorder: any = await purchaseOrderds.data;
+			let dataorder: any = await purchaseOrderds?.data;
+			setTotalCount(dataorder?.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -628,6 +646,11 @@ export default function usePurchaseOrder() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
+			if (value === 0) {
+				AlltableData.map(() => AlltableData.pop());
+			} else {
+				listData.map(() => listData.pop());
+			}
 			dataorder?.data?.forEach((item: any, index: any) => {
 				let obj = { name: item, id: item.id };
 				polist.push(obj);
@@ -635,209 +658,74 @@ export default function usePurchaseOrder() {
 				item.po_entries.map((itemPo: any) => {
 					product.push(item.rate?.product);
 				});
-				if (item.status !== "in_transit" && item.status !== "dispatched") {
-					let data4 = [
-						index + 1,
-						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-						<b className={detailsViewBut}>
-							View <span>{item?.po_entries?.length}</span>
-						</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						item.gross_weight ? item.gross_weight : "_",
-						item.net_weight ? item.net_weight : "_",
-						item.order_number,
-						item.issued_date ? (
-							<span>{`${String(new Date(item.issued_date)).slice(3, 10)},${String(
+
+				let data2 = [
+					rowsPerPage * page + index - rowsPerPage + 1,
+					<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
+					<b className={detailsViewBut}>
+						View <span>{item?.po_entries?.length}</span>
+					</b>,
+					<b className={detailsPointViewBut}>View</b>,
+					<b className={detailsPointViewBut}>View</b>,
+					item.gross_weight ? item.gross_weight : "_",
+					item.net_weight ? item.net_weight : "_",
+					item.order_number,
+					item.issued_date
+						? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
 								new Date(item.issued_date)
-							).slice(10, 16)}`}</span>
-						) : (
-							"_"
-						),
-						statusTabs.map((filterValue: any) => {
-							if (filterValue.status === item.status) {
-								return (
-									<b
-										className={detailsStatusBut}
-										style={{
-											background:
-												item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4",
-											borderColor:
-												item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4"
-										}}
-									>
-										{filterValue.label}
-									</b>
-								);
-							}
-						}),
-						<PurcharseOrderTableAction
-							handleView={handleView}
-							item={item}
-							handleDetailsView={handleDetailsView}
-						/>
-					];
-					allTableData.push(data4);
-				}
-				if (item.status === "initiated") {
-					index1 = index1 + 1;
-					let data1 = [
-						index1,
-						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-						<b className={detailsViewBut}>
-							View <span>{item?.po_entries?.length}</span>
-						</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						item.gross_weight ? item.gross_weight : "_",
-						item.net_weight ? item.net_weight : "_",
-						item.order_number,
-						item.issued_date
-							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
-									new Date(item.issued_date)
-							  ).slice(10, 16)}`
-							: "_",
-						<PurcharseOrderTableAction
-							handleView={handleView}
-							item={item}
-							handleDetailsView={handleDetailsView}
-						/>
-					];
-					tableData.push(data1);
-				} else if (item.status === "coating_initiated") {
-					index2 = index2 + 1;
-					let data2 = [
-						index2,
-						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-						<b className={detailsViewBut}>
-							View <span>{item?.po_entries?.length}</span>
-						</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						item.gross_weight ? item.gross_weight : "_",
-						item.net_weight ? item.net_weight : "_",
-						item.order_number,
-						item.issued_date
-							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
-									new Date(item.issued_date)
-							  ).slice(10, 16)}`
-							: "_",
-						<PurcharseOrderTableAction
-							handleView={handleView}
-							item={item}
-							handleDetailsView={handleDetailsView}
-						/>
-					];
-					readyForCoatingTableData.push(data2);
-				} else if (item.status === "coating_processing") {
-					index3 = index3 + 1;
-					let data3 = [
-						index3,
-						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-						<b className={detailsViewBut}>
-							View <span>{item?.po_entries?.length}</span>
-						</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						item.gross_weight ? item.gross_weight : "_",
-						item.net_weight ? item.net_weight : "_",
-						item.order_number,
-						item.issued_date
-							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
-									new Date(item.issued_date)
-							  ).slice(10, 16)}`
-							: "_",
-						<PurcharseOrderTableAction
-							handleView={handleView}
-							item={item}
-							handleDetailsView={handleDetailsView}
-						/>
-					];
-					CoatingInProgressTableData.push(data3);
-				} else if (item.status === "in_transit") {
-					index5 = index5 + 1;
-					let data5 = [
-						index5,
-						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-						<b className={detailsViewBut}>
-							View <span>{item?.po_entries?.length}</span>
-						</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						item.gross_weight ? item.gross_weight : "_",
-						item.net_weight ? item.net_weight : "_",
-						item.order_number,
-						item.issued_date
-							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
-									new Date(item.issued_date)
-							  ).slice(10, 16)}`
-							: "_",
-						<PurcharseOrderTableAction
-							handleView={handleView}
-							item={item}
-							handleDetailsView={handleDetailsView}
-						/>
-					];
-					InTransitTableData.push(data5);
-				} else if (item.status === "ready_for_dispatch") {
-					index6 = index6 + 1;
-					let data6 = [
-						index6,
-						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-						<b className={detailsViewBut}>
-							View <span>{item?.po_entries?.length}</span>
-						</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						item.gross_weight ? item.gross_weight : "_",
-						item.net_weight ? item.net_weight : "_",
-						item.order_number,
-						item.issued_date
-							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
-									new Date(item.issued_date)
-							  ).slice(10, 16)}`
-							: "_",
-						<PurcharseOrderTableAction item={item} handleDispatch={handleDispatch} />
-					];
-					DispatchReadyTableData.push(data6);
+						  ).slice(10, 16)}`
+						: "_",
+					<PurcharseOrderTableAction
+						handleView={handleView}
+						item={item}
+						handleDetailsView={handleDetailsView}
+					/>
+				];
+				let data1 = [
+					rowsPerPage * page + index - rowsPerPage + 1,
+					<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
+					<b className={detailsViewBut}>
+						View <span>{item?.po_entries?.length}</span>
+					</b>,
+					<b className={detailsPointViewBut}>View</b>,
+					<b className={detailsPointViewBut}>View</b>,
+					item.gross_weight ? item.gross_weight : "_",
+					item.net_weight ? item.net_weight : "_",
+					item.order_number,
+					item.issued_date
+						? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
+								new Date(item.issued_date)
+						  ).slice(10, 16)}`
+						: "_",
+					statusTabs.map((filterValue: any) => {
+						if (filterValue.status === item.status) {
+							return (
+								<b
+									className={detailsStatusBut}
+									style={{
+										background:
+											item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4",
+										borderColor:
+											item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4"
+									}}
+								>
+									{filterValue.label}
+								</b>
+							);
+						}
+					}),
+					<PurcharseOrderTableAction
+						handleView={handleView}
+						item={item}
+						handleDetailsView={handleDetailsView}
+					/>
+				];
+				if (value === 0) {
+					AlltableData.push(data1);
 				} else {
-					index7 = index7 + 1;
-					let data7 = [
-						index7,
-						<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
-						<b className={detailsViewBut}>
-							View <span>{item?.po_entries?.length}</span>
-						</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						<b className={detailsPointViewBut}>View</b>,
-						item.gross_weight ? item.gross_weight : "_",
-						item.net_weight ? item.net_weight : "_",
-						item.order_number,
-						item.issued_date
-							? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
-									new Date(item.issued_date)
-							  ).slice(10, 16)}`
-							: "_",
-						<div className={flexInovioceIcon}>
-							<span className={editInvoiceBut}>
-								<AddOutlined className={editIcon} onClick={() => handleDownload(item, "open")} />
-							</span>
-							<span className={editInvoiceBut}>
-								<DownloadOutlined
-									className={editIcon}
-									onClick={() => handleDownload(item, "download")}
-								/>
-							</span>
-						</div>,
-						<div className={flexIcon}>
-							<span className={editFinishBut}>
-								Finish
-								<DoneOutline className={editIcon} />
-							</span>
-						</div>
-					];
-					finishTableData.push(data7);
+					listData.push(data2);
 				}
+
 				tableDataSelectPurcahse.push([
 					item.order_number,
 					item.has_raw_material ? "Yes" : "No",
@@ -857,7 +745,7 @@ export default function usePurchaseOrder() {
 					)
 				]);
 			});
-			// seAllTableData(allData);
+
 			setLoader(false);
 			setFetchAgain(false);
 		}
@@ -866,7 +754,7 @@ export default function usePurchaseOrder() {
 		if (!products.isLoading) {
 			let list: any = [];
 			let dataproduct: any = await products?.data;
-			dataproduct?.forEach((item: any) => {
+			dataproduct?.data.forEach((item: any) => {
 				let obj = { name: item, id: item.id };
 				list.push(obj);
 			});
@@ -900,15 +788,13 @@ export default function usePurchaseOrder() {
 		handleValue,
 		Selectedproductslist,
 		handleView,
-		finishTableData,
 		handleProductApprove,
-		readyForCoatingTableData,
 		productmenu,
 		productPurchaseOrderlist,
 		isOpenCustomer,
 		openGenerateInvoice,
 		handleCustomerView,
-		allTableData,
+		handleTabChange,
 		customerObj,
 		isOpenProduct,
 		handleProductView,
@@ -927,9 +813,6 @@ export default function usePurchaseOrder() {
 		productPoList,
 		handleOnClickPurchase,
 		handleOnInvoceClick,
-		InTransitTableData,
-		CoatingInProgressTableData,
-		DispatchReadyTableData,
 		productWithRateData,
 		getAllProductsWithRate,
 		productPODetails,
@@ -938,8 +821,18 @@ export default function usePurchaseOrder() {
 		headTitle,
 		allRateList,
 		handleDetailsView,
+		value,
+		ListTitle,
+		listData,
+		AlltableData,
+		status,
 		poEntries,
 		handleDispatch,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		page,
+		rowsPerPage,
+		totalCount,
 		invoiceDetails
 	};
 }

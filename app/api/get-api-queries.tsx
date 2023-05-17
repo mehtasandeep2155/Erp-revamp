@@ -105,8 +105,8 @@ export const getLedger = () => {
 	const ledgers = useQuery("ledgerlist", getLedgerDetails);
 	return { ledgers };
 };
-export const getPurchaseOrders = () => {
-	const purchaseOrderds: any = useQuery("purchaseorderlist", getPurchaserderlist, {
+export const getPurchaseOrders = (page: any, limit: any, status: any) => {
+	const purchaseOrderds: any = useQuery(["purchaseorderlist", page, limit, status], getPurchaserderlist, {
 		refetchInterval: 60000,
 		refetchIntervalInBackground: true
 	});

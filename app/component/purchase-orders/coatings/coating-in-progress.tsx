@@ -16,7 +16,6 @@ const CoatingInProgress = () => {
 		getAllPurchaseList,
 		fetchagain,
 		loader,
-		CoatingInProgressTableData,
 		handleProductApprove,
 		handleView,
 		isOpenCustomer,
@@ -29,7 +28,7 @@ const CoatingInProgress = () => {
 		IsDetails
 	} = usePurchaseOrder();
 	const { varifyPoStatusSchema } = useValidation(verifyValue);
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 
 	useEffect(() => {
 		getAllPurchaseList();
@@ -40,7 +39,7 @@ const CoatingInProgress = () => {
 			<TableComponent
 				title="Coating InProgress List"
 				columns={CoatingDoneColums}
-				tableData={CoatingInProgressTableData}
+				tableData={[[]]}
 				onDelete={""}
 				loading={loader}
 			/>

@@ -16,7 +16,6 @@ const ReadyForDispatch = () => {
 		getAllPurchaseList,
 		fetchagain,
 		loader,
-		DispatchReadyTableData,
 		handleProductApprove,
 		handleView,
 		isOpenCustomer,
@@ -28,8 +27,7 @@ const ReadyForDispatch = () => {
 		verifyValue,
 		IsDetails
 	} = usePurchaseOrder();
-	const { purchaseOrderds } = getPurchaseOrders();
-	const { varifyPoStatusSchema } = useValidation(verifyValue);
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 
 	useEffect(() => {
 		getAllPurchaseList();
@@ -40,7 +38,7 @@ const ReadyForDispatch = () => {
 			<TableComponent
 				title="Dispatch Ready List"
 				columns={CoatingDoneColums}
-				tableData={DispatchReadyTableData}
+				tableData={[[]]}
 				onDelete={""}
 				loading={loader}
 			/>

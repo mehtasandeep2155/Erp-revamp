@@ -4,12 +4,6 @@ import {
 	dashboard,
 	login,
 	productColorList,
-	productRateList,
-	productTypeList,
-	productVariantList,
-	purchaseOrderList,
-	companyList,
-	subCompanyList,
 	inventoryMasterList,
 	garbageList,
 	inventoryList,
@@ -54,7 +48,6 @@ import { adminRoles } from "@component/utils/form/constant";
 
 export default function AuthContext({ Component, pageProps }: any) {
 	const { push, pathname } = useRouter();
-	const { purchaseOrderds } = getPurchaseOrders();
 	const { ledgers } = getLedger();
 	const { inventoryviews } = getInventoryMaster();
 	const { inventries } = getInventory();
@@ -84,16 +77,6 @@ export default function AuthContext({ Component, pageProps }: any) {
 
 	useEffect(() => {
 		if (
-			pathname.toLocaleLowerCase().includes(purchaseOrderList) ||
-			pathname.toLocaleLowerCase().includes(coatingReadyList) ||
-			pathname.toLocaleLowerCase().includes(coatingInProgressList) ||
-			pathname.toLocaleLowerCase().includes(coatingDoneList) ||
-			pathname.toLocaleLowerCase().includes(InTransitList) ||
-			pathname.toLocaleLowerCase().includes(DispatchReadyList) ||
-			pathname.toLocaleLowerCase().includes(DispatchedList)
-		) {
-			purchaseOrderds.refetch();
-		} else if (
 			pathname.toLocaleLowerCase().includes(ledgerList) ||
 			pathname.toLocaleLowerCase().includes(ledgerInProgress) ||
 			pathname.toLocaleLowerCase().includes(ledgerPaidList)

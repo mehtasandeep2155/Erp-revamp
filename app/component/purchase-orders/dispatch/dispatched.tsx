@@ -1,5 +1,5 @@
 import CustomizedDialogs from "@common/dailog/dailog-model";
-import { HeaderPage } from "@component/commoncomponent/common-components";
+
 import TableComponent from "common/tables/custom-table";
 import { memo, useEffect } from "react";
 import usePurchaseOrder from "../purchase-order-hook";
@@ -15,7 +15,6 @@ const Dispatched = () => {
 		columns,
 		fetchagain,
 		loader,
-		finishTableData,
 		isOpenCustomer,
 		handleCustomerView,
 		customerObj,
@@ -26,7 +25,7 @@ const Dispatched = () => {
 		InvoiceValue,
 		menuCustomer
 	} = usePurchaseOrder();
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 	useEffect(() => {
 		getAllPurchaseList();
 	}, [purchaseOrderds.isLoading, fetchagain, purchaseOrderds.isRefetching]);
@@ -36,7 +35,7 @@ const Dispatched = () => {
 			<TableComponent
 				title="Dispatched List"
 				columns={purchaseOrderFincishColums}
-				tableData={finishTableData}
+				tableData={[[]]}
 				onDelete={""}
 				loading={loader}
 			/>

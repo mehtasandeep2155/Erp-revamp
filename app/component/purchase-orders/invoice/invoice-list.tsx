@@ -28,7 +28,7 @@ function InVoiceList() {
 		handleChangeRowsPerPage
 	} = useInVoice();
 	const { getAllPurchaseList, tableDataSelectPurcahse, handleOnInvoceClick, productPoList } = usePurchaseOrder();
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 
 	useEffect(() => {
 		getAllPurchaseList();

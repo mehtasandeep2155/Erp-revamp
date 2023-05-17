@@ -3,7 +3,6 @@ import { HeaderPage } from "@component/commoncomponent/common-components";
 import TableComponent from "common/tables/custom-table";
 import { memo, useEffect } from "react";
 import usePurchaseOrder from "../purchase-order-hook";
-import VerifyPurchaseOrder from "../verify-purchase-order";
 import CustomerCard from "../customer-view";
 import ProductView from "../po-entries/po-entries-view";
 import { getPurchaseOrders } from "@api/get-api-queries";
@@ -16,7 +15,6 @@ const ReadyForCoatingList = () => {
 		getAllPurchaseList,
 		fetchagain,
 		loader,
-		readyForCoatingTableData,
 		handleProductApprove,
 		handleView,
 		isOpenCustomer,
@@ -29,7 +27,7 @@ const ReadyForCoatingList = () => {
 		IsDetails
 	} = usePurchaseOrder();
 	const { varifyPoSchema } = useValidation(verifyValue);
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 
 	useEffect(() => {
 		getAllPurchaseList();
@@ -40,7 +38,7 @@ const ReadyForCoatingList = () => {
 			<TableComponent
 				title="Coating Initiated List"
 				columns={CoatingColums}
-				tableData={readyForCoatingTableData}
+				tableData={[[]]}
 				onDelete={""}
 				loading={loader}
 			/>

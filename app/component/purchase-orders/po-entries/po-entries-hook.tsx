@@ -18,9 +18,9 @@ export default function usePoEntries() {
 	const [productDetails, setProductDetails] = useState<any>([]);
 	const [poEntriesValue, setpoEntriesValue] = useState(poEntriesValues);
 	const [fetchagain, setFetchAgain] = useState(false);
-	const { poentries } = getPoentries("","");
+	const { poentries } = getPoentries("", "");
 	const { rates } = getRate("", "");
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 	const [productRatelist, setProductRatelist] = useState([]);
 	const [productList, setProductList] = useState([]);
 	const [productUserlist, setUserlist] = useState([]);

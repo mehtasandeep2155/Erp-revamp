@@ -6,7 +6,6 @@ import { useValidation } from "@component/utils/form/validation";
 import VerifyPurchaseOrder from "./verify-purchase-order";
 import PurchaseOrderDetails from "./purchase-order-view";
 import { getProduct, getPurchaseOrders, getRate } from "@api/get-api-queries";
-import { purchaseOrderColums, CoatingColums } from "@component/utils/form/constant";
 import SwipeableTemporaryDrawer from "@common/drawer/drawer-model";
 import OpenGenerateInvoice from "./open-generate-invoice";
 
@@ -15,7 +14,6 @@ function PurchaseOrderList() {
 		perChasevalue,
 		getAllPurchaseList,
 		onClick,
-		tableData,
 		fetchagain,
 		IsOpen,
 		loader,
@@ -27,58 +25,35 @@ function PurchaseOrderList() {
 		headTitle,
 		productObjList,
 		getAllList,
-		readyForCoatingTableData,
-		DispatchReadyTableData,
-		CoatingInProgressTableData,
-		allTableData,
-		finishTableData,
+		columns,
 		verifyValue,
 		handleDetailsView,
 		poDetails,
 		openGenerateInvoice,
 		handleDispatch,
+		handleTabChange,
+		value,
+		page,
+		rowsPerPage,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		totalCount,
+		ListTitle,
+		AlltableData,
+		listData,
+		status,
 		invoiceDetails
 	} = usePurchaseOrder();
 	const { rates } = getRate("", "");
 	const { products } = getProduct("", "");
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders(page, rowsPerPage, status);
 	const { varifyPoSchema } = useValidation(verifyValue);
-	const [value, setValue] = useState(0);
-	const [tabListData, setTabListData] = useState(allTableData);
-	const [listTitle, setListTitle] = useState("All Purchase Order List");
-	const [columsData, setColumsData] = useState(purchaseOrderColums);
 	const [submit, setSubmit] = useState(false);
-
-	const handleTabChange = (event: any, newValue: number) => {
-		if (newValue === 0) {
-			setTabListData(allTableData);
-			setColumsData(purchaseOrderColums);
-			setListTitle("All Purchase Order List");
-		} else {
-			setColumsData(CoatingColums);
-			if (newValue === 1) {
-				setListTitle("Initiated Purchase Order List");
-				setTabListData(tableData);
-			} else if (newValue === 2) {
-				setTabListData(readyForCoatingTableData);
-				setListTitle("Coating Initiated Purchase Order List");
-			} else if (newValue === 3) {
-				setTabListData(CoatingInProgressTableData);
-				setListTitle("Processing Purchase Order List");
-			} else if (newValue === 4) {
-				setTabListData(DispatchReadyTableData);
-				setListTitle("Ready For Dispatch Purchase Order List");
-			} else {
-				setTabListData(finishTableData);
-			}
-		}
-		setValue(newValue);
-	};
+	const [tabData, setTableData] = useState([]);
 
 	useEffect(() => {
-		handleTabChange("", value);
 		getAllPurchaseList();
-	}, [purchaseOrderds.isRefetching, purchaseOrderds.isLoading, fetchagain, value]);
+	}, [purchaseOrderds.isRefetching, purchaseOrderds.isLoading, fetchagain, status, rowsPerPage, page]);
 
 	useEffect(() => {
 		getAllList();
@@ -92,14 +67,19 @@ function PurchaseOrderList() {
 		<>
 			{!isOpenCustomer && (!IsOpen || submit) && !openGenerateInvoice ? (
 				<PurchaseOrderWeb
-					columns={columsData}
-					tableData={tableData}
+					columns={columns}
+					tableData={value !== 0 ? listData : AlltableData}
 					onClickByAdmin={onClick}
 					loading={loader}
 					value={value}
 					handleTabChange={handleTabChange}
-					tabListData={tabListData}
-					listTitle={listTitle}
+					tabListData={value !== 0 ? listData : AlltableData}
+					listTitle={ListTitle}
+					page={page}
+					rowsPerPage={rowsPerPage}
+					handleChangePage={handleChangePage}
+					handleChangeRowsPerPage={handleChangeRowsPerPage}
+					totalCount={totalCount}
 				/>
 			) : null}
 			{isOpenCustomer && (

@@ -38,7 +38,7 @@ const AddPoEntries = (data: ProductProps) => {
 	const { getAllRateList, tableDataSelect, fetchagain } = useRate();
 	const { getAllPurchaseList, tableDataSelectPurcahse } = usePurchaseOrder();
 	const { rates } = getRate("", "");
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 
 	const handlePoSubmit = (values: any) => {
 		const castValues = validation.cast(values);

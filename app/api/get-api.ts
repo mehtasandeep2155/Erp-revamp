@@ -122,7 +122,8 @@ export const getGarbagetDetails = async ({ queryKey }: any) => {
 export const getPurchaserderlist = async ({ queryKey }: any) => {
 	const page = queryKey[1];
 	const limit = queryKey[2];
-	const { data } = await axios.get(`${baseUrlPurchaseOrder + purchaseOrder}?page=${page}&limit=${limit}`);
+	const status = queryKey[3] && `&status=${queryKey[3]}`;
+	const { data } = await axios.get(`${baseUrlPurchaseOrder + purchaseOrder}?page=${page}&limit=${limit}${status}`);
 	return data;
 };
 

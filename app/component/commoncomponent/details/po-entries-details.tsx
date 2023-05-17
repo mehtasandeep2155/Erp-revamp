@@ -17,7 +17,7 @@ import { PoEntriesViewColums } from "@component/utils/form/constant";
 import TableDetailsComponent from "@common/tables/details-table";
 
 export default function PoEntriesDetails() {
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 	const router = useRouter();
 	const { query, pathname, push } = router;
 	const [poEntriesObj, setpoEntriesObj] = useState([]);

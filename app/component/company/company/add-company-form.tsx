@@ -12,7 +12,7 @@ import {
 } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo, useEffect } from "react";
-import { getProduct, getSubCompany } from "@api/get-api-queries";
+import { getSubCompany } from "@api/get-api-queries";
 import { IconButtons } from "@common/buttons";
 import { cancleButton, style, submitButton } from "@css/mui-styles";
 import { AddHeader } from "@component/commoncomponent/add-header";

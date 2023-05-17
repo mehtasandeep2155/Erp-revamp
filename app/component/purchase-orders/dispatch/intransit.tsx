@@ -14,7 +14,6 @@ const InTransit = () => {
 		getAllPurchaseList,
 		fetchagain,
 		loader,
-		InTransitTableData,
 		handleProductApprove,
 		handleView,
 		isOpenCustomer,
@@ -26,7 +25,7 @@ const InTransit = () => {
 		productObjList,
 		IsDetails
 	} = usePurchaseOrder();
-	const { purchaseOrderds } = getPurchaseOrders();
+	const { purchaseOrderds } = getPurchaseOrders("", "", "");
 	useEffect(() => {
 		getAllPurchaseList();
 	}, [purchaseOrderds.isLoading, fetchagain, purchaseOrderds.isRefetching]);
@@ -37,7 +36,7 @@ const InTransit = () => {
 			<TableComponent
 				title="InTransits List"
 				columns={CoatingDoneColums}
-				tableData={InTransitTableData}
+				tableData={[[]]}
 				onDelete={""}
 				loading={loader}
 			/>

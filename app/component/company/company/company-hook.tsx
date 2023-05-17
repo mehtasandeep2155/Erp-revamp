@@ -227,8 +227,8 @@ export default function useCompany() {
 		handleChangeRowsPerPage,
 		page,
 		rowsPerPage,
-		tableData,
 		totalCount,
+		tableData,
 		allComapnyList,
 		loader
 	};
