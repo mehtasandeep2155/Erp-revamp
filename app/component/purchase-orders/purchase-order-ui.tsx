@@ -31,7 +31,7 @@ const PurchaseOrderWeb = ({
 			<TableComponent
 				columns={columns}
 				title={listTitle}
-				tableData={tabListData}
+				tableData={tableData}
 				loading={loading}
 				page={page}
 				rowsPerPage={rowsPerPage}

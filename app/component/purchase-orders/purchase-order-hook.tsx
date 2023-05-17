@@ -65,8 +65,6 @@ export default function usePurchaseOrder() {
 	const [productmenu, setProductmenu] = useState(false);
 	const [columns, setColumns] = useState(purchaseOrderColums);
 	const [tableData, setTableData] = useState([]);
-	const [listData, setListData] = useState([]);
-	const [AlltableData, setAllTableData] = useState([]);
 	const [isOpenCustomer, setIsOpenCustomer] = useState(false);
 	const [customerObj, setCustomerObj] = useState({});
 	const [isOpenProduct, setIsOpenProduct] = useState(false);
@@ -102,6 +100,7 @@ export default function usePurchaseOrder() {
 			setListTitle("All Purchase Order List");
 		} else {
 			setColumns(CoatingColums);
+			// setTableData(listData);
 			if (newValue === 1) {
 				setStatus("initiated");
 				setListTitle("Initiated Purchase Order List");
@@ -631,8 +630,6 @@ export default function usePurchaseOrder() {
 		if (!purchaseOrderds.isLoading || fetchagain) {
 			let product = [];
 			let polist: any = [];
-			let dataorder: any = await purchaseOrderds?.data;
-			setTotalCount(dataorder?.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -646,19 +643,10 @@ export default function usePurchaseOrder() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			if (value === 0) {
-				AlltableData.map(() => AlltableData.pop());
-			} else {
-				listData.map(() => listData.pop());
-			}
-			dataorder?.data?.forEach((item: any, index: any) => {
-				let obj = { name: item, id: item.id };
-				polist.push(obj);
-				setProductPoList(polist);
-				item.po_entries.map((itemPo: any) => {
-					product.push(item.rate?.product);
-				});
-
+			let dataorder: any = await purchaseOrderds?.data;
+			setTotalCount(dataorder?.count);
+			let list: any = [];
+			dataorder?.data?.map((item: any, index: any) => {
 				let data2 = [
 					rowsPerPage * page + index - rowsPerPage + 1,
 					<b className={detailsPointViewBut}>{item?.customer_info?.name}</b>,
@@ -720,32 +708,14 @@ export default function usePurchaseOrder() {
 						handleDetailsView={handleDetailsView}
 					/>
 				];
+
 				if (value === 0) {
-					AlltableData.push(data1);
+					list.push(data1);
 				} else {
-					listData.push(data2);
+					list.push(data2);
 				}
-
-				tableDataSelectPurcahse.push([
-					item.order_number,
-					item.has_raw_material ? "Yes" : "No",
-					item.issued_date
-						? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
-								new Date(item.issued_date)
-						  ).slice(10, 16)}`
-						: "_",
-					item.status,
-					item.po_entries ? (
-						<b className={detailsViewBut}>
-							Count
-							<span className={countLine}></span> {item.po_entries.length}
-						</b>
-					) : (
-						"_"
-					)
-				]);
 			});
-
+			setTableData(list);
 			setLoader(false);
 			setFetchAgain(false);
 		}
@@ -823,8 +793,6 @@ export default function usePurchaseOrder() {
 		handleDetailsView,
 		value,
 		ListTitle,
-		listData,
-		AlltableData,
 		status,
 		poEntries,
 		handleDispatch,

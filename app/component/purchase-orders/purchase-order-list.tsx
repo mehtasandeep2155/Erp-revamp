@@ -34,13 +34,12 @@ function PurchaseOrderList() {
 		handleTabChange,
 		value,
 		page,
+		tableData,
 		rowsPerPage,
 		handleChangePage,
 		handleChangeRowsPerPage,
 		totalCount,
 		ListTitle,
-		AlltableData,
-		listData,
 		status,
 		invoiceDetails
 	} = usePurchaseOrder();
@@ -49,11 +48,10 @@ function PurchaseOrderList() {
 	const { purchaseOrderds } = getPurchaseOrders(page, rowsPerPage, status);
 	const { varifyPoSchema } = useValidation(verifyValue);
 	const [submit, setSubmit] = useState(false);
-	const [tabData, setTableData] = useState([]);
 
 	useEffect(() => {
 		getAllPurchaseList();
-	}, [purchaseOrderds.isRefetching, purchaseOrderds.isLoading, fetchagain, status, rowsPerPage, page]);
+	}, [purchaseOrderds.isLoading, fetchagain, value, rowsPerPage, page]);
 
 	useEffect(() => {
 		getAllList();
@@ -68,12 +66,12 @@ function PurchaseOrderList() {
 			{!isOpenCustomer && (!IsOpen || submit) && !openGenerateInvoice ? (
 				<PurchaseOrderWeb
 					columns={columns}
-					tableData={value !== 0 ? listData : AlltableData}
+					tableData={tableData}
 					onClickByAdmin={onClick}
 					loading={loader}
 					value={value}
 					handleTabChange={handleTabChange}
-					tabListData={value !== 0 ? listData : AlltableData}
+					tabListData={tableData}
 					listTitle={ListTitle}
 					page={page}
 					rowsPerPage={rowsPerPage}
