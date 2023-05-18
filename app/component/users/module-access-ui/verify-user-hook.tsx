@@ -1,26 +1,15 @@
 import { useState } from "react";
 import { baseUrl } from "@api/base-url";
-import { handleuser } from "@api/network";
-import {
-	subCompanyDiv,
-	gpGood,
-	gpBad,
-	editIcon,
-	flex,
-	newDiv,
-	flexSummary,
-	detailsMultiView,
-	summaryCompanyDiv
-} from "@css/styles";
+import { handleuser, signUp } from "@api/network";
+import { subCompanyDiv, editIcon, flex, newDiv, flexSummary, detailsMultiView, summaryCompanyDiv } from "@css/styles";
 import { VerifyValues } from "@component/utils/form/initial-values";
 import axios from "axios";
 import { useMutation } from "react-query";
-import { Edit, ExpandMore } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import { FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { array } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
 import { getCompany, getUsers } from "@api/get-api-queries";
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import AccordionRowComponent from "@common/accordinon/accordion-row";
 
 export default function useVerification() {
@@ -44,17 +33,12 @@ export default function useVerification() {
 	const [tableData, setTableData] = useState();
 	const [userList, setUserlist] = useState([]);
 	const [tableDataSelect, setTableDataSelect] = useState([]);
-	const [expanded, setExpanded] = useState(false);
-
-	const handleExpand = () => {
-		setExpanded(!expanded);
-	};
 
 	const handleOnUserClick = (currentRowsSelected: any, allRowsSelected: any, setFieldValue: any) => {
 		setFieldValue(["userId"], userList[allRowsSelected.rowIndex]);
 	};
 
-	const mutation = useMutation(
+	const mutationEdit = useMutation(
 		(createPorductUom: any) => {
 			setLoader(true);
 			LoadingAlert();
@@ -75,6 +59,26 @@ export default function useVerification() {
 		}
 	);
 
+	const mutation = useMutation(
+		(createPorductUom: any) => {
+			setLoader(true);
+			LoadingAlert();
+			return axios.post(baseUrl + signUp, createPorductUom);
+		},
+		{
+			onSuccess: () => {
+				setMenu(!menu);
+				Swal.close();
+				SuccessAlert("Added SuccessFully!");
+				users.refetch();
+				setFetchAgain(true);
+			},
+			onError: (error) => {
+				let errorMsg: any = error;
+				FailureAlert(errorMsg.response.data.message);
+			}
+		}
+	);
 	const onClick = async (item: any, type: string, id: string) => {
 		if (type == "close") {
 			setMenu(!menu);
@@ -96,16 +100,21 @@ export default function useVerification() {
 					access = [];
 				}
 			});
-
-			const data1: any = {
+			const comapnyData = JSON.parse(localStorage.getItem("userdata"));
+			const formDetails: any = {
 				email: item.email,
 				role: item.role,
-				companyName: item.companyName,
-				moduleAccess: list,
-				verifyUser: item.verifyUser ? true : false
+				companyId: comapnyData?.user?.company?.id,
+				moduleAccess: item.role === "Admin" || item.role === "SuperAdmin" ? list : []
+				// verifyUser: item.verifyUser ? true : false
 			};
-			setLoader(true);
-			mutation.mutate(data1);
+			if (id) {
+				setLoader(true);
+				mutationEdit.mutate(formDetails);
+			} else {
+				setLoader(true);
+				mutation.mutate({ ...formDetails, name: item.name, password: item.password });
+			}
 		} else {
 			if (id) {
 				let obj: any = {};
@@ -123,6 +132,7 @@ export default function useVerification() {
 					};
 				});
 				let details: any = {
+					name: item.name,
 					email: item.email,
 					role: item.role,
 					Products: obj.Products ? obj.Products : { name: "Products", controls: {} },
@@ -133,10 +143,22 @@ export default function useVerification() {
 					Inventory: obj.Inventory ? obj.Inventory : { name: "Inventory", controls: [] },
 					Customers: obj.Customers ? obj.Customers : { name: "Customers", controls: {} },
 					Job: obj.Job ? obj.Job : { name: "Job", controls: {} },
-					companyName: item.company ? item.company.name : "",
-					verifyUser: item.verified ? true : false
+					verifyUser: item.verified ? true : false,
+					id: item.id
 				};
 				setuserDetails(details);
+			} else {
+				setuserDetails({
+					...VerifyValues,
+					Products: { name: "Products", controls: {} },
+					User: { name: "User", controls: {} },
+					PurchaseOrders: { name: "PurchaseOrders", controls: {} },
+					Company: { name: "Company", controls: {} },
+					Ledger: { name: "Ledger", controls: {} },
+					Inventory: { name: "Inventory", controls: [] },
+					Customers: { name: "Customers", controls: {} },
+					Job: { name: "Job", controls: {} }
+				});
 			}
 			setMenu(!menu);
 		}
@@ -170,23 +192,13 @@ export default function useVerification() {
 						</div>
 					) : (
 						"_"
-					),
-					<span>
-						{item.verified ? (
-							<div className={gpGood}>
-								<b>Verified</b>
-							</div>
-						) : (
-							<div className={gpBad}>
-								<b>Not Verified</b>
-							</div>
-						)}
-					</span>
+					)
 				]);
 				if (item.role !== "Admin" && item.role !== "SuperAdmin") {
 					index1 = index1 + 1;
 					let data: any = [
 						rowsPerPage * page + index1 - rowsPerPage,
+						item.name,
 						<div className={flex}>
 							{item.email}
 							{!item.verified && yesterday < new Date(item.createdAt) && (
@@ -232,17 +244,6 @@ export default function useVerification() {
 								"_"
 							)}
 						</div>,
-						<span>
-							{item.verified ? (
-								<div className={gpGood}>
-									<b>Verified</b>
-								</div>
-							) : (
-								<div className={gpBad}>
-									<b>Not Verified</b>
-								</div>
-							)}
-						</span>,
 						<div className={flex}>
 							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
 						</div>
@@ -275,7 +276,6 @@ export default function useVerification() {
 		getAllUser,
 		onClick,
 		tableData,
-		// columns,
 		rowsPerPage,
 		totalCount,
 		handleChangePage,

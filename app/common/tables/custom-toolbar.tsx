@@ -4,10 +4,18 @@ import { CloudDownload, Print, FilterList, ViewColumn } from "@mui/icons-materia
 import { cloudStyle, printStyle, filterStyle, titleStyle, columnStyle } from "@css/mui-styles";
 import { downloadRowsAsCSV, getRowsToBeDownloaded, handlePrint } from "./custom-function";
 
-export const CustomToolbar = ({ selectedRows, data, columns, datatableTitle, title, clickAction }: any) => {
+export const CustomToolbar = ({
+	selectedRows,
+	data,
+	columns,
+	handleSearch,
+	datatableTitle,
+	title,
+	clickAction
+}: any) => {
 	return (
 		<div className={title ? flexTitleToolbar : flexToolbar}>
-			<input placeholder="Search" className={customeSearch} />
+			<input placeholder="Search" onChange={(e) => handleSearch(e)} className={customeSearch} />
 			{/* <IconButtons
 				icon={<ViewColumn />}
 				styles={columnStyle}

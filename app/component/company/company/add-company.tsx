@@ -32,7 +32,7 @@ const AddCompany = () => {
 
 	return (
 		<div className={verifyForm}>
-			<AddHeader title={"Add Company"} />
+			<AddHeader title={companyValue.id ? "Edit Company" : "Add Company"} />
 			<Formik initialValues={companyValue} onSubmit={handleCompanySubmit} validationSchema={CompanySchema}>
 				{(props) => (
 					<Form>

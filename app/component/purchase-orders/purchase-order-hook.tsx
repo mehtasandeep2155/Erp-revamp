@@ -691,10 +691,14 @@ export default function usePurchaseOrder() {
 								<b
 									className={detailsStatusBut}
 									style={{
-										background:
-											item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4",
+										backgroundColor:
+											item.status === "dispatched" || item.status === "ready_for_dispatch"
+												? "rgba(33, 150, 243, 0.15)"
+												: "#FBF5C4",
 										borderColor:
-											item.status !== "dispatched" ? "rgba(33, 150, 243, 0.15)" : "#FBF5C4"
+											item.status === "dispatched" || item.status === "ready_for_dispatch"
+												? "rgba(33, 150, 243, 0.15)"
+												: "#FBF5C4"
 									}}
 								>
 									{filterValue.label}

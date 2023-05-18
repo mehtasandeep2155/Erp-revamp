@@ -49,7 +49,7 @@ export default function usePoEntries() {
 			let innerList: any = [];
 			data?.map((item: any, index: number) => {
 				let tableDataArray = [
-					index,
+					index + 1,
 					item?.rate?.product?.name,
 					item?.rate?.coating_type?.type,
 					item?.rate?.rate,

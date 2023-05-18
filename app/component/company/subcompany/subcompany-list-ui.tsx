@@ -1,6 +1,7 @@
 import TableComponent from "@common/tables/custom-table";
 import { memo } from "react";
 import { header, tableTitle } from "@css/styles";
+import { HeaderPage } from "@component/commoncomponent/common-components";
 
 const SubCompanyListWeb = (props: any) => {
 	const {
@@ -17,9 +18,7 @@ const SubCompanyListWeb = (props: any) => {
 	} = props;
 	return (
 		<>
-			<div className={header}>
-				<h3 className={tableTitle}></h3>
-			</div>
+			<HeaderPage onClickByAdmin={onClickByAdmin} tableData={tableData} />
 			<TableComponent
 				title="Sub Company List"
 				tableData={tableData}

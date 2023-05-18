@@ -1,15 +1,7 @@
 import { Form, Formik } from "formik";
 import { Input } from "@component/utils/form-fields";
 import { SubCompanyProps, SubCompanyValuesType } from "@component//utils/type/interfaces";
-import {
-	verifyForm,
-	loginBtn,
-	btnDiv,
-	verifyModelForm,
-	formColorControl,
-	formGroupProduct,
-	dialogBtnDiv
-} from "@css/styles";
+import { verifyModelForm, formColorControl, formGroupProduct, dialogBtnDiv } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { memo } from "react";
 import { IconButtons } from "@common/buttons";
@@ -45,7 +37,7 @@ const AddSubCompany = (data: SubCompanyProps) => {
 							<IconButtons
 								clickEvent={() => {}}
 								styles={submitButton}
-								lebel={subCompanyValue.id ? "Save Changes" : "Add"}
+								lebel={subCompanyValue.id ? "Save" : "Add"}
 								type="submit"
 							/>
 						</div>

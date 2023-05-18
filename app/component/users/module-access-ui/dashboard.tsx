@@ -4,8 +4,17 @@ import { memo } from "react";
 import { verifyColumns } from "@component/utils/form/constant";
 
 const Dashboard = (props: any) => {
-	const { tableData, onDelete, loading, page, rowsPerPage, totalCount, handleChangePage, handleChangeRowsPerPage } =
-		props;
+	const {
+		tableData,
+		onDelete,
+		loading,
+		page,
+		rowsPerPage,
+		totalCount,
+		handleChangePage,
+		handleChangeRowsPerPage,
+		onClickByAdmin
+	} = props;
 
 	return (
 		<>
@@ -17,8 +26,10 @@ const Dashboard = (props: any) => {
 				columns={verifyColumns}
 				tableData={tableData}
 				onDelete={onDelete}
+				clickAction={onClickByAdmin}
 				loading={loading}
 				page={page}
+				buttonTitle="Add User"
 				rowsPerPage={rowsPerPage}
 				handleChangePage={handleChangePage}
 				handleChangeRowsPerPage={handleChangeRowsPerPage}

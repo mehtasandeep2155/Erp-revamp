@@ -34,7 +34,7 @@ function HeaderPage(props: any) {
 							<IconButtons
 								styles={headerButtonStyle}
 								lebel={title}
-								clickEvent={() => onClickByAdmin(tableData, "open")}
+								clickEvent={() => onClickByAdmin(tableData, "open", "")}
 							/>
 						</div>
 					</>

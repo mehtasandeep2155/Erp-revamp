@@ -36,8 +36,9 @@ export const useValidation = (values: any) => {
 			.required("Email is Required!")
 			.email("Invalid Email!")
 			.matches(emailregex, "Invalid Email!"),
-		companyName: Yup.string().required("Company is Required!"),
-		role: Yup.string().required("User Role is Required!")
+		role: Yup.string().required("User Role is Required!"),
+		name: Yup.string().required("Name is Required!"),
+		password: Yup.string().required("Password is Required!").matches(passwordregex, "Password Must be Storng!")
 	});
 
 	const ProductColorSchema = Yup.object({

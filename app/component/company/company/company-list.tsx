@@ -1,14 +1,11 @@
 import { useEffect, memo } from "react";
-import { useValidation } from "@component/utils/form/validation";
 import CompanyListWeb from "./comapnay-list-ui";
 import useCompany from "./company-hook";
 import { getCompany } from "@api/get-api-queries";
 
 function CompanyList() {
 	const {
-		menu,
 		onClick,
-		companyValue,
 		page,
 		rowsPerPage,
 		columns,
@@ -21,7 +18,7 @@ function CompanyList() {
 		loader,
 		totalCount
 	} = useCompany();
-	const { CompanySchema } = useValidation(companyValue);
+
 	const { companies } = getCompany(page, rowsPerPage);
 
 	useEffect(() => {
@@ -43,7 +40,6 @@ function CompanyList() {
 				rowsPerPage={rowsPerPage}
 				totalCount={totalCount}
 				allComapnyList={allComapnyList}
-				companyValue={companyValue}
 			/>
 		</>
 	);

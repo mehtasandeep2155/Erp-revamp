@@ -6,9 +6,9 @@ import { getMuiTheme } from "./table-style";
 import { CustomToolbar } from "./custom-toolbar";
 import { TableCell, TableRow } from "@mui/material";
 import TablePaginationComponent from "./pagination";
-import { footerPage } from "@css/styles";
 import { secondary100, white } from "@css/color-palette";
 import { YourPurchaseOrderTable } from "./collapsible-table";
+import { useState } from "react";
 
 export default function TableComponent(props: any) {
 	const {
@@ -30,6 +30,13 @@ export default function TableComponent(props: any) {
 		expandable
 	} = props;
 
+	const [searchValue, setSearchValue] = useState("");
+
+	const handleSearch = (event: any) => {
+		setSearchValue(event.target.value);
+		console.log(event.target.value);
+	};
+
 	const options: object = {
 		filterType: "checkbox",
 		fixedSelectColumn: false,
@@ -47,6 +54,7 @@ export default function TableComponent(props: any) {
 							index={index}
 						/>
 					) : (
+						// console.log(tableData.filter((item1: any) => (typeof item1 === "string")&&item1.includes()))
 						<TableRow sx={{ background: index % 2 === 0 ? white : secondary100 }}>
 							{tableData.map((item: any) => (
 								<TableCell sx={{ width: "100px" }}>{item}</TableCell>
@@ -86,6 +94,7 @@ export default function TableComponent(props: any) {
 			<CustomToolbar
 				selectedRows={tableData}
 				data={tableData}
+				handleSearch={handleSearch}
 				columns={columns}
 				datatableTitle={title}
 				title={buttonTitle}

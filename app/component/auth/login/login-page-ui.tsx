@@ -39,7 +39,7 @@ const LoginPage = (data: LoginProps) => {
 									error={name}
 									value={props.values[name]}
 									formGroupStyle={formGroup}
-									type={name !== name ? "text" : showPassword ? "text" : name}
+									type={name === "password" ? (showPassword ? "text" : name) : "text"}
 									inputStyle={
 										props.touched[name] && props.errors[name] ? inputError : formControlAuth
 									}
@@ -47,9 +47,9 @@ const LoginPage = (data: LoginProps) => {
 										icon ? (
 											<div className={checkDiv}>
 												{showPassword ? (
-													<VisibilityOffOutlined {...visibilityIconProps} />
-												) : (
 													<VisibilityOutlined {...visibilityIconProps} />
+												) : (
+													<VisibilityOffOutlined {...visibilityIconProps} />
 												)}
 											</div>
 										) : null

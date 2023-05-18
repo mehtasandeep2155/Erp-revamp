@@ -59,15 +59,18 @@ const productRateValues = {
 };
 
 const VerifyValues = {
+	name: "",
+	password: "",
+	confirmPassword: "",
 	email: "",
-	companyName: "",
 	role: "",
 	Products: "",
 	PurchaseOrders: "",
 	Company: "",
 	Inventory: "",
 	Customers: "",
-	verifyUser: false
+	verifyUser: false,
+	id: ""
 };
 
 const productValues = {

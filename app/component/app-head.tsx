@@ -181,13 +181,17 @@ export default function AppHead({ colorTheme }: any) {
                         box-shadow: none !important;
                         
                     }
+                    .MuiPagination-ul .Mui-selected{
+                        background:black !important;
+                        color:white;
+                    }
                     .MuiPagination-root{
                         width:100%;
                     }
                     .MuiTablePagination-displayedRows {
                        display:flex !important;
                        justify-content:end;
-                      width:auto;
+                    //   width:66%;
                     }
                     
                     .MuiTablePagination-spacer{

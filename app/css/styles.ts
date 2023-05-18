@@ -103,6 +103,13 @@ export const checkDiv = css`
 	justify-content: end;
 	margin-bottom: -25px;
 `;
+export const iconVerify = css`
+	svg {
+		position: relative !important;
+		top: -34px;
+		right: 20px !important;
+	}
+`;
 export const flexEnd = css`
 	display: flex;
 	justify-content: end;
@@ -290,7 +297,7 @@ export const formControlProductInfo = css`
 export const inputError = css`
 	${formControlAuth};
 	${formControl};
-	width: 281px;
+	width: 100%;
 	border: 1px solid red;
 `;
 
@@ -643,6 +650,11 @@ export const verifyForm = css`
 	background: white;
 	gap: 30px;
 	margin-top: 20px;
+`;
+export const verifyUserForm = css`
+	${verifyForm}
+	margin-top: 0px;
+	padding: 0px;
 `;
 
 export const moveForm = css`
@@ -1001,14 +1013,14 @@ export const flexCol2Autoinput = css`
 `;
 export const uomDiv = css`
 	width: 28px;
-	height: 38px;
-	right: 1px;
+	height: 37px;
+	right: 1.5px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
 	float: right;
-	bottom: 38px;
+	bottom: 37.8px;
 	position: relative;
 	background: ${mediumGrey};
 	border-radius: 0px 2px 2px 0px;

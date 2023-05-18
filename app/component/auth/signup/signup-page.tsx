@@ -32,16 +32,22 @@ const SignUpPage = (data: SignUpProps) => {
 								onChange={handleChange}
 								error={name}
 								valueProps={props}
-								type={name !== name ? "text" : showPassword ? "text" : name}
+								type={
+									name === "password" || name === "confirmPassword"
+										? showPassword
+											? "text"
+											: "password"
+										: "text"
+								}
 								formGroupStyle={formGroup}
 								inputStyle={props.touched[name] && props.errors[name] ? inputError : formControlAuth}
 								icon={
 									icon ? (
 										<div className={checkDiv}>
 											{showPassword ? (
-												<VisibilityOffOutlined {...visibilityIconProps} />
-											) : (
 												<VisibilityOutlined {...visibilityIconProps} />
+											) : (
+												<VisibilityOffOutlined {...visibilityIconProps} />
 											)}
 										</div>
 									) : null

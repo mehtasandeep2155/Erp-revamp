@@ -27,11 +27,11 @@ const verifyColumns = [
 			filter: false
 		}
 	},
-	"User Email",
-	"User Role",
+	"Name",
+	"Email",
+	"Role",
 	"Company",
 	"Sub Companies",
-	"Verification",
 	{
 		label: "Action",
 		options: {
@@ -316,14 +316,14 @@ const InVoiceColums = [
 	"P.O Details",
 	"Challan No.",
 	"Net weight",
-	"Cost Per Kg",
+	"Rate/Kg",
 	"Tax",
-	"Coating Amt",
+	"Coating Amount",
 	"Coating Discount",
-	"Gross Amt",
-	"Net Amt",
-	"Final Amt",
-	"Issue Date",
+	"Gross Amount",
+	"Net Amount",
+	"Final Amount",
+	"Date",
 	{
 		label: "Action",
 		options: {

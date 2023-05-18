@@ -18,13 +18,14 @@ const LedgerListWeb = (props: any) => {
 
 	return (
 		<>
+			<HeaderPage onClickByAdmin={onClickByAdmin} tableData={tableData} />
 			<TableComponent
 				title="Invoice List"
 				tableData={tableData}
 				columns={columns}
 				onDelete={onDelete}
 				loading={loading}
-				buttonTitle="Add Invoice"
+				buttonTitle=""
 				totalCount={totalCount}
 				page={page}
 				rowsPerPage={rowsPerPage}

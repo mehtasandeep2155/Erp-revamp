@@ -1,4 +1,4 @@
-import { useEffect, memo } from "react";
+import { useEffect, memo, useState } from "react";
 import { useValidation } from "@component/utils/form/validation";
 import CustomizedDialogs from "@common/dailog/dailog-model";
 import AddSubCompany from "./add-subcompany";
@@ -24,6 +24,7 @@ function SubCompanyList() {
 	} = useSubCompany();
 	const { SubCompanySchema } = useValidation(subCompanyValue);
 	const { subcompanies } = getSubCompany(page, rowsPerPage);
+	
 
 	useEffect(() => {
 		getSubCompanyList();

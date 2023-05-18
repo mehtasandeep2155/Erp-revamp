@@ -5,7 +5,7 @@ import { CompanyValuesType } from "@component/utils/type/interfaces";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { Close, Delete, Edit } from "@mui/icons-material";
-import { detailsViewBut, editIcon, countLine, flex, deleteBut } from "css/styles";
+import { detailsViewBut, editIcon, countLine, flex, deleteBut, detailsPointViewBut } from "css/styles";
 import { useState } from "react";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { InVoiceColums } from "@component/utils/form/constant";
@@ -190,30 +190,24 @@ export default function useInVoice() {
 			inVoiceDetails?.data.forEach((item: any, index: number) => {
 				let objData = [
 					rowsPerPage * page + index - rowsPerPage + 1,
-					<span className={detailsViewBut} onClick={() => handlePoView(item.associated_po, "view")}>
-						P.O Info
-					</span>,
-					item.challan_number,
-					item.net_weight,
-					item.cost_per_kg,
-					item.tax,
-					item.coating_amount,
-					item.coating_discount,
-					item.gross_amount,
-					item.net_amount,
-					item.final_amount,
+					<b className={detailsPointViewBut}>View</b>,
+					item.challan_number ? item.challan_number : "_",
+					item.net_weight ? item.net_weight : "_",
+					item.cost_per_kg ? item.cost_per_kg : "_",
+					item.tax ? item.tax : "_",
+					item.coating_amount ? item.coating_amount : "_",
+					item.coating_discount ? item.coating_discount : "_",
+					item.gross_amount ? item.gross_amount : "_",
+					item.net_amount ? item.net_amount : "_",
+					item.final_amount ? item.final_amount : "_",
 					item.issued_date
 						? `${String(new Date(item.issued_date)).slice(3, 10)},${String(
 								new Date(item.issued_date)
 						  ).slice(10, 16)}`
 						: "_",
 					<div className={flex}>
-						{objModulesData.controls.includes("Edit") && (
-							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
-						)}
-						{objModulesData.controls.includes("Delete") && (
-							<Delete className={deleteBut} onClick={() => onClick(item, "delete", item.id)} />
-						)}
+						{objModulesData.controls.includes("Edit") && <Edit className={editIcon} />}
+						{objModulesData.controls.includes("Delete") && <Delete className={deleteBut} />}
 					</div>
 				];
 				list.push(objData);

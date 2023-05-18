@@ -63,6 +63,7 @@ export interface moduletype {
 	controls: Array<string>;
 }
 export interface userdetailstype {
+	id: boolean;
 	company: string;
 	companyName: string;
 	email: string;

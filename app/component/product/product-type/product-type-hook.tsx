@@ -19,12 +19,14 @@ export default function useProductType() {
 	const [loader, setLoader] = useState(false);
 	const [typeList, setTypeList] = useState([]);
 	const [fetchagain, setFetchAgain] = useState(false);
-	const [typeValue, setTypeValue] = useState(productTypeValues);
 	const [tableData, setTableData] = useState([]);
 	const { push } = useRouter();
 	const [page, setPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [totalCount, setTotalCount] = useState(0);
+	const typeValue: any = productTypeValues;
+	const { types } = getType(page, rowsPerPage);
+	const columns = productTypeColums;
 
 	const handleChangePage = (event: any, newPage: any) => {
 		setPage(newPage);
@@ -33,8 +35,6 @@ export default function useProductType() {
 		setRowsPerPage(event.target.value);
 	};
 
-	const { types } = getType(page, rowsPerPage);
-	const columns = productTypeColums;
 	const mutation = useMutation(
 		(createPorductType: productTypeValuesType) => {
 			LoadingAlert();
@@ -96,30 +96,24 @@ export default function useProductType() {
 			}
 		}
 	);
+
 	const onClick = async (values: any, type: string, id: any) => {
 		if (type === "close") {
+			let companies: any = [];
+			values.colors?.forEach((element: any) => {
+				companies.push(element.id);
+			});
+			const formDetails: any = { ...values, ["colors"]: companies, ["type"]: values.type.toLowerCase() };
 			if (!id) {
-				let companies: any = [];
-				values.colors?.forEach((element: any) => {
-					companies.push(element.id);
-				});
 				setLoader(true);
-				mutation.mutate({ ...values, ["colors"]: companies, ["type"]: values.type.toLowerCase() });
+				mutation.mutate(formDetails);
 			} else {
-				let companies: any = [];
-				values.colors?.forEach((element: any) => {
-					companies.push(element.id);
-				});
 				let data: any = {
-					name: { ...values, ["colors"]: companies, ["type"]: values.type.toLowerCase() },
+					name: formDetails,
 					id: id
 				};
-				if (tableData.includes(values)) {
-					FailureAlert("Same Record Already Exits!");
-				} else {
-					setLoader(true);
-					mutationEdit.mutate(data);
-				}
+				setLoader(true);
+				mutationEdit.mutate(data);
 			}
 		} else if (type === "model") {
 			push(productTypeList);
@@ -132,7 +126,9 @@ export default function useProductType() {
 				typeValue.id = values.id;
 				push(addCoating);
 			} else {
-				setTypeValue(productTypeValues);
+				typeValue.type = "";
+				typeValue.colors = [];
+				typeValue.id = "";
 				push(addCoating);
 			}
 		}

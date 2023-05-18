@@ -132,13 +132,15 @@ export default function useCompany() {
 				companyValue.name = values.name;
 				companyValue.subCompanyId = values.sub_company;
 				companyValue.id = values.id;
+				push(addCompany);
 			} else {
-				setCompanyValue(CompanyValues);
+				companyValue.name = "";
+				companyValue.subCompanyId = [];
+				companyValue.id = "";
 				push(addCompany);
 			}
 			setMenu(!menu);
 		}
-		push(addCompany);
 	};
 
 	const getAllCompanyList = async () => {
