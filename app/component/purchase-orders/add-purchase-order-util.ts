@@ -1,7 +1,7 @@
 const getProductListFromRating = (productWithRateData: any) => {
 	const productListFromRatingData: any = [];
 	const productListFromRating = productWithRateData?.map((item: any) => {
-		productListFromRatingData?.push({ name: item.name, id: item.id });
+		productListFromRatingData?.push(item);
 	});
 	return productListFromRatingData;
 };

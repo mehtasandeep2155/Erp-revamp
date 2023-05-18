@@ -21,10 +21,10 @@ const AddInventoryView = (data: InventoryProps) => {
 	};
 
 	const { products } = getProduct("", "");
-	const { getAllList, productVariantlist, handleOnClick } = useRate();
+	const { productVariantlist, handleOnClick } = useRate();
 
 	useEffect(() => {
-		getAllList();
+		// getAllList();
 	}, [products.isLoading]);
 
 	return (

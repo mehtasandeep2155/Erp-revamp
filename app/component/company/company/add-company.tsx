@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { Input, MultiCompanySelectInput } from "@component/utils/form-fields";
+import { Input, MultiSelectSearchInput } from "@component/utils/form-fields";
 import { verifyForm, btnDiv, formControlProduct, formDiv, flexCol2input } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
 import { useEffect, memo } from "react";
@@ -50,7 +50,7 @@ const AddCompany = () => {
 									require={true}
 									inputStyle={formControlProduct}
 								/>
-								<MultiCompanySelectInput
+								<MultiSelectSearchInput
 									onChange={handleChange}
 									options={subCompanyList}
 									placeholder="Search Sub Company..."

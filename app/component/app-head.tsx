@@ -5,7 +5,7 @@ export default function AppHead({ colorTheme }: any) {
 		<Head>
 			<link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5578/5578816.png" />
 			<style>{`
-                    body {
+                    body,textarea{
                         height:auto;
                         margin: 0;
                         font-family: Inter, "Helvetica Neue", Helvetica, Arial, "Open Sans", sans-serif;
@@ -19,14 +19,10 @@ export default function AppHead({ colorTheme }: any) {
                       border-radius:5px;
                       outline: 1px solid lightgray;
                     }
-                    body,.MuiTableBody-root .MuiTableRow-root .MuiTableCell-root,input,.MuiSelect-select{
-                        font-size:13px;	
-                        
+                    
+                    body,.MuiTableBody-root .MuiTableRow-root .MuiTableCell-root,input,textarea,.MuiSelect-select{
+                        font-size:13px;	   
                     }	
-                    // .tss-djbknv-MUIDataTablePagination-navContainer{
-                    //     justify-content:space-between !important;
-                    //     width:500px !important;
-                    // }
                     .MuiChip-root{
                         background-color: rgba(33, 150, 243, 0.1);
                         height:35px !important;
@@ -142,11 +138,6 @@ export default function AppHead({ colorTheme }: any) {
                         padding:0px !important;
                         padding-left:16px !important;
                     }
-                    // .MuiTableBody-root .MuiTableRow-root .MuiTableCell-root{
-                    //     padding:0px !important;
-                    //     padding-left:16px !important;
-
-                    // }
                     .table.dataTable {
                         width: auto !important;
                     }
@@ -191,7 +182,6 @@ export default function AppHead({ colorTheme }: any) {
                     .MuiTablePagination-displayedRows {
                        display:flex !important;
                        justify-content:end;
-                    //   width:66%;
                     }
                     
                     .MuiTablePagination-spacer{

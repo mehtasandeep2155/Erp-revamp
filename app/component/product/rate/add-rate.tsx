@@ -12,8 +12,7 @@ import {
 	formGroupProduct
 } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
-import useRate from "./rate-hook";
-import { getProduct } from "@api/get-api-queries";
+import { getType } from "@api/get-api-queries";
 import VariantCard from "./variant-details";
 import { useValidation } from "@component/utils/form/validation";
 import { AddHeader } from "@component/commoncomponent/add-header";
@@ -24,12 +23,10 @@ import useProduct from "../products/product-hook";
 
 const AddProductRate = () => {
 	const { handleChange } = useHandleChange("", "");
-	const { rateValue, onClickRate } = useProduct();
-	const { getAllList, productTypelist } = useRate();
-	const { products } = getProduct("", "");
+	const { rateValue, onClickRate, getAllList, productTypelist } = useProduct();
+	const { types } = getType("", "");
 	const { ProductRateSchema } = useValidation(rateValue);
 	const [rateData, setRateDate] = useState([]);
-
 	const handleRateSubmit = (values: any, { resetForm }: any) => {
 		const castValues: any = ProductRateSchema.cast(values);
 		setRateDate([
@@ -74,8 +71,11 @@ const AddProductRate = () => {
 	};
 
 	useEffect(() => {
+		rateValue.coatings.map((item: any) => {
+			setRateDate([...rateData, { rate: item.rate, productId: rateValue.productId, typeId: item.coatingId }]);
+		});
 		getAllList();
-	}, [products.isLoading]);
+	}, [types.isLoading]);
 
 	return (
 		<div className={verifyForm}>

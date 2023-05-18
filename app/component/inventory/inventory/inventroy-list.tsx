@@ -12,11 +12,11 @@ function InventroyViewList() {
 		useInventory();
 	const { inventries } = getInventory();
 	const { ProductSchema } = useValidation(inventoryvalue);
-	const { tableDataSelect, getAllVariantList } = useProduct();
+	const { tableDataSelect, getAllList } = useProduct();
 	const { products } = getProduct("", "");
 
 	useEffect(() => {
-		getAllVariantList();
+		getAllList();
 		getAllInventoryViewList();
 	}, [inventries.isLoading, fetchagain, inventries.isRefetching, products.isLoading]);
 

@@ -25,12 +25,12 @@ function InventroyList() {
 
 	const { inventoryviews } = getInventoryMaster();
 	const { ProductSchema } = useValidation(InvevtoryViewvalue);
-	const { tableDataSelect, getAllVariantList } = useProduct();
+	const { tableDataSelect, getAllList } = useProduct();
 	const { products } = getProduct("", "");
 
 	useEffect(() => {
 		getAllInventoryViewList();
-		getAllVariantList();
+		getAllList();
 	}, [inventoryviews.isLoading, fetchagain, inventoryviews.isRefetching, products.isLoading]);
 
 	const handleDelete = async (id: string) => {};

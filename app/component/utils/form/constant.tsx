@@ -331,7 +331,7 @@ const InVoiceColums = [
 		}
 	}
 ];
-const rateColums = ["#", "Product", "Coating", "Rate", "Action"];
+const rateColums = ["#", "Product", "Thickness", "Length", "Action"];
 
 const rateColumsSelect = ["Product", "Coating", "Rate"];
 const rateColumsView = ["Product", "Coating", "Color", "Rate", "Length"];

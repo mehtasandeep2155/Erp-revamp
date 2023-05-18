@@ -21,7 +21,7 @@ import { productFormikFieldsData, productFormikFieldsData1 } from "@component/ut
 
 const AddProductVariant = () => {
 	const { handleChange } = useHandleChange("", "");
-	const { varinatSectionNameList, getAllVariantList, variantvalue, onClick } = useProduct();
+	const { varinatSectionNameList, getAllList, variantvalue, onClick } = useProduct();
 	const { ProductVariantSchema } = useValidation({ array: varinatSectionNameList, values: variantvalue });
 	const handleProductVariantSubmit = (values: any) => {
 		const castValues = ProductVariantSchema.cast(values);
@@ -30,7 +30,7 @@ const AddProductVariant = () => {
 	const { products } = getProduct("", "");
 
 	useEffect(() => {
-		getAllVariantList();
+		getAllList();
 	}, [products.isLoading, products.isRefetching]);
 
 	useEffect(() => {

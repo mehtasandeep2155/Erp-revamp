@@ -9,8 +9,10 @@ import {
 	black,
 	disabled,
 	deleteTypeBg,
-	innerTableBg
+	innerTableBg,
+	mediumGrey
 } from "./color-palette";
+import { textAlign } from "html2canvas/dist/types/css/property-descriptors/text-align";
 
 export const notifyIcon = { border: `1px solid ${fadeGrey}`, borderRadius: "4px" };
 export const toggle = {
@@ -32,16 +34,23 @@ export const cloudStyle = {
 };
 export const style = {
 	width: "267px",
-	padding: "0px"
+	padding: "0px",
+	background: "white"
 };
 export const styleAddPurchaseOrder = {
 	width: "425px",
-	height: "45px"
+	height: "45px",
+	background: "white",
+	"& .MuiOutlinedInput-root .MuiAutocomplete-endAdornment": {
+		right: "2px !important",
+		top: "-1px"
+	}
 };
 
 export const styleAddSelectProductInfo = {
 	width: "215px",
-	height: "45px"
+	height: "45px",
+	background: "white"
 };
 
 export const columnStyle = {
@@ -141,6 +150,19 @@ export const headerButtonStyle = {
 	"&:hover": {
 		background: darkBlue
 	}
+};
+
+export const expanIconDiv = {
+	display: "flex",
+	justifyContent: "center",
+	alignItems: "center",
+	textAlign: "center",
+	float: "right",
+	background: mediumGrey,
+	fontSize: "13px",
+	borderRadius: "0px 2px 2px 0px",
+	width: "42px",
+	height: "40px"
 };
 
 export const submitButton = {

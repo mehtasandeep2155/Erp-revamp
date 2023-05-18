@@ -194,62 +194,58 @@ export default function useVerification() {
 						"_"
 					)
 				]);
-				if (item.role !== "Admin" && item.role !== "SuperAdmin") {
-					index1 = index1 + 1;
-					let data: any = [
-						rowsPerPage * page + index1 - rowsPerPage,
-						item.name,
-						<div className={flex}>
-							{item.email}
-							{!item.verified && yesterday < new Date(item.createdAt) && (
-								<span className={newDiv}>New</span>
-							)}
-						</div>,
-						item.role.charAt(0).toUpperCase() + item.role.slice(1),
-						item.company ? item.company?.name.charAt(0).toUpperCase() + item.company.name.slice(1) : "_",
-						<div className={summaryCompanyDiv}>
-							{item.company ? (
-								<AccordionRowComponent
-									title={
-										<div className={flexSummary}>
-											{item.company.sub_company?.map(
-												(item1: any, index1: number) =>
-													index1 < 1 && (
-														<span className={detailsMultiView}>
-															{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
-															{index1 < 1 - 1 ? "," : ""}
-														</span>
-													)
-											)}
-										</div>
-									}
-									index={item.company.sub_company?.length}
-									maxIndex={2}
-									summary={
-										<div className={flexSummary}>
-											{item.company.sub_company.map((item1: any, index1: any) => {
-												if (index1 > 0) {
-													return (
-														<span className={detailsMultiView}>
-															{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
-															{index1 < item.company.sub_company.length - 1 ? "," : ""}
-														</span>
-													);
-												}
-											})}
-										</div>
-									}
-								/>
-							) : (
-								"_"
-							)}
-						</div>,
-						<div className={flex}>
-							<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
-						</div>
-					];
-					list.push(data);
-				}
+				index1 = index1 + 1;
+				let data: any = [
+					rowsPerPage * page + index1 - rowsPerPage,
+					item.name,
+					<div className={flex}>
+						{item.email}
+						{!item.verified && yesterday < new Date(item.createdAt) && <span className={newDiv}>New</span>}
+					</div>,
+					item.role.charAt(0).toUpperCase() + item.role.slice(1),
+					item.company ? item.company?.name.charAt(0).toUpperCase() + item.company.name.slice(1) : "_",
+					<div className={summaryCompanyDiv}>
+						{item.company ? (
+							<AccordionRowComponent
+								title={
+									<div className={flexSummary}>
+										{item.company.sub_company?.map(
+											(item1: any, index1: number) =>
+												index1 < 1 && (
+													<span className={detailsMultiView}>
+														{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
+														{index1 < 1 - 1 ? "," : ""}
+													</span>
+												)
+										)}
+									</div>
+								}
+								index={item.company.sub_company?.length}
+								maxIndex={2}
+								summary={
+									<div className={flexSummary}>
+										{item.company.sub_company.map((item1: any, index1: any) => {
+											if (index1 > 0) {
+												return (
+													<span className={detailsMultiView}>
+														{item1.name.charAt(0).toUpperCase() + item1.name.slice(1)}
+														{index1 < item.company.sub_company.length - 1 ? "," : ""}
+													</span>
+												);
+											}
+										})}
+									</div>
+								}
+							/>
+						) : (
+							"_"
+						)}
+					</div>,
+					<div className={flex}>
+						<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
+					</div>
+				];
+				list.push(data);
 			});
 			setTableDataSelect(listUser);
 			setTableData(list);

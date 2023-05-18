@@ -173,9 +173,10 @@ export const useValidation = (values: any) => {
 			.transform((v, o) => (o === "" ? null : v))
 			.required("Thckness Is Required!"),
 		length: Yup.number()
-			.typeError("length must be a number")
+			.typeError("Length must be a number")
 			.nullable()
 			.transform((v, o) => (o === "" ? null : v))
+			.required("Length is Required!")
 	});
 
 	const InventoryMasterSchema = Yup.object({

@@ -1,10 +1,19 @@
 import { InputLabel, TextField, Autocomplete, MenuItem, Select, Checkbox, ListItemText } from "@mui/material";
 import { ErrorMessage } from "formik";
-import { errText, labelStyles, productLisSelecttDiv, requireStyle, optionProduct, menuItmeStyle } from "@css/styles";
+import {
+	errText,
+	labelStyles,
+	productLisSelecttDiv,
+	requireStyle,
+	optionProduct,
+	menuItmeStyle,
+	
+} from "@css/styles";
 import { ExpandMore } from "@mui/icons-material";
 import TableDetailsComponent from "@common/tables/details-table";
 import { useState } from "react";
 import { darkGrey, lightGrey } from "@css/color-palette";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
 
 export const Input = ({
 	placeholder,
@@ -52,7 +61,7 @@ export const Input = ({
 	);
 };
 
-export const MultiCompanySelectInput = (props: any) => {
+export const MultiSelectSearchInput = (props: any) => {
 	const { onChange, options, label, valueProps, value, error, name, formGroupStyle, require, placeholder, style } =
 		props;
 
@@ -328,6 +337,7 @@ export const AutoCompleteSeacrhSelect = (props: any) => {
 		label,
 		placeholder,
 		button,
+		expanIconDiv,
 		require
 	} = props;
 	return (
@@ -346,7 +356,11 @@ export const AutoCompleteSeacrhSelect = (props: any) => {
 					options={options}
 					fullWidth
 					disabled={disabled}
-					popupIcon={<ExpandMore />}
+					popupIcon={
+						<span className={expanIconDiv && expanIconDiv}>
+							<ExpandMore />
+						</span>
+					}
 					sx={style}
 					size="small"
 					className={menuItmeStyle}
@@ -366,6 +380,50 @@ export const AutoCompleteSeacrhSelect = (props: any) => {
 					)}
 				/>
 				{button && button}
+			</div>
+			{error && <ErrorMessage name={error}>{(msg) => <div className={errText}>{msg}</div>}</ErrorMessage>}
+		</div>
+	);
+};
+
+export const TextAreaFormInput = ({
+	placeholder,
+	name,
+	onChange,
+	label,
+	valueProps,
+	require,
+	error,
+	disabled,
+	value,
+	uid,
+	id,
+	type,
+	inputStyle,
+	defaultValue,
+	icon,
+	formGroupStyle,
+	uom
+}: any) => {
+	return (
+		<div>
+			<div className={formGroupStyle}>
+				{label && (
+					<InputLabel className={`${labelStyles}`}>
+						{label}
+						{require ? <span className={requireStyle}>*</span> : <span className={requireStyle}> </span>}
+					</InputLabel>
+				)}
+				<TextareaAutosize
+					className={inputStyle}
+					disabled={disabled}
+					defaultValue={defaultValue}
+					value={value}
+					minRows={2}
+					placeholder={placeholder}
+					name={name}
+					onChange={(e) => onChange(e, valueProps, id, uid)}
+				/>
 			</div>
 			{error && <ErrorMessage name={error}>{(msg) => <div className={errText}>{msg}</div>}</ErrorMessage>}
 		</div>

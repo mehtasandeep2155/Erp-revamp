@@ -5,12 +5,12 @@ import { useMutation } from "react-query";
 import { productValuesType } from "@component/utils/type/interfaces";
 import { useState } from "react";
 import { deleteBut, editIcon, flex } from "css/styles";
-import { Delete, Edit, FileCopy } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { productRateValues, productValues } from "@component/utils/form/initial-values";
 import { DeleteAlert, FailureAlert, LoadingAlert, SuccessAlert } from "@common/toastify";
 import { variantColums } from "@component/utils/form/constant";
 import Swal from "sweetalert2";
-import { getProduct, getRate } from "@api/get-api-queries";
+import { getProduct, getRate, getType } from "@api/get-api-queries";
 import { useRouter } from "next/router";
 import { addProduct, addProductRate, productVariantList } from "@component/utils/routes";
 
@@ -30,10 +30,13 @@ export default function useProduct() {
 	const { products } = getProduct("", "");
 	const coloums = variantColums;
 	const [menu, setMenu] = useState(false);
-	const [rateMenu, setRateMenu] = useState(false);
 	const [TableData, setTableData] = useState([]);
 	const [variantvalue, setVariantValue]: any = useState(productValues);
+	const [allRateList, setAllRateList] = useState([]);
+	const [totalCount, setTotalCount] = useState(0);
 	const [tableDataSelect, setTableDataSelect] = useState([]);
+	const { types } = getType("", "");
+	const [productTypelist, setTypelist] = useState([]);
 	const [rateValue, setRateValue] = useState(productRateValues);
 	const { rates } = getRate(page, rowsPerPage);
 	const { push } = useRouter();
@@ -59,14 +62,38 @@ export default function useProduct() {
 			}
 		}
 	);
+
+	const mutationEdit = useMutation(
+		(createPorductRate: any) => {
+			LoadingAlert();
+			return axios.patch(baseUrlProduct + `${productRate}/${createPorductRate.id}`, createPorductRate.value);
+		},
+		{
+			onSuccess: () => {
+				Swal.close();
+				SuccessAlert("Saved Changes SuccessFully!");
+				rates.refetch();
+				setFetchAgain(true);
+			},
+			onError: (error) => {
+				Swal.close();
+				let errorMsg: any = error;
+				FailureAlert(errorMsg.response.data.message);
+				setLoader(false);
+			}
+		}
+	);
+
 	const onClickRate = async (values: any, type: string, id: string) => {
 		if (type === "close") {
+			let formDetails: any = {
+				rateData: values
+			};
 			if (!id) {
-				let formDetails: any = {
-					rateData: values
-				};
 				setLoader(true);
 				mutation.mutate(formDetails);
+			} else {
+				mutationEdit.mutate({ ...formDetails, id: id });
 			}
 		} else if (type === "model") {
 			push(addProduct);
@@ -74,6 +101,7 @@ export default function useProduct() {
 			push(productVariantList);
 		}
 	};
+
 	const mutationProduct = useMutation(
 		(createPorductVariant: productValuesType) => {
 			let data1 = axios.post(baseUrlProduct + product, createPorductVariant);
@@ -82,7 +110,6 @@ export default function useProduct() {
 		{
 			onSuccess: (data) => {
 				Swal.close();
-				products.refetch();
 				setFetchAgain(true);
 				setMenu(false);
 				rateValue.productId = data.data;
@@ -113,7 +140,7 @@ export default function useProduct() {
 		{
 			onSuccess: () => {
 				Swal.close();
-				products.refetch();
+				push(addProductRate);
 				setFetchAgain(true);
 			},
 			onError: (error) => {
@@ -125,14 +152,40 @@ export default function useProduct() {
 		}
 	);
 
-	const getAllVariantList = async () => {
-		setLoader(true);
-		if (!products.isLoading || fetchagain) {
-			let list: any = [];
+	const getAllList = async () => {
+		if (!products.isLoading) {
 			let listName: any = [];
 			let sectionNameList: any = [];
-			let selectData: any = [];
 			let dataVariant: any = await products.data;
+			dataVariant?.data?.forEach((item: any, index: number) => {
+				sectionNameList.push({ name: item });
+				let objdataName = { name: `${item.name} `, id: item.id };
+				listName.push(objdataName);
+			});
+			setvariantSetionNameList(sectionNameList);
+			setvariantList(listName);
+			setLoader(false);
+			setFetchAgain(false);
+		}
+		if (!types.isLoading) {
+			let Typelist: any = [];
+			let typeDetails: any = await types.data;
+			typeDetails?.data?.forEach((item: any) => {
+				let obj = { name: item.type, id: item.id, type: item.subtype };
+				Typelist.push(obj);
+			});
+			setTypelist(Typelist);
+		}
+	};
+
+	const getAllRateList = async () => {
+		setLoader(true);
+		if (!rates.isLoading || fetchagain) {
+			let list: any = [];
+			let allList: any = [];
+
+			let rateDetails = await rates.data;
+			setTotalCount(rates.data.count);
 			const moduleData = JSON.parse(localStorage.getItem("userdata"));
 			let objModulesData: any = { controls: [] };
 			if (moduleData) {
@@ -146,43 +199,21 @@ export default function useProduct() {
 					objModulesData = { controls: ["Read", "Edit", "Delete"] };
 				}
 			}
-			dataVariant?.data?.forEach((item: any, index: number) => {
-				sectionNameList.push({ name: item });
-				let objdataName = { name: `${item.sectionName} ${item.sectionNumber}`, id: item.id };
-				listName.push(objdataName);
-				let objdata = [
-					index + 1,
-					`${item.name.toUpperCase()} ${item.code}`,
-					item.height ? item.height : "_",
-					item.width ? item.width : "_",
-					`${item.weight ? item.weight : "_"} ${item.weightUom ? item.weightUom.type : ""}`,
+			rateDetails?.data?.forEach((item: any, index: number) => {
+				let data = [
+					rowsPerPage * page + index - rowsPerPage + 1,
+					item.name ? item.name : "_",
 					item.thickness ? item.thickness : "_",
 					item.length ? item.length : "_",
 					<div className={flex}>
-						{objModulesData.controls.includes("Edit") && (
-							<>
-								<FileCopy className={editIcon} onClick={() => onClick(item, "open", item.id)} />
-								<Edit className={editIcon} onClick={() => onClick(item, "open", item.id)} />
-							</>
-						)}
-						{objModulesData.controls.includes("Delete") && (
-							<Delete className={deleteBut} onClick={() => onClick(item, "delete", item.id)} />
-						)}
+						{objModulesData.controls.includes("Edit") && <Edit className={editIcon} />}
+						{objModulesData.controls.includes("Delete") && <Delete className={deleteBut} />}
 					</div>
 				];
-				selectData.push([
-					`${item.name.toUpperCase()} ${item.code}`,
-					item.height,
-					item.width != 0 ? item.width : "_",
-					`${item.weight ? item.weight : "_"} ${item.weightUom ? item.weightUom.type : ""}`,
-					item.thickness != 0 ? item.thickness : "_",
-					item.length != 0 ? item.length : "_"
-				]);
-				list.push(objdata);
+				list.push(data);
+				allList.push(item);
 			});
-			setTableDataSelect(selectData);
-			setvariantSetionNameList(sectionNameList);
-			setvariantList(listName);
+			setAllRateList(allList);
 			setTableData(list);
 			setLoader(false);
 			setFetchAgain(false);
@@ -210,6 +241,7 @@ export default function useProduct() {
 	);
 
 	const onClick = async (values: any, type: string, id: string) => {
+		console.log(values);
 		if (type == "close") {
 			let formDetails: any = {
 				...values,
@@ -229,6 +261,10 @@ export default function useProduct() {
 			} else {
 				let data: any = { value: formDetails, id: id };
 				setLoader(true);
+				Object.keys(variantvalue).map((item: any) => {
+					variantvalue[item] = formDetails[item];
+				});
+				rateValue.productId = values;
 				mutationEditProduct.mutate(data);
 			}
 		} else if (type === "model") {
@@ -237,15 +273,11 @@ export default function useProduct() {
 			DeleteAlert(mutationDelete, id);
 		} else {
 			if (id) {
-				// let formDetails: any = {
-				// 	...values
-				// };
-				// // setVariantValue(formDetails);
-				// Object.keys(variantvalue).map((item: any) => {
-				// 	item = values[item];
-				// });
-				// console.log(variantvalue, "varients");
-				// setMenu(!menu);
+				Object.keys(variantvalue).map((item: any) => {
+					variantvalue[item] = values[item];
+				});
+				rateValue.coatings = values.coatings;
+				push(addProduct);
 			} else {
 				Object.keys(variantvalue).map((item: any) => {
 					variantvalue[item] = "";
@@ -262,19 +294,22 @@ export default function useProduct() {
 		menu,
 		mutationEditProduct,
 		mutationProduct,
-		getAllVariantList,
 		TableData,
 		onClick,
 		variantvalue,
 		loader,
 		varinatList,
 		tableDataSelect,
-		rateMenu,
 		onClickRate,
 		rateValue,
 		handleChangeRowsPerPage,
 		handleChangePage,
 		rowsPerPage,
+		getAllRateList,
+		getAllList,
+		productTypelist,
+		allRateList,
+		totalCount,
 		page,
 		varinatSectionNameList
 	};

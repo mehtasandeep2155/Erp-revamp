@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { Input, MultiCompanySelectInput } from "@component/utils/form-fields";
+import { Input, MultiSelectSearchInput } from "@component/utils/form-fields";
 import { productTypeValuesType } from "@component/utils/type/interfaces";
 import { verifyForm, btnDiv, formDiv, formControlProduct, flexCol2input } from "@css/styles";
 import useHandleChange from "@component/utils/form/handle-change";
@@ -55,7 +55,7 @@ const AddProductType = () => {
 											/>
 										) : (
 											<>
-												<MultiCompanySelectInput
+												<MultiSelectSearchInput
 													onChange={handleChange}
 													options={colorList}
 													error={name}

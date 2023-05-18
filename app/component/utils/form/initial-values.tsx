@@ -51,10 +51,11 @@ const productUomValues = {
 	uomType: ""
 };
 
-const productRateValues = {
+const productRateValues: any = {
 	rate: "",
 	productId: "",
 	typeId: "",
+	coatings: [],
 	id: ""
 };
 

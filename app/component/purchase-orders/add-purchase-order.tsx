@@ -4,6 +4,7 @@ import {
 	buttonMarginPoAddForm,
 	detailsPage,
 	errTextAddPo,
+	expanIconDiv,
 	flexCol,
 	flexWrapPage,
 	formControlProductInfo,
@@ -13,9 +14,11 @@ import {
 	justifyBetween,
 	labelStylesMarginTop,
 	pageView,
+	poEntryArea,
 	productInfo,
 	productTitle,
 	productTitleRadio,
+	purchaseArea,
 	purchaseOrderSubmit,
 	radioContainer
 } from "@css/styles";
@@ -39,24 +42,20 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { useEffect, useState } from "react";
 import useCustomer from "@component/customer/customer/customer-hook";
 import useBranch from "@component/branch/branch-hook";
-import useRate from "@component/product/rate/rate-hook";
 import useHandleChange from "@component/utils/form/handle-change";
-import {
-	getCoatingColorList,
-	getProductCoatingList,
-	getProductLength,
-	getProductListFromRating
-} from "./add-purchase-order-util";
+import { getCoatingColorList, getProductCoatingList, getProductListFromRating } from "./add-purchase-order-util";
 import usePurchaseOrder from "./purchase-order-hook";
 import { poEntriesValues } from "@component/utils/form/initial-values";
 import usePoEntries from "./po-entries/po-entries-hook";
 import CollapsibleTable from "../../common/tables/collapsible-table";
 import { yourPurchaseOrderHead, yourPurchaseOrderInnerHead } from "@component/utils/form/constant";
-import { getCustomer, getProductWithRate, getRate } from "@api/get-api-queries";
+import { getCustomer, getProductWithRate } from "@api/get-api-queries";
 
 const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 	const { PurchaseOrderSchema } = useValidation(perChasevalue);
-	const { handleChange } = useHandleChange("", "");
+	const [addProductInfo, setAddProductInfo] = useState([]);
+	const [addProductViewInfo, setAddProductViewInfo]: any = useState([]);
+	const { handleChange } = useHandleChange(setAddProductInfo, setAddProductViewInfo);
 	const { customerList, getAllCompanyList } = useCustomer();
 	const { customerlists } = getCustomer("", "");
 	const {
@@ -67,9 +66,7 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 		onClick: purchaseOrderClick
 	} = usePurchaseOrder();
 	const { branchList, getAllBranchList } = useBranch();
-	const [addProductInfo, setAddProductInfo] = useState([]);
-	const [addProductViewInfo, setAddProductViewInfo]: any = useState([]);
-	const { getAllRateList } = useRate();
+
 	const { ProductSchema } = useValidation(poEntriesValues);
 	const { onClick, savePoEntries, tableData, tableInnerData } = usePoEntries();
 	const [disabled, setDisabled] = useState(true);
@@ -80,7 +77,6 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 		getAllBranchList();
 		getAllProductsWithRate();
 		getAllList();
-		getAllRateList();
 	}, [productsWithRate.isLoading, customerlists.isLoading]);
 
 	const addInProductInfo = (values: any, { resetForm, setFieldValue }: any) => {
@@ -100,8 +96,10 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 		setAddProductInfo([...addProductInfo, values]);
 		setDisabled(false);
 		let productID = values.productId;
+		let length = values.length;
 		resetForm();
 		setFieldValue(["productId"], productID);
+		setFieldValue(["length"], length);
 	};
 
 	const handleFormSubmit = () => {
@@ -144,94 +142,104 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 						>
 							{(props: any) => (
 								<Form className={addPurchaseOrderForm}>
-									<div className={justifyBetween}>
-										<div className={flexCol}>
-											<h4 className={productTitle}>Select Customer</h4>
-											<div className={innerContainerPoAddForm}>
-												<AutoCompleteSeacrhSelect
-													onChange={handleChange}
-													options={customerList}
-													error="customer_id"
-													name="customer_id"
-													valueProps={props}
-													label={"Select Customer"}
-													value={props.values.customer_id}
-													require={true}
-													style={styleAddPurchaseOrder}
-												/>
+									<div className={purchaseArea}>
+										<div className={justifyBetween}>
+											<div className={flexCol}>
+												<h4 className={productTitle}>Select Customer</h4>
+												<div className={innerContainerPoAddForm}>
+													<AutoCompleteSeacrhSelect
+														onChange={handleChange}
+														options={customerList}
+														error="customer_id"
+														name="customer_id"
+														expanIconDiv={expanIconDiv}
+														valueProps={props}
+														label={"Select Customer"}
+														value={props.values.customer_id}
+														require={true}
+														style={styleAddPurchaseOrder}
+													/>
+												</div>
+											</div>
+											<div className={radioContainer}>
+												<h4 className={productTitleRadio}>Raw Material Included</h4>
+												<RadioGroup
+													aria-labelledby="demo-controlled-radio-buttons-group"
+													name="has_raw_material"
+													onChange={(e) => handleChange(e, props, "", "")}
+													value={props.values.has_raw_material}
+												>
+													<FormControlLabel
+														sx={{ fontSize: "100px" }}
+														value={"Yes"}
+														control={<Radio />}
+														label={
+															<InputLabel className={labelStylesMarginTop}>
+																Yes
+															</InputLabel>
+														}
+													/>
+													<FormControlLabel
+														value={"No"}
+														control={<Radio />}
+														label={
+															<InputLabel className={labelStylesMarginTop}>No</InputLabel>
+														}
+													/>
+												</RadioGroup>
 											</div>
 										</div>
-										<div className={radioContainer}>
-											<h4 className={productTitleRadio}>Raw Material Included</h4>
-											<RadioGroup
-												aria-labelledby="demo-controlled-radio-buttons-group"
-												name="has_raw_material"
-												onChange={(e) => handleChange(e, props, "", "")}
-												value={props.values.has_raw_material}
-											>
-												<FormControlLabel
-													sx={{ fontSize: "100px" }}
-													value={"Yes"}
-													control={<Radio />}
-													label={
-														<InputLabel className={labelStylesMarginTop}>Yes</InputLabel>
-													}
-												/>
-												<FormControlLabel
-													value={"No"}
-													control={<Radio />}
-													label={<InputLabel className={labelStylesMarginTop}>No</InputLabel>}
-												/>
-											</RadioGroup>
-										</div>
-									</div>
-									<div className={justifyBetween}>
-										<div className={flexCol}>
-											<h4 className={productTitle}>Select Delivery</h4>
-											<div className={innerContainerPoAddForm}>
-												<AutoCompleteSeacrhSelect
-													onChange={handleChange}
-													options={branchList?.map((item: any) => {
-														return { name: item.name, id: item.id };
-													})}
-													error="origin_pointId"
-													name="origin_pointId"
-													valueProps={props}
-													label={"Select Origin Point"}
-													value={props.values.origin_pointId}
-													require={true}
-													style={styleAddPurchaseOrder}
-												/>
-												<AutoCompleteSeacrhSelect
-													onChange={handleChange}
-													options={branchList?.map((item: any) => {
-														return { name: item.name, id: item.id };
-													})}
-													error="delivery_pointId"
-													name="delivery_pointId"
-													valueProps={props}
-													label={"Select Delivery Point"}
-													value={props.values.delivery_pointId}
-													require={true}
-													style={styleAddPurchaseOrder}
-												/>
+										<div className={justifyBetween}>
+											<div className={flexCol}>
+												<h4 className={productTitle}>Select Delivery</h4>
+												<div className={innerContainerPoAddForm}>
+													<AutoCompleteSeacrhSelect
+														expanIconDiv={expanIconDiv}
+														onChange={handleChange}
+														options={branchList?.map((item: any) => {
+															return { name: item.name, id: item.id };
+														})}
+														error="origin_pointId"
+														name="origin_pointId"
+														valueProps={props}
+														label={"Select Origin Point"}
+														value={props.values.origin_pointId}
+														require={true}
+														style={styleAddPurchaseOrder}
+													/>
+													<AutoCompleteSeacrhSelect
+														onChange={handleChange}
+														options={branchList?.map((item: any) => {
+															return { name: item.name, id: item.id };
+														})}
+														error="delivery_pointId"
+														expanIconDiv={expanIconDiv}
+														name="delivery_pointId"
+														valueProps={props}
+														label={"Select Delivery Point"}
+														value={props.values.delivery_pointId}
+														require={true}
+														style={styleAddPurchaseOrder}
+													/>
+												</div>
 											</div>
 										</div>
 									</div>
-									<div>
-										<h4 className={productTitle}>Select Product</h4>
-										<div className={innerContainerPoAddFormCol}>
-											<Formik
-												initialValues={poEntriesValues}
-												onSubmit={addInProductInfo}
-												validationSchema={ProductSchema}
-											>
-												{(propsItem) => (
-													<Form>
+									<Formik
+										initialValues={poEntriesValues}
+										onSubmit={addInProductInfo}
+										validationSchema={ProductSchema}
+									>
+										{(propsItem) => (
+											<Form>
+												<div className={poEntryArea}>
+													<h4 className={productTitle}>Select Product</h4>
+													<div className={innerContainerPoAddFormCol}>
 														<AutoCompleteSeacrhSelect
 															onChange={handleChange}
 															error="productId"
 															name="productId"
+															expanIconDiv={expanIconDiv}
 															valueProps={propsItem}
 															label={"Select Product"}
 															value={propsItem.values.productId}
@@ -314,10 +322,6 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																label={"Product Length"}
 																valueProps={propsItem}
 																error={"length"}
-																defaultValue={getProductLength(
-																	productWithRateData,
-																	propsItem?.values?.productId?.id
-																)}
 																value={propsItem.values.length}
 																formGroupStyle={formGroupCol}
 																require={true}
@@ -404,34 +408,34 @@ const AddPurchaseOrder = ({ handleSubmit, perChasevalue, setSubmit }: any) => {
 																	Length, Coating, Color combination must be unique
 																</div>
 															)}
-														<div className={buttonMarginPoAddForm}>
-															<IconButtons
-																clickEvent={(e: any) => {
-																	e.preventDefault();
-																	propsItem.resetForm();
-																	setAddProductInfo([]);
-																	setAddProductViewInfo([]);
-																}}
-																styles={cancleButton}
-																lebel={"Reset"}
-																type="reset"
-															/>
-															<IconButtons
-																clickEvent={(e: any) => {
-																	e.preventDefault();
-																	handleFormSubmit();
-																}}
-																disabled={disabled}
-																styles={submitButton}
-																lebel={"Add"}
-																type="button"
-															/>
-														</div>
-													</Form>
-												)}
-											</Formik>
-										</div>
-									</div>
+													</div>
+												</div>
+												<div className={buttonMarginPoAddForm}>
+													<IconButtons
+														clickEvent={(e: any) => {
+															e.preventDefault();
+															propsItem.resetForm();
+															setAddProductInfo([]);
+															setAddProductViewInfo([]);
+														}}
+														styles={cancleButton}
+														lebel={"Reset"}
+														type="reset"
+													/>
+													<IconButtons
+														clickEvent={(e: any) => {
+															e.preventDefault();
+															handleFormSubmit();
+														}}
+														disabled={disabled}
+														styles={submitButton}
+														lebel={"Add"}
+														type="button"
+													/>
+												</div>
+											</Form>
+										)}
+									</Formik>
 									{savePoEntries?.length > 0 && (
 										<div className={purchaseOrderSubmit}>
 											<AddHeader title={"Add Purchase Order"} />

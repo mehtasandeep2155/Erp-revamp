@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { AutoCompleteSeacrhSelect, Input } from "@component/utils/form-fields";
+import { AutoCompleteSeacrhSelect, Input, TextAreaFormInput } from "@component/utils/form-fields";
 import { BranchProps, BranchValueTypes } from "@component//utils/type/interfaces";
 import {
 	verifyForm,
@@ -68,9 +68,9 @@ const AddBranch = (data: BranchProps) => {
 							label={"Branch Type"}
 							placeholder={"Select Branch Type"}
 						/>
-						<Input
+						<TextAreaFormInput
 							disabled={false}
-							placeholder={"Enter Address"}
+							placeholder={"Enter Branch Address.."}
 							name={"address"}
 							onChange={handleChange}
 							label={"Address"}

@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { replaceRegExp } from "../regex-helper";
 
 export default function useHandleChange(moduleList: any, setModuleList: any) {
 	const [password, setPassword] = useState<any>("");
 	const [personName, setPersonName] = useState([]);
 	const typelist = ["Anodized", "Powdered"];
-
-	useEffect(() => {}, []);
 
 	const handleDelete = (item: any, name: any, id: any, setFieldValue: any) => {
 		if (name === "moduleAccess") {
@@ -83,6 +81,11 @@ export default function useHandleChange(moduleList: any, setModuleList: any) {
 			setFieldValue(event.target.name, event.target.value);
 		} else if (event.target.name === "totalPay") {
 			setFieldValue(event.target.name, event.target.value);
+		} else if (event.target.name === "productId") {
+			setFieldValue(event.target.name, event.target.value);
+			setFieldValue(["length"], event.target.value.length);
+			setModuleList([]);
+			moduleList([]);
 		} else {
 			setFieldValue(event.target.name, event.target.value);
 		}

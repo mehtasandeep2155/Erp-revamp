@@ -9,12 +9,12 @@ import useProduct from "@component/product/products/product-hook";
 function GarbageList() {
 	const { coloums, fetchagain, menu, getGarbageList, TableData, onClick, GarbageValue, loader } = useGarbage();
 	const { garbages } = getGarbage();
-	const { tableDataSelect, getAllVariantList } = useProduct();
+	const { tableDataSelect, getAllList } = useProduct();
 	const { products } = getProduct("", "");
 
 	useEffect(() => {
 		getGarbageList();
-		getAllVariantList();
+		getAllList();
 	}, [garbages.isLoading, fetchagain, garbages.isRefetching, products.isLoading]);
 
 	const handleDelete = async (id: string) => {};

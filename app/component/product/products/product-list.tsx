@@ -5,21 +5,21 @@ import { getProduct, getRate } from "@api/get-api-queries";
 import useRate from "../rate/rate-hook";
 
 function ProductVariantList() {
-	const { tableDataSelect, getAllVariantList, onClick } = useProduct();
 	const {
-		getAllRateList,
-		tableData,
-		tableInnerData,
-		fetchagain,
-		columns,
-		loader,
+		tableDataSelect,
+		TableData,
 		getAllList,
+		onClick,
+		getAllRateList,
+		loader,
+		totalCount,
 		rowsPerPage,
+		fetchagain,
 		page,
 		handleChangePage,
-		handleChangeRowsPerPage,
-		totalCount
-	} = useRate();
+		handleChangeRowsPerPage
+	} = useProduct();
+	const { columns } = useRate();
 	const { rates } = getRate(page, rowsPerPage);
 
 	const { products } = getProduct("", "");
@@ -27,7 +27,6 @@ function ProductVariantList() {
 	useEffect(() => {
 		getAllRateList();
 		getAllList();
-		getAllVariantList();
 	}, [rates.isLoading, fetchagain, rates.isRefetching, products.isLoading]);
 
 	const handleDelete = async (id: string) => {};
@@ -35,11 +34,9 @@ function ProductVariantList() {
 	return (
 		<>
 			<ProductVariantListWeb
-				tableData={tableData}
+				tableData={TableData}
 				coloums={columns}
-				tableDataSelect={tableDataSelect}
 				onDelete={handleDelete}
-				tableInnerData={tableInnerData}
 				loading={loader}
 				onClickByAdmin={onClick}
 				handleChangeRowsPerPage={handleChangeRowsPerPage}

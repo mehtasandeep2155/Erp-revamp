@@ -19,11 +19,11 @@ const AddGarbage = (data: GarbageTypeProps) => {
 		onClickByAdmin(castValues, "close", garbageValues.id);
 	};
 	const { products } = getProduct("", "");
-	const { getAllList, productVariantlist, handleOnClick } = useRate();
+	const { productVariantlist, handleOnClick } = useRate();
 
-	useEffect(() => {
-		getAllList();
-	}, [products.isLoading]);
+	// useEffect(() => {
+	// 	getAllList();
+	// }, [products.isLoading]);
 
 	return (
 		<div className={verifyForm}>

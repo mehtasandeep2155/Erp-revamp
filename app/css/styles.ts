@@ -562,6 +562,15 @@ export const editFinishBut = css`
 	${editBut}
 	cursor:auto;
 `;
+export const purchaseArea = css`
+	background: #fbfbfb;
+	border: 0.5px solid #c0c0c0;
+	border-radius: 4px;
+	padding-bottom: 20px;
+`;
+export const poEntryArea = css`
+	${purchaseArea}
+`;
 export const detailsViewBut = css`
 	${editBut}
 	z-index:99999;
@@ -1015,17 +1024,26 @@ export const uomDiv = css`
 	width: 28px;
 	height: 37px;
 	right: 1.5px;
+	bottom: 37.8px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
 	float: right;
-	bottom: 37.8px;
 	position: relative;
 	background: ${mediumGrey};
 	border-radius: 0px 2px 2px 0px;
 `;
-
+export const expanIconDiv = css`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background: ${mediumGrey};
+	border-radius: 0px 2px 2px 0px;
+	width: 42px;
+	height: 40px;
+`;
 export const flexInputPurchase = css`
 	justify-content: end;
 	${flex}

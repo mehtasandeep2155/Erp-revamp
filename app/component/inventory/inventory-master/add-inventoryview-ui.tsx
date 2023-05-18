@@ -18,11 +18,11 @@ const AddInventoryView = (data: any) => {
 	const { InventoryMasterSchema } = useValidation(invevtoryViewvalue);
 	const { dataList, handleSubmit, handleDelete, handleMore, handleReset } = useInventoryView();
 	const { products } = getProduct("", "");
-	const { getAllList, productVariantlist, handleOnClick } = useRate();
+	const { productVariantlist, handleOnClick } = useRate();
 
-	useEffect(() => {
-		getAllList();
-	}, [products.isLoading, products.isFetched]);
+	// useEffect(() => {
+	// 	getAllList();
+	// }, [products.isLoading, products.isFetched]);
 
 	return (
 		<div className={verifyForm}>
