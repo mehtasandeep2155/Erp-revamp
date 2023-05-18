@@ -62,8 +62,6 @@ export default function useHandleChange(moduleList: any, setModuleList: any) {
 			setFieldValue(event.target.name, event.target.value);
 		} else if (event.target.name === "product") {
 			setFieldValue(id);
-		} else if (event.target.name === "role") {
-			setFieldValue(event.target.name, event.target.value.replace(/ /g, ""));
 		} else if (event.target.name === "verifyUser" || event.target.name === "mailToCustomer") {
 			setFieldValue(event.target.name, event.target.checked);
 		} else if (event.target.name === "coating_discount" || event.target.name === "tax") {

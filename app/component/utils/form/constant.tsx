@@ -133,7 +133,7 @@ const productTypeColums = [
 		}
 	}
 ];
-const members = ["Admin", "Super Admin", "Branch User", "Factory User", "Labour"];
+const members = ["Admin", "SuperAdmin", "BranchUser", "FactoryUser", "Labour"];
 const moduleAccess = ["Read", "Edit", "Delete"];
 const inventoryViewColums = [
 	{
@@ -361,9 +361,9 @@ const customerColums = [
 			filter: false
 		}
 	},
-	"Cutomer Name",
-	"Customer Email",
-	"Customer Phone",
+	"Name",
+	"Email",
+	"Phone",
 	"Credit Status",
 	{
 		label: "Action",

@@ -117,9 +117,12 @@ export const disabledBtnStyles = {
 	justifyContent: "center !important",
 	width: "91px",
 	borderRadius: "4px",
-	color: "white !important",
+	color: "white ",
 	backgroundColor: disabled,
-	fontSize: "14px !important"
+	fontSize: "14px !important",
+	"& svg": {
+		color: "#2196F3 !important"
+	}
 };
 
 export const titleStyle = {
@@ -195,26 +198,48 @@ export const cancleButton = {
 };
 
 export const addType = {
-	borderRadius: "full",
-	background: secondary,
-	width: "43px",
-	marginTop: "auto",
-	color: white,
-	height: "43px",
-	"&:hover": {
-		background: secondary
+	background: white,
+	borderRadius: "4px !important",
+	width: "60px",
+	padding: "0px",
+	height: "41px",
+	marginTop: "25px",
+	border: " 1px solid #C0C0C0",
+	"& svg": {
+		color: "#2196F3",
+		"& :hover": {
+			background: "white"
+		}
 	}
 };
 
 export const deleteType = {
 	...addType,
+	borderRadius: "full !important",
+	width: "38px",
+	border: "none",
+	height: "38px",
 	background: deleteTypeBg,
 	color: black,
-	"&:hover": {
-		background: deleteTypeBg
+	"& svg": {
+		color: "black",
+		"& :hover": {
+			background: "white"
+		}
 	}
 };
-
+export const addButton = {
+	...deleteType,
+	background: secondary,
+	marginTop: "45px",
+	color: "white",
+	"& svg": {
+		color: "white",
+		"& :hover": {
+			background: "white"
+		}
+	}
+};
 export const addCustomerButton = {
 	borderRadius: "4px",
 	height: "39px",

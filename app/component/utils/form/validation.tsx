@@ -143,7 +143,6 @@ export const useValidation = (values: any) => {
 	const ProductVariantSchema: any = Yup.object({
 		name: Yup.string()
 			.trim()
-			.matches(nameNumberRegExp, "Invalid Product Name")
 			.notOneOf(
 				values?.array
 					? values.array.map((item: any) => {

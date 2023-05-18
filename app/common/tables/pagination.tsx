@@ -40,9 +40,9 @@ export default function TablePaginationComponent({
 								sx={{ display: "flex", justifyContent: "end" }}
 								defaultPage={page}
 								count={
-									dataCount > rowsPerPage
-										? Math.floor(dataCount / rowsPerPage) + 1
-										: Math.floor(dataCount / rowsPerPage)
+									dataCount % rowsPerPage === 0
+										? Math.floor(dataCount / rowsPerPage)
+										: Math.floor(dataCount / rowsPerPage) + 1
 								}
 								onChange={handleChangePage}
 								page={page}

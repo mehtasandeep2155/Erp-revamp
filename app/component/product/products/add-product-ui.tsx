@@ -51,39 +51,18 @@ const AddProductVariant = () => {
 							<div className={flexInput}>
 								{productFormikFieldsData1.map(
 									({ placeholder, name, label, InputComponent, uomType }: any) => (
-										<>
-											{InputComponent !== "input" ? (
-												<AutoCompleteSelect
-													disabled={true}
-													options={varinatSectionNameList}
-													placeholder={placeholder}
-													name={name}
-													onChange={handleChange}
-													label={label}
-													valueProps={props}
-													optionLebel={name}
-													error={name}
-													value={props.values[name]}
-													require={true}
-													style={style}
-												/>
-											) : (
-												<>
-													<Input
-														disabled={false}
-														placeholder={placeholder}
-														name={name}
-														onChange={handleChange}
-														label={label}
-														valueProps={props}
-														error={name}
-														value={props.values[name]}
-														uom={uomType && <span className={uomDiv}>{uomType}</span>}
-														inputStyle={formControlProduct}
-													/>
-												</>
-											)}
-										</>
+										<Input
+											disabled={false}
+											placeholder={placeholder}
+											name={name}
+											onChange={handleChange}
+											label={label}
+											valueProps={props}
+											error={name}
+											value={props.values[name]}
+											uom={uomType && <span className={uomDiv}>{uomType}</span>}
+											inputStyle={formControlProduct}
+										/>
 									)
 								)}
 							</div>

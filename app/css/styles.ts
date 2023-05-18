@@ -798,6 +798,10 @@ export const formDiv = css`
 	height: 345px;
 	width: 55%;
 `;
+export const formRateDiv = css`
+	${formDiv}
+	width: 60%;
+`;
 export const formDivProduct = css`
 	${formDiv}
 	width:77%;
@@ -1782,7 +1786,7 @@ export const productListDiv = css`
 
 export const variantDetails = css`
 	border: 1px solid ${fadeGrey};
-	width: 451px;
+	width: 100%;
 	font-size: 14px !important;
 	border-radius: 4px;
 	overflow-x: scroll;

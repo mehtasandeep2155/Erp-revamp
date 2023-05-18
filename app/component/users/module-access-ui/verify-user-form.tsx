@@ -45,17 +45,6 @@ const VerifyUserForm = (props: VerifyUserProps) => {
 							value={props.values.email}
 							inputStyle={formControlVerify}
 						/>
-						<AutocompleteInput
-							options={Members}
-							onChange={handleChange}
-							error="role"
-							name="role"
-							value={props.values.role}
-							valueProps={props}
-							label={"User Role"}
-							placeholder={"Select a USer Role"}
-							formGroup={formGroupProduct}
-						/>
 						{!userdetails.id && (
 							<>
 								<Input
@@ -81,25 +70,18 @@ const VerifyUserForm = (props: VerifyUserProps) => {
 								/>
 							</>
 						)}
+						<AutocompleteInput
+							options={Members}
+							onChange={handleChange}
+							error="role"
+							name="role"
+							value={props.values.role}
+							valueProps={props}
+							label={"User Role"}
+							placeholder={"Select a USer Role"}
+							formGroup={formGroupProduct}
+						/>
 						<SimpleTable controls={moduleList} valueProps={props} modules={props.values} />
-						{/* <FormControlLabel
-							control={
-								<Checkbox
-									sx={{
-										color: pelorous,
-										"&.Mui-checked": {
-											color: pelorous
-										}
-									}}
-								/>
-							}
-							sx={{ fontSize: "14px" }}
-							label="Verify User"
-							defaultChecked={props.values.verifyUser}
-							checked={props.values.verifyUser}
-							onChange={(e) => handleChange(e, props, "", "")}
-							name={"verifyUser"}
-						/> */}
 						<div className={btnDiv}>
 							<button className={loginBtn} type="submit">
 								{userdetails.id ? "Update" : "Create User"}

@@ -19,6 +19,10 @@ export default function AppHead({ colorTheme }: any) {
                       border-radius:5px;
                       outline: 1px solid lightgray;
                     }
+                    .MuiAutocomplete-popupIndicator {
+                        background:none !important;
+                        border-radius:none !important;  
+                    }
                     
                     body,.MuiTableBody-root .MuiTableRow-root .MuiTableCell-root,input,textarea,.MuiSelect-select{
                         font-size:13px;	   

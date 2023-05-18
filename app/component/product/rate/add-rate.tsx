@@ -4,7 +4,7 @@ import { Input, AutoCompleteSeacrhSelect } from "@component/utils/form-fields";
 import {
 	verifyForm,
 	btnDiv,
-	formDiv,
+	formRateDiv,
 	flex,
 	formControlProduct,
 	flexCol2Autoinput,
@@ -17,7 +17,7 @@ import VariantCard from "./variant-details";
 import { useValidation } from "@component/utils/form/validation";
 import { AddHeader } from "@component/commoncomponent/add-header";
 import { IconButtons } from "@common/buttons";
-import { addType, cancleButton, deleteType, disabledBtnStyles, style, submitButton } from "@css/mui-styles";
+import { addButton, cancleButton, deleteType, disabledBtnStyles, style, submitButton } from "@css/mui-styles";
 import { Add, Clear } from "@mui/icons-material";
 import useProduct from "../products/product-hook";
 
@@ -81,7 +81,7 @@ const AddProductRate = () => {
 		<div className={verifyForm}>
 			<AddHeader title={rateValue.id ? "Edit Product Rate" : "Product Rate"} />
 			<div className={flex}>
-				<div className={formDiv}>
+				<div className={formRateDiv}>
 					{rateData.map((item: any, index: any) => (
 						<Formik initialValues={item} onSubmit={handleRateSubmit} validationSchema={ProductRateSchema}>
 							{(propsItem) => (
@@ -159,13 +159,13 @@ const AddProductRate = () => {
 										require={true}
 										inputStyle={formControlProduct}
 									/>
-									<IconButtons styles={addType} icon={<Add />} type="submit" />
+									<IconButtons styles={addButton} icon={<Add />} type="submit" />
 								</div>
 							</Form>
 						)}
 					</Formik>
 				</div>
-				<div>
+				<div style={{ width: "35%" }}>
 					<VariantCard variantObj={rateValue.productId} />
 				</div>
 			</div>
